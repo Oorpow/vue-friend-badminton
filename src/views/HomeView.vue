@@ -9,9 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/Header/Header.vue'
-import Carousel from '@/components/Carousel/Carousel.vue'
-import Stars from '@/components/Home/Stars/Stars.vue'
+import { onMounted } from 'vue'
 </script>
 
 <style scoped>
