@@ -7,10 +7,15 @@
       </template>
     </div>
     <div class="w-1/10 flex items-center">
-      <!-- 未登录 -->
-      <ElButton @click="isShowDialog = true">登录</ElButton>
-      <!-- 发布帖子 -->
-      <ElButton ml-0>投稿</ElButton>
+      <template v-if="store.getToken !== ''">
+        <ElAvatar>{{ userInfo.name }}</ElAvatar>
+      </template>
+      <template v-else>
+        <!-- 未登录 -->
+        <ElButton @click="isShowDialog = true">登录</ElButton>
+        <!-- 发布帖子 -->
+        <ElButton ml-0>投稿</ElButton>
+      </template>
     </div>
   </div>
   <Teleport to="body">
@@ -22,6 +27,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+
+const store = useUserStore()
+const { userInfo } = storeToRefs(store)
 
 const navList = ['羽坛动态', '神兵利器']
 let isShowDialog = ref(false)
