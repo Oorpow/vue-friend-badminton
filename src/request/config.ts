@@ -3,7 +3,7 @@ import type { AxiosRequestHeaders } from 'axios'
 import OpRequest from '.'
 
 const config: OpRequestConfig = {
-  baseURL: 'http://localhost:8000',
+  baseURL: import.meta.env.VITE_LOCAL_SERVER,
   timeout: 50000,
   interceptors: {
     requestInterceptors: (config) => {

@@ -1,14 +1,23 @@
 <template>
   <div class="carousel">
-    <el-carousel :interval="5000" arrow="always">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3 text="2xl" justify="center">{{ item }}</h3>
+    <el-carousel :interval="2000" arrow="never">
+      <el-carousel-item v-for="item in props.list" :key="item.id">
+        <el-image :src="serverUrl + item.url" :alt="item.desc" />
       </el-carousel-item>
     </el-carousel>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { ICarouselItem } from '@/request/api/carousel/types'
+
+type Props = {
+  list: ICarouselItem[]
+}
+
+const props = defineProps<Props>()
+const serverUrl = import.meta.env.VITE_LOCAL_SERVER
+</script>
 
 <style scoped>
 .el-carousel__item h3 {
@@ -25,5 +34,9 @@
 
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
+}
+
+:deep(.el-carousel__container) {
+  height: 700px;
 }
 </style>

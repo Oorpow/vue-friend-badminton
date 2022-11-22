@@ -1,18 +1,18 @@
 <template>
   <div class="flex flex-col items-center w-1/4">
-    <img
-      src="http://www.yonex.cn/public/uploads/20210901/5c2d050e969de82a356d859a229709cc.jpg"
-      alt=""
-      w-full
-    />
-    <span>ASTROX 100ZZ</span>
+    <ElImage :src="serverUrl + equipment.img" :alt="equipment.name" w-full />
+    <span>{{ equipment.name }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
-type Props = {}
+import type { Equipment } from '@/request/api/player/types'
 
-// defineProps<Props>()
+type Props = {
+  equipment: Equipment
+}
+defineProps<Props>()
+const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 </script>
 
 <style scoped></style>
