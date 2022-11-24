@@ -8,7 +8,7 @@
         <el-input v-model="form.password" type="password" />
       </el-form-item>
       <el-form-item>
-        <el-button class="w-4.8/10">注册</el-button>
+        <el-button class="w-4.8/10" @click="registerHandler">注册</el-button>
         <el-button class="w-4.8/10" type="primary" @click="loginHandler"
           >登录</el-button
         >
@@ -18,9 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import type { ILoginForm } from '@/request/api/user/types'
+import { reactive } from 'vue'
 import { useUserStore } from '@/stores/user'
+import type { ILoginForm } from '@/request/api/user/types'
 
 type Props = {
   isShowValue: boolean
@@ -42,6 +42,12 @@ const form = reactive<ILoginForm>({
 // 用户登录
 const loginHandler = () => {
   store.login(form)
+  hideDialog()
+}
+
+// 用户注册
+const registerHandler = () => {
+  store.register(form)
   hideDialog()
 }
 </script>

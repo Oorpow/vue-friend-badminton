@@ -5,6 +5,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import router from './router'
 
+import 'element-plus/dist/index.css'
 import 'uno.css'
 import '@unocss/reset/normalize.css'
 import '@/assets/css/global.css'

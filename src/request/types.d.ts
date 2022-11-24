@@ -15,3 +15,8 @@ export interface IResData<T> {
   data: T
   message: string
 }
+
+export interface ISpecialData {
+  code: number
+  message: string
+}

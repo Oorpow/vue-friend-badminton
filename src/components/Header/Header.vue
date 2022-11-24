@@ -8,13 +8,13 @@
     </div>
     <div class="w-1/10 flex items-center">
       <template v-if="store.getToken !== ''">
-        <ElAvatar>{{ userInfo.name }}</ElAvatar>
+        <ElAvatar>{{ userInfo.name.slice(0, 1) }}</ElAvatar>
+        <!-- 发布帖子 -->
+        <ElButton ml-2 @click="navToProduceView">投稿</ElButton>
       </template>
       <template v-else>
         <!-- 未登录 -->
         <ElButton @click="isShowDialog = true">登录</ElButton>
-        <!-- 发布帖子 -->
-        <ElButton ml-0>投稿</ElButton>
       </template>
     </div>
   </div>
@@ -29,12 +29,21 @@
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const store = useUserStore()
 const { userInfo } = storeToRefs(store)
 
 const navList = ['羽坛动态', '神兵利器']
 let isShowDialog = ref(false)
+
+const navToProduceView = () => {
+  router.push({
+    path: '/produce',
+  })
+}
 </script>
 
 <style scoped>
