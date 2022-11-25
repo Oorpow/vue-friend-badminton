@@ -47,5 +47,6 @@ export const useUserStore = defineStore('userStore', {
   },
   getters: {
     getToken: (state) => state.token,
+    getUid: (state) => state.userInfo.id,
   },
 })

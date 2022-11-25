@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     EquipmentItem: typeof import('./src/components/Player/EquipmentItem/EquipmentItem.vue')['default']
     FriendItem: typeof import('./src/components/Message/FriendItem/FriendItem.vue')['default']
     Header: typeof import('./src/components/Header/Header.vue')['default']
