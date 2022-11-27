@@ -5,7 +5,9 @@
       <!-- left -->
       <div class="w-7/10 flex flex-col p-r-3">
         <!-- 文章主体 -->
-        <ArticleItem />
+        <template v-if="flag">
+          <ArticleItem :invitationInfo="getTargetInvitation" />
+        </template>
         <!-- 评论区 -->
         <Comment />
       </div>
@@ -13,14 +15,48 @@
       <div class="detail_main_right">
         <div>
           <span>其它动态</span>
-          <OtherArticleItem />
+          <template v-for="item in otherInvitation" :key="item.invitation_id">
+            <OtherArticleItem :invitationInfo="item" />
+          </template>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, watchEffect, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useInvitationStore } from '@/stores/invitation'
+
+const router = useRouter()
+const store = useInvitationStore()
+const { getTargetInvitation, otherInvitation } = storeToRefs(store)
+
+let currentInvitationId = ref(0)
+
+// 监听params参数的变化
+watch(
+  router.currentRoute,
+  (newVal, oldVal) => {
+    currentInvitationId.value = Number(newVal.params.id)
+    store.getInvitationById(Number(currentInvitationId.value))
+    store.getOtherInvitation(Number(currentInvitationId.value))
+  },
+  {
+    immediate: true,
+    deep: true,
+  }
+)
+
+const flag = ref(false)
+watchEffect(() => {
+  if (getTargetInvitation.value.title != null) {
+    flag.value = true
+  }
+})
+</script>
 
 <style scoped>
 .detail {

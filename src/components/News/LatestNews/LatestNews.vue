@@ -1,56 +1,45 @@
 <template>
   <div class="latest">
     <div class="latest_main">
-      <!-- 大动态 -->
-      <div flex justify-between>
-        <div class="w-6.6/10 overflow-hidden">
-          <img
-            src="https://bwfbadminton.com/wp-content/uploads/2022/05/BWF-red-banner-972x406-1-613x290.jpg"
-            alt=""
-            class="news_img"
-          />
+      <template v-if="flag">
+        <!-- 大动态 -->
+        <div flex justify-between>
+          <BigNews :invitation="getFirstInvitation" />
         </div>
-        <div class="w-3/10">
-          <h1 hover:text-blue-5 transition cursor-pointer>
-            BWF Reviewing HYLO Open 2022 Men’s Singles Final
-          </h1>
-          <div class="news_info_author">
-            <span>Oorpow</span>
-          </div>
+        <!-- 底部三小动态 -->
+        <div flex mt-1 justify-between>
+          <template v-for="news in invitationList.slice(1, 4)" :key="news.id">
+            <NewsItem :news="news" />
+          </template>
         </div>
-      </div>
-      <!-- 底部三小动态 -->
-      <div flex mt-1 justify-between>
-        <template v-for="news in newsList" :key="news.id">
-          <NewsItem :news="news" />
-        </template>
-      </div>
+      </template>
+      <template v-else>
+        <div>loading...</div>
+      </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const newsList = [
-  {
-    id: 1,
-    url: 'https://bwfbadminton.com/wp-content/uploads/2022/10/20221020_1856_DenmarkOpen2022_BPYN8697-400x310.jpg',
-  },
-  {
-    id: 2,
-    url: 'https://bwfbadminton.com/wp-content/uploads/2022/10/20221029_1550_FrenchOpen2022_BPMR3343PK-400x310.jpg',
-  },
-  {
-    id: 3,
-    url: 'https://bwfbadminton.com/wp-content/uploads/2022/11/YFO_Loh-Kean-Yew-400x310.jpg',
-  },
-]
+import { ref, watchEffect } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useInvitationStore } from '@/stores/invitation'
+
+const store = useInvitationStore()
+const { invitationList, getFirstInvitation } = storeToRefs(store)
+store.getInvitationList()
+
+const flag = ref(false)
+// 当监听到有数据时，再传入模板进行解析
+watchEffect(() => {
+  if (getFirstInvitation.value) {
+    flag.value = true
+  }
+})
 </script>
 
 <style scoped>
 .latest {
   @apply w-8/10 mx-auto mt-10;
-}
-.latest .news_img {
-  @apply w-full h-full hover:scale-105 transition cursor-pointer;
 }
 </style>
