@@ -2,7 +2,16 @@
   <div my-5>
     <!-- 评论数量 -->
     <div>
-      <span>21 评论</span>
+      <template v-if="commentList.length !== 0">
+        <div>
+          <span text-2xl font-bold>评论</span>
+          <span ml-1>{{ commentList.length }}</span>
+        </div>
+        <!-- <span>评论{{ commentList.length }}</span> -->
+      </template>
+      <template v-else>
+        <span>暂无评论，快来发表评论吧</span>
+      </template>
     </div>
     <!-- 评论区主体 -->
     <div mt-7>
@@ -17,7 +26,7 @@
             />
           </div>
           <div flex w-full h-full border-b-1 border-b-gray-3 p-b-5>
-            <ElInput :rows="2" type="textarea" placeholder="please input" />
+            <ElInput v-bind="inputConfig" />
             <ElButton type="primary" style="height: 100%; margin-left: 10px"
               >发表评论</ElButton
             >
@@ -33,49 +42,19 @@
 </template>
 
 <script setup lang="ts">
-const commentList = [
-  {
-    id: 1,
-    username: 'a',
-    content: '1',
-    children: [
-      {
-        id: 3,
-        username: 'a',
-        content: '1-1',
-        children: [
-          {
-            id: 4,
-            username: 'a',
-            content: '1-1-1',
-          },
-        ],
-      },
-      {
-        id: 7,
-        username: 'a',
-        content: '1-2',
-      },
-    ],
-  },
-  {
-    id: 2,
-    username: 'b',
-    content: '2',
-    children: [
-      {
-        id: 5,
-        username: 'b',
-        content: '2-1',
-      },
-    ],
-  },
-  {
-    id: 6,
-    username: 'c',
-    content: '3',
-  },
-]
+import type { IComment } from '@/request/api/comment/types'
+
+type Props = {
+  commentList: IComment[]
+}
+
+const props = defineProps<Props>()
+const inputConfig = {
+  rows: 2,
+  type: 'textarea',
+  resize: 'none',
+}
+console.log(props.commentList)
 </script>
 
 <style scoped>

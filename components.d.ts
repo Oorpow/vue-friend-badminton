@@ -9,7 +9,6 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AllNews: typeof import('./src/components/News/AllNews/AllNews.vue')['default']
     ArticleItem: typeof import('./src/components/Detail/ArticleItem/ArticleItem.vue')['default']
-    BigNew: typeof import('./src/components/News/LatestNews/BigNew.vue')['default']
     BigNews: typeof import('./src/components/News/LatestNews/BigNews.vue')['default']
     Carousel: typeof import('./src/components/Carousel/Carousel.vue')['default']
     Comment: typeof import('./src/components/Detail/Comment/Comment.vue')['default']

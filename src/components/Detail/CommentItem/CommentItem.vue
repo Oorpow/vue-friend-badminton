@@ -8,10 +8,12 @@
       />
     </div>
     <div w-full flex flex-col ml-2>
-      <span text-gray-6 text-sm>{{ item.username }}</span>
+      <span text-gray-6 text-sm>{{ item.userInfo.name }}</span>
       <p m-0>{{ item.content }}</p>
       <div mt-2>
-        <span text-sm text-gray-4>2022-11-14</span>
+        <span text-sm text-gray-4>{{
+          app?.proxy?.$formatTime.format(item.createAt)
+        }}</span>
         <span text-sm ml-3 text-gray-4 cursor-pointer hover:hover:text-blue-5
           >回复</span
         >
@@ -23,11 +25,16 @@
 </template>
 
 <script setup lang="ts">
+import { getCurrentInstance } from 'vue'
+import type { IComment } from '@/request/api/comment/types'
+
 type Props = {
-  commentList: any[]
+  commentList: IComment[]
 }
 
 defineProps<Props>()
+
+const app = getCurrentInstance()
 </script>
 
 <style scoped>

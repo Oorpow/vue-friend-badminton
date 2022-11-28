@@ -9,7 +9,7 @@
           <ArticleItem :invitationInfo="getTargetInvitation" />
         </template>
         <!-- 评论区 -->
-        <Comment />
+        <Comment :commentList="commentList" />
       </div>
       <!-- 右侧其它文章区域 -->
       <div class="detail_main_right">
@@ -29,10 +29,13 @@ import { ref, watchEffect, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useInvitationStore } from '@/stores/invitation'
+import { useCommentStore } from '@/stores/comment'
 
 const router = useRouter()
-const store = useInvitationStore()
-const { getTargetInvitation, otherInvitation } = storeToRefs(store)
+const invitationStore = useInvitationStore()
+const commentStore = useCommentStore()
+const { getTargetInvitation, otherInvitation } = storeToRefs(invitationStore)
+const { commentList } = storeToRefs(commentStore)
 
 let currentInvitationId = ref(0)
 
@@ -41,8 +44,8 @@ watch(
   router.currentRoute,
   (newVal, oldVal) => {
     currentInvitationId.value = Number(newVal.params.id)
-    store.getInvitationById(Number(currentInvitationId.value))
-    store.getOtherInvitation(Number(currentInvitationId.value))
+    invitationStore.getInvitationById(Number(currentInvitationId.value))
+    invitationStore.getOtherInvitation(Number(currentInvitationId.value))
   },
   {
     immediate: true,
@@ -56,6 +59,8 @@ watchEffect(() => {
     flag.value = true
   }
 })
+
+commentStore.getCommentListById(currentInvitationId.value)
 </script>
 
 <style scoped>
