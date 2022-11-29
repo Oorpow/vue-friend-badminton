@@ -9,7 +9,10 @@
           <ArticleItem :invitationInfo="getTargetInvitation" />
         </template>
         <!-- 评论区 -->
-        <Comment :commentList="commentList" />
+        <Comment
+          :commentList="commentListWithControl"
+          :currentInvitationId="currentInvitationId"
+        />
       </div>
       <!-- 右侧其它文章区域 -->
       <div class="detail_main_right">
@@ -35,7 +38,7 @@ const router = useRouter()
 const invitationStore = useInvitationStore()
 const commentStore = useCommentStore()
 const { getTargetInvitation, otherInvitation } = storeToRefs(invitationStore)
-const { commentList } = storeToRefs(commentStore)
+const { commentList, commentListWithControl } = storeToRefs(commentStore)
 
 let currentInvitationId = ref(0)
 

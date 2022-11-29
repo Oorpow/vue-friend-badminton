@@ -7,7 +7,6 @@
           <span text-2xl font-bold>评论</span>
           <span ml-1>{{ commentList.length }}</span>
         </div>
-        <!-- <span>评论{{ commentList.length }}</span> -->
       </template>
       <template v-else>
         <span>暂无评论，快来发表评论吧</span>
@@ -26,8 +25,11 @@
             />
           </div>
           <div flex w-full h-full border-b-1 border-b-gray-3 p-b-5>
-            <ElInput v-bind="inputConfig" />
-            <ElButton type="primary" style="height: 100%; margin-left: 10px"
+            <ElInput v-bind="inputConfig" v-model="commentForm.content" />
+            <ElButton
+              type="primary"
+              style="height: 100%; margin-left: 10px"
+              @click="postComment"
               >发表评论</ElButton
             >
           </div>
@@ -35,26 +37,54 @@
       </div>
       <!-- 用户评论 -->
       <div mt-10>
-        <CommentItem :commentList="commentList" />
+        <CommentItem
+          :commentList="commentList"
+          :currentInvitationId="currentInvitationId"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IComment } from '@/request/api/comment/types'
+import { reactive } from 'vue'
+import { storeToRefs } from 'pinia'
+import type {
+  IComment,
+  ICommentForm,
+  ISpecialComment,
+} from '@/request/api/comment/types'
+import { useUserStore } from '@/stores/user'
+import { useCommentStore } from '@/stores/comment'
 
 type Props = {
-  commentList: IComment[]
+  commentList: ISpecialComment[]
+  currentInvitationId: number
 }
 
 const props = defineProps<Props>()
+const userStore = useUserStore()
+const commentStore = useCommentStore()
+const { userInfo } = storeToRefs(userStore)
+
 const inputConfig = {
   rows: 2,
   type: 'textarea',
   resize: 'none',
 }
-console.log(props.commentList)
+
+const commentForm = reactive<ICommentForm>({
+  content: '',
+  inv_id: props.currentInvitationId,
+  parent_id: null,
+  user_id: userInfo.value.id,
+})
+
+// 发表评论
+const postComment = () => {
+  commentStore.createComment(commentForm)
+  commentForm.content = ''
+}
 </script>
 
 <style scoped>

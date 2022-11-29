@@ -12,3 +12,14 @@ export interface IComment {
   userInfo: CommentUserInfo
   children: IComment[]
 }
+
+export interface ISpecialComment extends IComment {
+  isShowInput: boolean
+}
+
+export interface ICommentForm {
+  content: string
+  inv_id: number
+  parent_id: number | null
+  user_id: number
+}
