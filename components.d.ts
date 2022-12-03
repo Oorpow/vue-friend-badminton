@@ -25,6 +25,7 @@ declare module '@vue/runtime-core' {
     ElInput: typeof import('element-plus/es')['ElInput']
     EquipmentItem: typeof import('./src/components/Player/EquipmentItem/EquipmentItem.vue')['default']
     FriendItem: typeof import('./src/components/Message/FriendItem/FriendItem.vue')['default']
+    FriendSearch: typeof import('./src/components/Message/FriendSearch/FriendSearch.vue')['default']
     Header: typeof import('./src/components/Header/Header.vue')['default']
     HonorItem: typeof import('./src/components/Player/HonorItem/HonorItem.vue')['default']
     LatestNews: typeof import('./src/components/News/LatestNews/LatestNews.vue')['default']

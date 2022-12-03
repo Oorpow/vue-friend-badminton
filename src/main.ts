@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import dayjs from 'dayjs'
+import { io } from 'socket.io-client'
 
 import App from './App.vue'
 import router from './router'
@@ -14,9 +15,10 @@ import '@/assets/css/global.css'
 const app = createApp(App)
 const pinia = createPinia()
 
-pinia.use(piniaPluginPersistedstate)
-app.use(pinia)
-app.use(router)
+// 全局的socket实例
+const socket = io(import.meta.env.VITE_SOCKET_SERVER, {
+  autoConnect: false,
+})
 
 type Format = {
   format(time: string): string
@@ -30,10 +32,16 @@ app.config.globalProperties.$formatTime = {
   },
 }
 
+app.provide('socket', socket)
+
 declare module 'vue' {
   export interface ComponentCustomProperties {
     $formatTime: Format
   }
 }
+
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
+app.use(router)
 
 app.mount('#app')

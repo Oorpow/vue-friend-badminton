@@ -35,7 +35,11 @@
 <script setup lang="ts">
 import { getCurrentInstance, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
-import type { ICommentForm, ISpecialComment } from '@/request/api/comment/types'
+import type {
+  IComment,
+  ICommentForm,
+  ISpecialComment,
+} from '@/request/api/comment/types'
 import { useCommentStore } from '@/stores/comment'
 import { useUserStore } from '@/stores/user'
 

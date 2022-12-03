@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+
 import { useUserStore } from '@/stores/user'
 import type { ILoginForm } from '@/request/api/user/types'
 
@@ -26,6 +27,7 @@ type Props = {
   isShowValue: boolean
 }
 defineProps<Props>()
+
 const emits = defineEmits(['update:isShowValue'])
 const store = useUserStore()
 
@@ -34,6 +36,7 @@ const hideDialog = () => {
   emits('update:isShowValue', false)
 }
 
+// 表单
 const form = reactive<ILoginForm>({
   name: '',
   password: '',
@@ -43,6 +46,7 @@ const form = reactive<ILoginForm>({
 const loginHandler = () => {
   store.login(form)
   hideDialog()
+  // 登录成功就创建一个socket连接
 }
 
 // 用户注册

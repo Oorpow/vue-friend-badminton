@@ -26,15 +26,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { ref, inject, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import type { Socket } from 'socket.io-client'
+
+const socket: Socket = inject('socket') as Socket
 
 const router = useRouter()
 
 const store = useUserStore()
-const { userInfo } = storeToRefs(store)
+const { userInfo, getToken } = storeToRefs(store)
 
 const navList = ['羽坛动态', '神兵利器']
 let isShowDialog = ref(false)
@@ -44,6 +47,14 @@ const navToProduceView = () => {
     path: '/produce',
   })
 }
+
+onMounted(() => {
+  // 若用户已经登录，则开启socket连接
+  if (getToken.value !== '') {
+    socket.connect()
+    socket.emit('online', userInfo.value)
+  }
+})
 </script>
 
 <style scoped>

@@ -5,14 +5,7 @@
     <div></div>
   </div>
   <div>
-    <el-input
-      v-model="textarea"
-      maxlength="300"
-      placeholder="Please input"
-      type="textarea"
-      resize="none"
-      :rows="2"
-    />
+    <el-input v-model="textarea" v-bind="inputConfig" />
   </div>
   <div flex justify-end>
     <div>
@@ -26,6 +19,14 @@
 import { ref } from 'vue'
 
 let textarea = ref('')
+
+const inputConfig = {
+  maxLength: 300,
+  placeholder: '',
+  type: 'textarea',
+  rows: 2,
+  resize: 'none',
+}
 </script>
 
 <style scoped>

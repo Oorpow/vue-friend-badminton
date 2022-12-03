@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 
-import { userLogin, userRegister } from '@/request/api/user'
+import { userLogin, userRegister, userSearchByName } from '@/request/api/user'
 import type {
   ILoginForm,
   IRegisterForm,
@@ -13,6 +13,7 @@ export const useUserStore = defineStore('userStore', {
     return {
       userInfo: <IUserInfo>{},
       token: '',
+      userList: <IUserInfo[]>[],
     }
   },
   persist: {
@@ -42,6 +43,16 @@ export const useUserStore = defineStore('userStore', {
           message: res.message,
           type: 'warning',
         })
+      }
+    },
+    // 根据用户名查询用户
+    async getUserByName(username: string) {
+      if (username.trim() === '') {
+        this.userList.length = 0
+      } else {
+        const res = await userSearchByName(username)
+        this.userList.length = 0
+        this.userList.push(...res.data)
       }
     },
   },

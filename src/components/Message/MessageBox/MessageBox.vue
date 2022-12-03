@@ -16,7 +16,12 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { inject, onMounted } from 'vue'
+import type { Socket } from 'socket.io-client'
+
+const socket = inject('socket') as Socket
+</script>
 
 <style scoped>
 .message_content {
