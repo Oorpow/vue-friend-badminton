@@ -31,7 +31,7 @@
               <div
                 class="i-ic-baseline-person-add text-lg cursor-pointer"
                 v-else
-                @click="makeFriend"
+                @click="makeFriend(item.name)"
               ></div>
             </template>
           </div>
@@ -41,11 +41,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
+import type { Socket } from 'socket.io-client'
 
+const socket: Socket = inject('socket') as Socket
 const userStore = useUserStore()
 const friendStore = useFriendStore()
 const { userList, userInfo } = storeToRefs(userStore)
@@ -75,8 +77,10 @@ const isFriend = (id: number) => {
   return result
 }
 
-// 添加好友
-const makeFriend = () => {}
+// 发送好友申请
+const makeFriend = (targetName: string) => {
+  socket.emit('send_req', targetName, userInfo.value.name, userInfo.value.id)
+}
 </script>
 
 <style scoped></style>

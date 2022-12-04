@@ -1,24 +1,44 @@
 <template>
-  <div class="friend_item">
+  <div
+    :class="[
+      'friend_item',
+      friend.id === currentChatFriendId ? 'bg-gray-1' : '',
+    ]"
+    v-for="friend in friendList"
+    :key="friend.id"
+    @click="chooseChatFriend(friend)"
+  >
     <div>
-      <ElAvatar size="large" />
+      <ElAvatar size="large">{{ friend.friendInfo.name.slice(0, 2) }}</ElAvatar>
     </div>
     <div ml-2 flex flex-col overflow-hidden>
-      <h4 m-0>TAKERA</h4>
+      <h4 m-0>{{ friend.friendInfo.name }}</h4>
       <span text-sm truncate>1231231231231231231231111111111</span>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { IFriend } from '@/request/api/friend/types'
+
+type Props = {
+  friendList: IFriend[]
+}
+
+defineProps<Props>()
+const emits = defineEmits(['chooseFriend'])
+
+const currentChatFriendId = ref(1)
+
+const chooseChatFriend = (friend: IFriend) => {
+  currentChatFriendId.value = friend.id
+  emits('chooseFriend', friend.friendInfo)
+}
+</script>
 
 <style scoped>
 .friend_item {
-  @apply flex
-    items-center
-    p-3
-    first:bg-gray-1
-    hover:bg-gray-1
-    cursor-pointer;
+  @apply flex items-center p-3 cursor-pointer hover:bg-gray-1;
 }
 </style>

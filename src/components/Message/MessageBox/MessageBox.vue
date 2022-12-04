@@ -2,7 +2,7 @@
   <div flex flex-col h-full>
     <!-- 聊天对象 -->
     <div text-center p-3 border-b-1 border-gray-2>
-      <span text-sm>TAKERA</span>
+      <span text-sm>{{ friend.friendInfo.name }}</span>
     </div>
     <!-- 聊天框主体 -->
     <div h-full bg-gray-1>
@@ -17,10 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted } from 'vue'
-import type { Socket } from 'socket.io-client'
+import type { IFriend } from '@/request/api/friend/types'
 
-const socket = inject('socket') as Socket
+type Props = {
+  friend: IFriend
+}
+
+defineProps<Props>()
 </script>
 
 <style scoped>

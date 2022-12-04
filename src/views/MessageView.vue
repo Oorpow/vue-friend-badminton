@@ -17,14 +17,12 @@
           </div>
           <!-- 好友列表 -->
           <div class="friend_list_container">
-            <template v-for="item in 10" :key="item">
-              <FriendItem />
-            </template>
+            <FriendItem :friendList="friendList" @chooseFriend="chooseFriend" />
           </div>
         </div>
         <!-- 右侧聊天框 -->
         <div flex-1>
-          <MessageBox />
+          <MessageBox :friend="currentChatTarget" />
         </div>
       </div>
     </div>
@@ -32,9 +30,33 @@
 </template>
 
 <script setup lang="ts">
+import { reactive } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useFriendStore } from '@/stores/friend'
+import { useUserStore } from '@/stores/user'
+import type { IChatFriend, IFriendItem } from '@/request/api/friend/types'
 
 const friendStore = useFriendStore()
+const userStore = useUserStore()
+const { friendList } = storeToRefs(friendStore)
+const { userInfo } = storeToRefs(userStore)
+
+// 当前选择聊天的好友
+const currentChatTarget = reactive<IChatFriend>({
+  friendInfo: {} as IFriendItem,
+})
+
+if (userInfo.value.id) {
+  friendStore.getFriendListById(userInfo.value.id)
+  friendStore.$subscribe((mutation, state) => {
+    currentChatTarget.friendInfo = state.friendList[0].friendInfo
+  })
+}
+
+// 选择一位好友作为聊天对象
+const chooseFriend = (friendInfo: IFriendItem) => {
+  currentChatTarget.friendInfo = Object.assign({}, friendInfo)
+}
 </script>
 
 <style scoped>
