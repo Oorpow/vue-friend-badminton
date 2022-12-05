@@ -1,10 +1,13 @@
 import {
+  acceptApplication,
+  denyApplication,
   getAllFriendById,
   getAllFriendReceiveById,
   getAllFriendReqById,
 } from '@/request/api/friend'
 import type { IFriend, IFriendReqItem } from '@/request/api/friend/types'
 import { defineStore } from 'pinia'
+import type { Socket } from 'socket.io-client'
 
 export const useFriendStore = defineStore('friendStore', {
   state: () => ({
@@ -13,6 +16,8 @@ export const useFriendStore = defineStore('friendStore', {
     friendReqList: <IFriendReqItem[]>[],
     // 接收到的好友申请
     friendReceiveList: <IFriendReqItem[]>[],
+    // 小铃铛提示的好友申请数量
+    friendBellList: <IFriendReqItem[]>[],
   }),
   actions: {
     // 获取好友列表
@@ -33,8 +38,17 @@ export const useFriendStore = defineStore('friendStore', {
       this.friendReceiveList.length = 0
       this.friendReceiveList.push(...res.data)
     },
+    // 过滤出未处理的好友请求
+    async getFriendReceiveUnHandle(id: number) {
+      await this.getFriendReceiveList(id)
+
+      const result = this.friendReceiveList.filter((item) => item.status === 0)
+      this.friendBellList = result
+      console.log(this.friendBellList)
+    },
   },
   getters: {
     getFirstOfFriend: (state) => state.friendList[0],
+    getFriendBellList: (state) => state.friendBellList,
   },
 })

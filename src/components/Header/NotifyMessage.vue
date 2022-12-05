@@ -1,7 +1,7 @@
 <template>
   <div mx-3 cursor-pointer>
     <el-dropdown trigger="click">
-      <ElBadge is-dot>
+      <ElBadge :is-dot="receiveList.length !== 0">
         <div class="i-ic-baseline-notifications text-2xl"></div>
       </ElBadge>
       <template #dropdown>
@@ -10,8 +10,8 @@
             <div class="i-ic-baseline-person-add-alt-1 text-lg"></div>
             <div class="ml-2">
               {{
-                reqList.length === 0 ? '暂无' : `${reqList.length}个`
-              }}新的好友请求
+                receiveList.length === 0 ? '暂无' : `${receiveList.length}个`
+              }}需要处理的好友请求
             </div>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -21,14 +21,15 @@
 </template>
 
 <script setup lang="ts">
-import type { IFriendReq } from '@/request/api/friend/types'
+import type { IFriendReqItem } from '@/request/api/friend/types'
 import { useRouter } from 'vue-router'
 
 type Props = {
-  reqList: IFriendReq[]
+  receiveList: IFriendReqItem[]
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
 const router = useRouter()
 
 // 导航至message页

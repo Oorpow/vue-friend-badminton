@@ -30,11 +30,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { onMounted, reactive, inject } from 'vue'
 import { storeToRefs } from 'pinia'
+import { ElNotification } from 'element-plus'
 import { useFriendStore } from '@/stores/friend'
 import { useUserStore } from '@/stores/user'
 import type { IChatFriend, IFriendItem } from '@/request/api/friend/types'
+import type { Socket } from 'socket.io-client'
+
+const socket = inject('socket') as Socket
 
 const friendStore = useFriendStore()
 const userStore = useUserStore()
@@ -57,6 +61,19 @@ if (userInfo.value.id) {
 const chooseFriend = (friendInfo: IFriendItem) => {
   currentChatTarget.friendInfo = Object.assign({}, friendInfo)
 }
+
+onMounted(() => {
+  // 监听对方是否同意己方的好友请求，如果同意则需要发请求刷新一下好友列表
+  socket.on('req_handle_done', async (name, isAccept) => {
+    if (isAccept) {
+      ElNotification({
+        title: `${name}已同意了你的好友请求`,
+        type: 'success',
+      })
+      await friendStore.getFriendListById(userInfo.value.id)
+    }
+  })
+})
 </script>
 
 <style scoped>

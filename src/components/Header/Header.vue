@@ -8,7 +8,8 @@
     </div>
     <div class="flex items-center">
       <template v-if="store.getToken !== ''">
-        <NotifyMessage :reqList="friendReqList" />
+        <!-- 消息提醒 -->
+        <NotifyMessage :receiveList="getFriendBellList" />
         <ElAvatar>{{ userInfo.name.slice(0, 1) }}</ElAvatar>
         <!-- 发布帖子 -->
         <ElButton ml-2 @click="navToProduceView">投稿</ElButton>
@@ -42,7 +43,7 @@ const router = useRouter()
 const store = useUserStore()
 const friendStore = useFriendStore()
 const { userInfo, getToken } = storeToRefs(store)
-const { friendReqList } = storeToRefs(friendStore)
+const { getFriendBellList } = storeToRefs(friendStore)
 
 const navList = ['羽坛动态', '神兵利器']
 let isShowDialog = ref(false)
@@ -56,6 +57,10 @@ const navToProduceView = () => {
 onMounted(() => {
   // 若用户已经登录，则开启socket连接
   if (getToken.value !== '') {
+    friendStore.getFriendReceiveList(userInfo.value.id)
+    // 获取未处理的好友请求列表
+    friendStore.getFriendReceiveUnHandle(userInfo.value.id)
+
     socket.connect()
     socket.emit('online', userInfo.value)
 
@@ -75,13 +80,24 @@ onMounted(() => {
       })
     })
 
-    // 监听是否有好友请求
-    socket.on('receive_req', (opposite: IFriendReq) => {
+    // 监听是否有新的好友请求
+    socket.on('receive_req', async (opposite: IFriendReq) => {
+      // 如果有新的好友请求，需要重新获取一下小铃铛的提醒信息
+      friendStore.getFriendReceiveUnHandle(userInfo.value.id)
+
       ElNotification({
         title: '你有一条新的好友请求',
         message: `用户名: ${opposite.name}`,
         type: 'info',
       })
+    })
+
+    // 监听己方是否已经处理了好友申请
+    socket.on('req_handle_done_self', () => {
+      console.log('zhixingle')
+
+      // 己方已处理，则刷新小铃铛的提醒信息
+      friendStore.getFriendReceiveUnHandle(userInfo.value.id)
     })
   }
 })
