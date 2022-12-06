@@ -1,6 +1,4 @@
 import {
-  acceptApplication,
-  denyApplication,
   getAllFriendById,
   getAllFriendReceiveById,
   getAllFriendReqById,
@@ -9,7 +7,6 @@ import {
 import type { IFriend, IFriendReqItem } from '@/request/api/friend/types'
 import { ElNotification } from 'element-plus'
 import { defineStore } from 'pinia'
-import type { Socket } from 'socket.io-client'
 
 export const useFriendStore = defineStore('friendStore', {
   state: () => ({

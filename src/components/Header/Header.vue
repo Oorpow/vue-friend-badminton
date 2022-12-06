@@ -62,9 +62,9 @@ const navToProduceView = () => {
 }
 
 // 用户退出登录
-const userLogout = () => {
+const userLogout = async () => {
   // 通知好友，该用户已离线
-  store.logout(userInfo.value.id)
+  await store.logout(userInfo.value.id)
   socket.emit('offline', userInfo.value.name)
   router.replace('/')
 }
@@ -80,16 +80,17 @@ watchEffect(() => {
     // 提示server，用户已经上线
     socket.emit('online', userInfo.value)
 
-    // 监听到好友上下线
-    // socket.on('line_status_change', (friendName: string, isOnline: boolean) => {
-    //   friendStore.getFriendListById(userInfo.value.id)
-    //   if (isOnline) {
-    //     ElNotification({
-    //       title: `用户${friendName}上线了`,
-    //       type: 'info',
-    //     })
-    //   }
-    // })
+    // 监听到有好友上下限
+    socket.on('line_status_change', (friendName: string, isOnline: boolean) => {
+      // 刷新好友状态
+      friendStore.getFriendListById(userInfo.value.id)
+      if (isOnline) {
+        ElNotification({
+          title: `用户${friendName}上线了`,
+          type: 'info',
+        })
+      }
+    })
 
     // 监听server发布的离线订阅
     socket.on('offline_message', () => {
