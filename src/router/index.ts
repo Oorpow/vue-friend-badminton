@@ -1,67 +1,34 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { ElNotification } from 'element-plus'
+import routes from './routes'
+import { routeInIgnore } from '@/utils/routeInIgnore'
+import { getLocalToken } from '@/utils/getLocalStorage'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: () => import('@/views/HomeView.vue'),
-    },
-    {
-      path: '/player/:id',
-      name: 'player',
-      component: () => import('@/views/PlayerView.vue'),
-      children: [
-        {
-          path: 'career',
-          name: 'career',
-          component: () => import('@/views/PlayerCareerView.vue'),
-        },
-      ],
-    },
-    {
-      path: '/news',
-      name: 'news',
-      component: () => import('@/views/NewsView.vue'),
-    },
-    {
-      path: '/news_det/:id',
-      name: 'detail',
-      component: () => import('@/views/DetailView.vue'),
-    },
-    {
-      path: '/message',
-      name: 'message',
-      component: () => import('@/views/MessageView.vue'),
-    },
-    {
-      path: '/produce',
-      name: 'produce',
-      component: () => import('@/views/ProduceView.vue'),
-    },
-    {
-      path: '/account',
-      name: 'account',
-      component: () => import('@/views/AccountView.vue'),
-      redirect: '/account/home',
-      children: [
-        {
-          path: 'home',
-          name: 'account-home',
-          component: () => import('@/components/Account/AccountHome.vue'),
-        },
-        {
-          path: 'request',
-          name: 'account-request',
-          component: () =>
-            import(
-              '@/components/Account/AccountFriendRequest/AccountFriendRequest.vue'
-            ),
-        },
-      ],
-    },
-  ],
+  routes,
+})
+
+router.beforeEach((to, from, next) => {
+  const isIn = routeInIgnore(to.path)
+  const token = getLocalToken()
+
+  if (token) {
+    next()
+  } else {
+    // 未登录，并且企图访问超越权限的路由
+    if (isIn) {
+      next('/')
+      ElNotification({
+        title: '该页面需要登录后才能访问',
+        type: 'warning',
+      })
+    } else {
+      console.log('jinlailou')
+
+      next()
+    }
+  }
 })
 
 export default router

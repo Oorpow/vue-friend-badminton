@@ -12,7 +12,10 @@
       <ElAvatar size="large">{{ friend.friendInfo.name.slice(0, 2) }}</ElAvatar>
     </div>
     <div ml-2 flex flex-col overflow-hidden>
-      <h4 m-0>{{ friend.friendInfo.name }}</h4>
+      <h4 m-0>
+        {{ friend.friendInfo.name }}
+        {{ judgeUserStatus(friend.friendInfo.status) }}
+      </h4>
       <span text-sm truncate>1231231231231231231231111111111</span>
     </div>
   </div>
@@ -20,6 +23,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { judgeUserStatus } from '@/utils/judgeUserStatus'
 import type { IFriend } from '@/request/api/friend/types'
 
 type Props = {

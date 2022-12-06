@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 
-import { userLogin, userRegister, userSearchByName } from '@/request/api/user'
+import {
+  userLogin,
+  userRegister,
+  userSearchByName,
+  userLogout,
+} from '@/request/api/user'
 import type {
   ILoginForm,
   IRegisterForm,
@@ -27,7 +32,9 @@ export const useUserStore = defineStore('userStore', {
       this.token = res.data.token
     },
     // 退出登录
-    logout() {
+    async logout(id: number) {
+      this.token = ''
+      await userLogout(id)
       localStorage.removeItem('userStore')
     },
     // 用户注册

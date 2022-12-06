@@ -73,6 +73,18 @@ onMounted(() => {
       await friendStore.getFriendListById(userInfo.value.id)
     }
   })
+
+  // 监听到有好友上下限
+  socket.on('line_status_change', (friendName: string, isOnline: boolean) => {
+    // 刷新好友状态
+    friendStore.getFriendListById(userInfo.value.id)
+    if (isOnline) {
+      ElNotification({
+        title: `用户${friendName}上线了`,
+        type: 'info',
+      })
+    }
+  })
 })
 </script>
 

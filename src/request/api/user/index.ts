@@ -8,6 +8,14 @@ export const userLogin = (loginForm: ILoginForm) =>
     data: loginForm,
   })
 
+export const userLogout = (id: number) =>
+  opRequest.post({
+    url: '/login/out',
+    data: {
+      id,
+    },
+  })
+
 export const userRegister = (registerForm: IRegisterForm) =>
   opRequest.post<ISpecialData>({
     url: '/user',

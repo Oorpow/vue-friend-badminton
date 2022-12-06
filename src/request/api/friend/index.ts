@@ -1,5 +1,5 @@
 import opRequest from '@/request/config'
-import type { IResData } from '@/request/types'
+import type { IResData, ISpecialData } from '@/request/types'
 import type { IFriend, IFriendReqItem } from './types'
 
 // 获取某个用户的好友列表
@@ -18,6 +18,16 @@ export const getAllFriendReqById = (id: number) =>
 export const getAllFriendReceiveById = (id: number) =>
   opRequest.get<IResData<IFriendReqItem[]>>({
     url: `/friend/${id}/receive`,
+  })
+
+// 发送好友请求
+export const sendFriendReq = (fromUid: number, toUid: number) =>
+  opRequest.post<ISpecialData>({
+    url: '/friend/send-req',
+    data: {
+      fromUid,
+      toUid,
+    },
   })
 
 // 同意好友请求

@@ -20,6 +20,8 @@ const socket = io(import.meta.env.VITE_SOCKET_SERVER, {
   autoConnect: false,
 })
 
+app.provide('socket', socket)
+
 type Format = {
   format(time: string): string
 }
@@ -31,8 +33,6 @@ app.config.globalProperties.$formatTime = {
     return dateTime
   },
 }
-
-app.provide('socket', socket)
 
 declare module 'vue' {
   export interface ComponentCustomProperties {

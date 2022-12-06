@@ -24,6 +24,7 @@
               <span>自己</span>
             </template>
             <template v-else>
+              <span>{{ judgeUserStatus(item.status) }}</span>
               <div
                 class="i-ic-outline-file-download-done bg-green-4 text-lg"
                 v-if="isFriend(item.id)"
@@ -31,7 +32,7 @@
               <div
                 class="i-ic-baseline-person-add text-lg cursor-pointer"
                 v-else
-                @click="makeFriend(item.name)"
+                @click="makeFriend(item)"
               ></div>
             </template>
           </div>
@@ -45,7 +46,9 @@ import { ref, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
+import { judgeUserStatus } from '@/utils/judgeUserStatus'
 import type { Socket } from 'socket.io-client'
+import type { IUserInfo } from '@/request/api/user/types'
 
 const socket: Socket = inject('socket') as Socket
 const userStore = useUserStore()
@@ -78,8 +81,14 @@ const isFriend = (id: number) => {
 }
 
 // 发送好友申请
-const makeFriend = (targetName: string) => {
-  socket.emit('send_req', targetName, userInfo.value.name, userInfo.value.id)
+const makeFriend = (user: IUserInfo) => {
+  if (user.status === 0) {
+    // 离线状态下直接调接口
+    friendStore.sendReqToFriend(userInfo.value.id, user.id)
+  } else {
+    // 在线状态下，实时通信
+    socket.emit('send_req', user.name, userInfo.value.name, userInfo.value.id)
+  }
 }
 </script>
 

@@ -7,16 +7,23 @@
       </template>
     </div>
     <div class="flex items-center">
-      <template v-if="store.getToken !== ''">
+      <template v-if="getToken !== ''">
         <!-- 消息提醒 -->
         <NotifyMessage :receiveList="getFriendBellList" />
         <ElAvatar>{{ userInfo.name.slice(0, 1) }}</ElAvatar>
         <!-- 发布帖子 -->
         <ElButton ml-2 @click="navToProduceView">投稿</ElButton>
+        <ElButton @click="userLogout">退出登录</ElButton>
       </template>
       <template v-else>
         <!-- 未登录 -->
-        <ElButton @click="isShowDialog = true">登录</ElButton>
+        <ElButton
+          @click="isShowDialog = true"
+          circle
+          type="primary"
+          style="padding: 3px"
+          >登录</ElButton
+        >
       </template>
     </div>
   </div>
@@ -28,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, onMounted } from 'vue'
+import { ref, inject, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
@@ -54,7 +61,15 @@ const navToProduceView = () => {
   })
 }
 
-onMounted(() => {
+// 用户退出登录
+const userLogout = () => {
+  // 通知好友，该用户已离线
+  store.logout(userInfo.value.id)
+  socket.emit('offline', userInfo.value.name)
+  router.replace('/')
+}
+
+watchEffect(() => {
   // 若用户已经登录，则开启socket连接
   if (getToken.value !== '') {
     friendStore.getFriendReceiveList(userInfo.value.id)
@@ -62,7 +77,24 @@ onMounted(() => {
     friendStore.getFriendReceiveUnHandle(userInfo.value.id)
 
     socket.connect()
+    // 提示server，用户已经上线
     socket.emit('online', userInfo.value)
+
+    // 监听到好友上下线
+    // socket.on('line_status_change', (friendName: string, isOnline: boolean) => {
+    //   friendStore.getFriendListById(userInfo.value.id)
+    //   if (isOnline) {
+    //     ElNotification({
+    //       title: `用户${friendName}上线了`,
+    //       type: 'info',
+    //     })
+    //   }
+    // })
+
+    // 监听server发布的离线订阅
+    socket.on('offline_message', () => {
+      // console.log('收到离线状态的信息, socketId为 ' + id)
+    })
 
     // 监听好友请求发送是否成功
     socket.on('send_req_result', (flag: boolean, msg: string) => {
@@ -72,7 +104,7 @@ onMounted(() => {
       })
     })
 
-    // 重新发送好友请求
+    // 重复发送好友请求
     socket.on('send_req_repeat', (msg: string) => {
       ElNotification({
         title: msg,
@@ -94,8 +126,6 @@ onMounted(() => {
 
     // 监听己方是否已经处理了好友申请
     socket.on('req_handle_done_self', () => {
-      console.log('zhixingle')
-
       // 己方已处理，则刷新小铃铛的提醒信息
       friendStore.getFriendReceiveUnHandle(userInfo.value.id)
     })

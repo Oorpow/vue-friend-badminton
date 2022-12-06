@@ -12,6 +12,7 @@ export const useCarouselStore = defineStore('carouselStore', {
   actions: {
     async getCarouselList() {
       const res = await getAllCarousel()
+
       this.carouselList.length = 0
       this.carouselList.push(...res.data)
     },

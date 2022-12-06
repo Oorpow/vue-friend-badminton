@@ -13,6 +13,7 @@ export interface IUserInfo {
   id: number
   name: string
   avatar: string
+  status: number
 }
 
 export interface ILoginData {

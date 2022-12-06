@@ -6,6 +6,7 @@ export interface IFriendItem {
   id: number
   name: string
   avatar: string
+  status: number
 }
 
 export interface IFriend {

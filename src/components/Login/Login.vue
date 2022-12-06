@@ -46,7 +46,6 @@ const form = reactive<ILoginForm>({
 const loginHandler = () => {
   store.login(form)
   hideDialog()
-  // 登录成功就创建一个socket连接
 }
 
 // 用户注册

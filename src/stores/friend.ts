@@ -4,8 +4,10 @@ import {
   getAllFriendById,
   getAllFriendReceiveById,
   getAllFriendReqById,
+  sendFriendReq,
 } from '@/request/api/friend'
 import type { IFriend, IFriendReqItem } from '@/request/api/friend/types'
+import { ElNotification } from 'element-plus'
 import { defineStore } from 'pinia'
 import type { Socket } from 'socket.io-client'
 
@@ -26,6 +28,16 @@ export const useFriendStore = defineStore('friendStore', {
       this.friendList.length = 0
       this.friendList.push(...res.data)
     },
+    // 发送好友申请
+    async sendReqToFriend(fromUid: number, toUid: number) {
+      const res = await sendFriendReq(fromUid, toUid)
+      if (res.code === 200) {
+        ElNotification({
+          title: '好友申请发送成功',
+          type: 'success',
+        })
+      }
+    },
     // 获取发送过的好友申请列表
     async getFriendReqList(id: number) {
       const res = await getAllFriendReqById(id)
@@ -44,7 +56,6 @@ export const useFriendStore = defineStore('friendStore', {
 
       const result = this.friendReceiveList.filter((item) => item.status === 0)
       this.friendBellList = result
-      console.log(this.friendBellList)
     },
   },
   getters: {
