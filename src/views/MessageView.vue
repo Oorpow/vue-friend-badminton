@@ -22,7 +22,7 @@
         </div>
         <!-- 右侧聊天框 -->
         <div flex-1>
-          <MessageBox :friend="currentChatTarget" />
+          <MessageBox :friend="currentChatTarget" :msgList="msgList" />
         </div>
       </div>
     </div>
@@ -37,29 +37,41 @@ import { useFriendStore } from '@/stores/friend'
 import { useUserStore } from '@/stores/user'
 import type { IChatFriend, IFriendItem } from '@/request/api/friend/types'
 import type { Socket } from 'socket.io-client'
+import { useMessageStore } from '@/stores/message'
 
 const socket = inject('socket') as Socket
 
 const friendStore = useFriendStore()
 const userStore = useUserStore()
+const messageStore = useMessageStore()
 const { friendList } = storeToRefs(friendStore)
 const { userInfo } = storeToRefs(userStore)
+const { msgList } = storeToRefs(messageStore)
 
 // 当前选择聊天的好友
 const currentChatTarget = reactive<IChatFriend>({
   friendInfo: {} as IFriendItem,
 })
 
+// 用户已登录
 if (userInfo.value.id) {
-  friendStore.getFriendListById(userInfo.value.id)
-  friendStore.$subscribe((mutation, state) => {
-    currentChatTarget.friendInfo = state.friendList[0].friendInfo
+  friendStore.getFriendListById(userInfo.value.id).then(() => {
+    currentChatTarget.friendInfo = Object.assign(
+      {},
+      friendList.value[0].friendInfo
+    )
+    // 好友列表加载完毕后，直接加载与列表第一位好友的聊天记录
+    messageStore.getMsgRecordById(
+      userInfo.value.id,
+      currentChatTarget.friendInfo.id
+    )
   })
 }
 
 // 选择一位好友作为聊天对象
 const chooseFriend = (friendInfo: IFriendItem) => {
   currentChatTarget.friendInfo = Object.assign({}, friendInfo)
+  messageStore.getMsgRecordById(userInfo.value.id, friendInfo.id)
 }
 
 onMounted(() => {

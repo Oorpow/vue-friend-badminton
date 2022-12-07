@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     AllNews: typeof import('./src/components/News/AllNews/AllNews.vue')['default']
     ArticleItem: typeof import('./src/components/Detail/ArticleItem/ArticleItem.vue')['default']
     BigNews: typeof import('./src/components/News/LatestNews/BigNews.vue')['default']
+    BubbleBox: typeof import('./src/components/Message/MessageBox/components/BubbleBox.vue')['default']
     Carousel: typeof import('./src/components/Carousel/Carousel.vue')['default']
     Comment: typeof import('./src/components/Detail/Comment/Comment.vue')['default']
     CommentItem: typeof import('./src/components/Detail/CommentItem/CommentItem.vue')['default']

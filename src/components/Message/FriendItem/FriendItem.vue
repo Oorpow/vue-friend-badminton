@@ -16,7 +16,7 @@
         {{ friend.friendInfo.name }}
         {{ judgeUserStatus(friend.friendInfo.status) }}
       </h4>
-      <span text-sm truncate>1231231231231231231231111111111</span>
+      <span text-sm truncate>123123</span>
     </div>
   </div>
 </template>
