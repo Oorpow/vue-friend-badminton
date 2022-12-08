@@ -23,6 +23,7 @@ import { ref, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMessageStore } from '@/stores/message'
 import { useUserStore } from '@/stores/user'
+import { useFriendStore } from '@/stores/friend'
 import type { IChatFriend } from '@/request/api/friend/types'
 import type { Socket } from 'socket.io-client'
 
@@ -35,7 +36,10 @@ const socket = inject('socket') as Socket
 
 const userStore = useUserStore()
 const messageStore = useMessageStore()
+const friendStore = useFriendStore()
 const { userInfo } = storeToRefs(userStore)
+const { friendList } = storeToRefs(friendStore)
+const { msgList, lastMsgList } = storeToRefs(messageStore)
 
 let msgContent = ref('')
 
@@ -61,6 +65,7 @@ const sendMsg = async () => {
       userInfo.value.id,
       props.friend.friendInfo.id
     )
+    messageStore.getAllLastMsg(userInfo.value.id, friendList.value)
   } else {
     await messageStore.sendMsgToFriend(
       userInfo.value.id,
@@ -79,6 +84,7 @@ const sendMsg = async () => {
       userInfo.value.id,
       props.friend.friendInfo.id
     )
+    messageStore.getAllLastMsg(userInfo.value.id, friendList.value)
   }
 }
 

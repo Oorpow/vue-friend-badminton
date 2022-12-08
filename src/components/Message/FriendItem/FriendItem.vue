@@ -9,14 +9,18 @@
     @click="chooseChatFriend(friend)"
   >
     <div>
-      <ElAvatar size="large">{{ friend.friendInfo.name.slice(0, 2) }}</ElAvatar>
+      <ElAvatar size="large">{{ friend.friendInfo.name.slice(0, 1) }}</ElAvatar>
     </div>
     <div ml-2 flex flex-col overflow-hidden>
       <h4 m-0>
         {{ friend.friendInfo.name }}
         {{ judgeUserStatus(friend.friendInfo.status) }}
       </h4>
-      <span text-sm truncate>123123</span>
+      <template v-for="msg in lastMsgList" :key="msg.friendId">
+        <span text-sm truncate v-if="friend.friendInfo.id === msg.friendId">{{
+          msg.content
+        }}</span>
+      </template>
     </div>
   </div>
 </template>
@@ -25,12 +29,14 @@
 import { ref } from 'vue'
 import { judgeUserStatus } from '@/utils/judgeUserStatus'
 import type { IFriend } from '@/request/api/friend/types'
+import type { ILastMsg } from '@/request/api/message/types'
 
 type Props = {
   friendList: IFriend[]
+  lastMsgList: ILastMsg[]
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 const emits = defineEmits(['chooseFriend'])
 
 const currentChatFriendId = ref(1)

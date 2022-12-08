@@ -17,7 +17,11 @@
           </div>
           <!-- 好友列表 -->
           <div class="friend_list_container">
-            <FriendItem :friendList="friendList" @chooseFriend="chooseFriend" />
+            <FriendItem
+              :friendList="friendList"
+              :lastMsgList="lastMsgList"
+              @chooseFriend="chooseFriend"
+            />
           </div>
         </div>
         <!-- 右侧聊天框 -->
@@ -46,7 +50,7 @@ const userStore = useUserStore()
 const messageStore = useMessageStore()
 const { friendList } = storeToRefs(friendStore)
 const { userInfo } = storeToRefs(userStore)
-const { msgList } = storeToRefs(messageStore)
+const { msgList, lastMsgList } = storeToRefs(messageStore)
 
 // 当前选择聊天的好友
 const currentChatTarget = reactive<IChatFriend>({
@@ -65,6 +69,7 @@ if (userInfo.value.id) {
       userInfo.value.id,
       currentChatTarget.friendInfo.id
     )
+    messageStore.getAllLastMsg(userInfo.value.id, friendList.value)
   })
 }
 

@@ -14,6 +14,10 @@
               }}需要处理的好友请求
             </div>
           </el-dropdown-item>
+          <el-dropdown-item @click="navToMessage">
+            <div class="i-ic-baseline-email text-lg"></div>
+            <div class="ml-2">你有{{}}条新的信息</div>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -37,6 +41,10 @@ const navToAccount = () => {
   router.push({
     name: 'account-request',
   })
+}
+
+const navToMessage = () => {
+  router.push('/message')
 }
 </script>
 

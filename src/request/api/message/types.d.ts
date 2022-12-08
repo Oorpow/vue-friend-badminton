@@ -14,3 +14,9 @@ export interface IMsgItem {
   create_at: string
   friendInfo: IMsgFriendInfo
 }
+
+export interface ILastMsg {
+  userId: number
+  friendId: number
+  content: string
+}
