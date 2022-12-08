@@ -7,3 +7,18 @@ export const getAllMsgRecordById = (userId: number, friendId: number) =>
   opRequest.get<IResData<IMsgItem[]>>({
     url: `/message/${userId}/${friendId}`,
   })
+
+// 发送聊天信息
+export const sendMsgToOneById = (
+  fromId: number,
+  toId: number,
+  content: string
+) =>
+  opRequest.post({
+    url: '/message',
+    data: {
+      fromId,
+      toId,
+      content,
+    },
+  })

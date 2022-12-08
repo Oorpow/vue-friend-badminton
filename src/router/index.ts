@@ -14,6 +14,7 @@ router.beforeEach((to, from, next) => {
   const token = getLocalToken()
 
   if (token) {
+    // 已登录
     next()
   } else {
     // 未登录，并且企图访问超越权限的路由
@@ -24,8 +25,6 @@ router.beforeEach((to, from, next) => {
         type: 'warning',
       })
     } else {
-      console.log('jinlailou')
-
       next()
     }
   }

@@ -32,7 +32,6 @@ declare module '@vue/runtime-core' {
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
-    ElTag: typeof import('element-plus/es')['ElTag']
     EquipmentItem: typeof import('./src/components/Player/EquipmentItem/EquipmentItem.vue')['default']
     FriendItem: typeof import('./src/components/Message/FriendItem/FriendItem.vue')['default']
     FriendSearch: typeof import('./src/components/Message/FriendSearch/FriendSearch.vue')['default']

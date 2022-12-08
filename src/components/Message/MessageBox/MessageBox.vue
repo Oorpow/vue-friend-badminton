@@ -7,7 +7,7 @@
     <!-- 聊天框主体 -->
     <div class="message_wrapper" bg-gray-1>
       <!-- 聊天内容 -->
-      <div class="message_content">
+      <div class="message_content" ref="messageContentRef">
         <div p-3>
           <!-- 聊天气泡框 -->
           <BubbleBox :msgList="msgList" />
@@ -15,22 +15,39 @@
       </div>
       <!-- 聊天输入框 -->
       <div class="h-3/10 flex flex-col justify-around px-3">
-        <MessageEditor />
+        <MessageEditor :friend="friend" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IFriend } from '@/request/api/friend/types'
+import { ref, nextTick, watch } from 'vue'
+import type { IChatFriend } from '@/request/api/friend/types'
 import type { IMsgItem } from '@/request/api/message/types'
 
 type Props = {
-  friend: IFriend
+  friend: IChatFriend
   msgList: IMsgItem[]
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const messageContentRef = ref<HTMLDivElement>()
+
+// 监听信息的收发，保证信息一直在底部出现
+watch(
+  () => props.msgList,
+  async (newVal, oldVal) => {
+    await nextTick(() => {
+      messageContentRef.value?.firstElementChild?.lastElementChild?.scrollIntoView()
+    })
+  },
+  {
+    immediate: true,
+    deep: true,
+  }
+)
 </script>
 
 <style scoped>

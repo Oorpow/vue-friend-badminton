@@ -18,9 +18,7 @@
         text-sm
         mr-5
         :class="isUserSend(item.from_uid, 'text-left', 'text-right')"
-        >{{
-          isUserSend(item.from_uid) ? userInfo.name : item.friendInfo.name
-        }}</span
+        >{{ isUserSend(item.from_uid) ? '' : item.friendInfo.name }}</span
       >
       <div
         flex
@@ -60,8 +58,6 @@ const isUserSend = (id: number, leftStyle?: string, rightStyle?: string) => {
     return id === userInfo.value.id
   }
 }
-
-console.log(props.msgList)
 </script>
 
 <style scoped>
