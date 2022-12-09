@@ -13,13 +13,14 @@
         <!-- 左侧好友列表 -->
         <div class="friend_list">
           <div p-3>
-            <span text-sm text-gray-4>近期消息</span>
+            <span text-sm text-gray-4>好友列表</span>
           </div>
           <!-- 好友列表 -->
           <div class="friend_list_container">
             <FriendItem
               :friendList="friendList"
               :lastMsgList="lastMsgList"
+              :unreadMap="unreadMap"
               @chooseFriend="chooseFriend"
             />
           </div>
@@ -50,7 +51,7 @@ const userStore = useUserStore()
 const messageStore = useMessageStore()
 const { friendList } = storeToRefs(friendStore)
 const { userInfo } = storeToRefs(userStore)
-const { msgList, lastMsgList } = storeToRefs(messageStore)
+const { msgList, lastMsgList, unreadMap } = storeToRefs(messageStore)
 
 // 当前选择聊天的好友
 const currentChatTarget = reactive<IChatFriend>({
@@ -59,24 +60,23 @@ const currentChatTarget = reactive<IChatFriend>({
 
 // 用户已登录
 if (userInfo.value.id) {
+  // 获取用户的好友列表
   friendStore.getFriendListById(userInfo.value.id).then(() => {
-    currentChatTarget.friendInfo = Object.assign(
-      {},
-      friendList.value[0].friendInfo
-    )
-    // 好友列表加载完毕后，直接加载与列表第一位好友的聊天记录
-    messageStore.getMsgRecordById(
-      userInfo.value.id,
-      currentChatTarget.friendInfo.id
-    )
+    // 获取聊天记录中的最后一条信息
     messageStore.getAllLastMsg(userInfo.value.id, friendList.value)
+    // 获取未读的消息记录数
+    messageStore.getNoReadMsgWithAllUser(userInfo.value.id, friendList.value)
   })
 }
 
 // 选择一位好友作为聊天对象
-const chooseFriend = (friendInfo: IFriendItem) => {
+const chooseFriend = async (friendInfo: IFriendItem) => {
   currentChatTarget.friendInfo = Object.assign({}, friendInfo)
   messageStore.getMsgRecordById(userInfo.value.id, friendInfo.id)
+  // 将与该好友的未读信息置为已读
+  await messageStore.updateUnreadMsgToRead(friendInfo.id, userInfo.value.id)
+  messageStore.getNoReadMsgWithAllUser(userInfo.value.id, friendList.value)
+  messageStore.getNumOfAllUnRead(userInfo.value.id)
 }
 
 onMounted(() => {
@@ -89,6 +89,10 @@ onMounted(() => {
       })
       await friendStore.getFriendListById(userInfo.value.id)
     }
+  })
+  socket.on('get_private_msg', () => {
+    messageStore.getAllLastMsg(userInfo.value.id, friendList.value)
+    messageStore.getNoReadMsgWithAllUser(userInfo.value.id, friendList.value)
   })
 })
 </script>

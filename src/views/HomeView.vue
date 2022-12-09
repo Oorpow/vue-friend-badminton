@@ -16,11 +16,11 @@ import { usePlayerStore } from '@/stores/player'
 const carouselStore = useCarouselStore()
 const playerStore = usePlayerStore()
 
-carouselStore.getCarouselList()
-playerStore.getPlayerList()
-
 const { carouselList } = storeToRefs(carouselStore)
 const { playerList } = storeToRefs(playerStore)
+
+carouselStore.getCarouselList()
+playerStore.getPlayerList()
 </script>
 
 <style scoped>

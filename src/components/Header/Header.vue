@@ -9,7 +9,10 @@
     <div class="flex items-center">
       <template v-if="getToken !== ''">
         <!-- 消息提醒 -->
-        <NotifyMessage :receiveList="getFriendBellList" />
+        <NotifyMessage
+          :unreadNums="numOfUnRead"
+          :receiveList="getFriendBellList"
+        />
         <ElAvatar>{{ userInfo.name.slice(0, 1) }}</ElAvatar>
         <!-- 发布帖子 -->
         <ElButton ml-2 @click="navToProduceView">投稿</ElButton>
@@ -43,14 +46,17 @@ import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
 import type { Socket } from 'socket.io-client'
 import type { IFriendReq } from '@/request/api/friend/types'
+import { useMessageStore } from '@/stores/message'
 
 const socket: Socket = inject('socket') as Socket
 const router = useRouter()
 
 const store = useUserStore()
 const friendStore = useFriendStore()
+const messageStore = useMessageStore()
 const { userInfo, getToken } = storeToRefs(store)
 const { getFriendBellList } = storeToRefs(friendStore)
+const { numOfUnRead } = storeToRefs(messageStore)
 
 const navList = ['羽坛动态', '神兵利器']
 let isShowDialog = ref(false)
@@ -75,12 +81,13 @@ watchEffect(() => {
     friendStore.getFriendReceiveList(userInfo.value.id)
     // 获取未处理的好友请求列表
     friendStore.getFriendReceiveUnHandle(userInfo.value.id)
+    messageStore.getNumOfAllUnRead(userInfo.value.id)
 
     socket.connect()
     // 提示server，用户已经上线
     socket.emit('online', userInfo.value)
 
-    // 监听到有好友上下限
+    // 监听到有好友上下线
     socket.on('line_status_change', (friendName: string, isOnline: boolean) => {
       // 刷新好友状态
       friendStore.getFriendListById(userInfo.value.id)
@@ -129,6 +136,10 @@ watchEffect(() => {
     socket.on('req_handle_done_self', () => {
       // 己方已处理，则刷新小铃铛的提醒信息
       friendStore.getFriendReceiveUnHandle(userInfo.value.id)
+    })
+
+    socket.on('get_private_msg', () => {
+      messageStore.getNumOfAllUnRead(userInfo.value.id)
     })
   }
 })

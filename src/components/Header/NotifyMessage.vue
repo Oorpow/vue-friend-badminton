@@ -1,7 +1,7 @@
 <template>
   <div mx-3 cursor-pointer>
     <el-dropdown trigger="click">
-      <ElBadge :is-dot="receiveList.length !== 0">
+      <ElBadge :is-dot="receiveList.length !== 0 || unreadNums !== 0">
         <div class="i-ic-baseline-notifications text-2xl"></div>
       </ElBadge>
       <template #dropdown>
@@ -16,7 +16,13 @@
           </el-dropdown-item>
           <el-dropdown-item @click="navToMessage">
             <div class="i-ic-baseline-email text-lg"></div>
-            <div class="ml-2">你有{{}}条新的信息</div>
+            <div class="ml-2">
+              {{
+                unreadNums === 0
+                  ? '暂无未读信息'
+                  : `你有${unreadNums}条新的信息`
+              }}
+            </div>
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -30,6 +36,7 @@ import { useRouter } from 'vue-router'
 
 type Props = {
   receiveList: IFriendReqItem[]
+  unreadNums: number
 }
 
 const props = defineProps<Props>()

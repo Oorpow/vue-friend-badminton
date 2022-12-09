@@ -1,30 +1,45 @@
 <template>
   <div flex flex-col h-full>
-    <!-- 聊天对象 -->
-    <div text-center p-3 border-b-1 border-gray-2>
-      <span text-sm>{{ friend.friendInfo.name }}</span>
-    </div>
-    <!-- 聊天框主体 -->
-    <div class="message_wrapper" bg-gray-1>
-      <!-- 聊天内容 -->
-      <div class="message_content" ref="messageContentRef">
-        <div p-3>
-          <!-- 聊天气泡框 -->
-          <BubbleBox :msgList="msgList" />
+    <template v-if="friend.friendInfo.name">
+      <!-- 聊天对象 -->
+      <div text-center p-3 border-b-1 border-gray-2>
+        <span text-sm>{{ friend.friendInfo.name }}</span>
+      </div>
+      <!-- 聊天框主体 -->
+      <div class="message_wrapper" bg-gray-1>
+        <!-- 聊天内容 -->
+        <div class="message_content" ref="messageContentRef">
+          <div p-3 relative>
+            <!-- 聊天气泡框 -->
+            <BubbleBox :msgList="msgList" />
+          </div>
+        </div>
+        <!-- 聊天输入框 -->
+        <div class="h-3/10 flex flex-col justify-around px-3">
+          <MessageEditor :friend="friend" />
         </div>
       </div>
-      <!-- 聊天输入框 -->
-      <div class="h-3/10 flex flex-col justify-around px-3">
-        <MessageEditor :friend="friend" />
+    </template>
+    <template v-else>
+      <div w-full h-full relative>
+        <div class="absolute left-1/2 top-1/2 translate--1/2">
+          <div>logo</div>
+          <!-- logo -->
+          <h3>
+            Welcome The Chat <span>{{ userInfo.name }}</span>
+          </h3>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, nextTick, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { IChatFriend } from '@/request/api/friend/types'
 import type { IMsgItem } from '@/request/api/message/types'
+import { useUserStore } from '@/stores/user'
 
 type Props = {
   friend: IChatFriend
@@ -33,7 +48,9 @@ type Props = {
 
 const props = defineProps<Props>()
 
+const store = useUserStore()
 const messageContentRef = ref<HTMLDivElement>()
+const { userInfo } = storeToRefs(store)
 
 // 监听信息的收发，保证信息一直在底部出现
 watch(

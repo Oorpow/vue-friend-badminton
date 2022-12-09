@@ -78,6 +78,10 @@ class OpRequest {
   post<T>(config: OpRequestConfig): Promise<T> {
     return this.instance.request({ ...config, method: 'POST' })
   }
+
+  put<T>(config: OpRequestConfig): Promise<T> {
+    return this.instance.request({ ...config, method: 'PUT' })
+  }
 }
 
 export default OpRequest

@@ -39,7 +39,6 @@ const messageStore = useMessageStore()
 const friendStore = useFriendStore()
 const { userInfo } = storeToRefs(userStore)
 const { friendList } = storeToRefs(friendStore)
-const { msgList, lastMsgList } = storeToRefs(messageStore)
 
 let msgContent = ref('')
 
@@ -88,11 +87,24 @@ const sendMsg = async () => {
   }
 }
 
-socket.on('get_private_msg', async () => {
+socket.on('get_private_msg', async (targetId: number) => {
   await messageStore.getMsgRecordById(
     userInfo.value.id,
     props.friend.friendInfo.id
   )
+
+  // 说明正在聊天的好友，和发消息来好友是同一个好友
+  if (props.friend.friendInfo.id === targetId) {
+    // 正在聊天的情况下，需要不断地修改信息状态
+    await messageStore.updateUnreadMsgToRead(
+      props.friend.friendInfo.id,
+      userInfo.value.id
+    )
+    await messageStore.getMsgRecordById(
+      userInfo.value.id,
+      props.friend.friendInfo.id
+    )
+  }
 })
 </script>
 

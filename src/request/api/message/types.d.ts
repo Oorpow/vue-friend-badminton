@@ -20,3 +20,12 @@ export interface ILastMsg {
   friendId: number
   content: string
 }
+
+export interface IUnReadMsg {
+  id: number
+  from_uid: number
+  to_uid: number
+  content: string
+  is_read: number
+  create_at: string
+}
