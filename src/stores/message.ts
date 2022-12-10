@@ -70,16 +70,9 @@ export const useMessageStore = defineStore('messageStore', {
       this.numOfUnRead = res.data.length
     },
     // 获取好友聊天之间的所有图片，组成预览列表
-    async getAllImgOfMsg(userId: number, friendId: number) {
-      await this.getMsgRecordById(userId, friendId)
+    async getAllImgOfMsg(previewImg: string) {
       this.imgPreviewList.length = 0
-      this.msgList.forEach((item) => {
-        if (item.type === 1) {
-          this.imgPreviewList.unshift(
-            import.meta.env.VITE_LOCAL_SERVER + item.content
-          )
-        }
-      })
+      this.imgPreviewList.push(import.meta.env.VITE_LOCAL_SERVER + previewImg)
     },
   },
 })

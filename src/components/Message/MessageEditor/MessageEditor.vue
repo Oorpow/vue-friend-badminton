@@ -26,7 +26,7 @@
       <el-input
         v-model="msgContent"
         v-bind="inputConfig"
-        @keydown.enter="sendMsg"
+        @keydown.enter="sendMsg($event)"
       />
     </div>
   </div>
@@ -77,13 +77,14 @@ const inputConfig = {
 }
 
 // 发送消息
-const sendMsg = async () => {
+const sendMsg = async (event: Event, type?: number) => {
   // 离线状态, 直接调接口发送离线消息
   if (props.friend.friendInfo.status === 0) {
     await messageStore.sendMsgToFriend(
       userInfo.value.id,
       props.friend.friendInfo.id,
-      msgContent.value
+      msgContent.value,
+      type
     )
     msgContent.value = ''
     await messageStore.getMsgRecordById(
@@ -95,7 +96,8 @@ const sendMsg = async () => {
     await messageStore.sendMsgToFriend(
       userInfo.value.id,
       props.friend.friendInfo.id,
-      msgContent.value
+      msgContent.value,
+      type
     )
     // 对方用户在线，采用socket通信
     socket.emit(
@@ -139,24 +141,10 @@ const handleEmojiClick = (detail: EmojiClickEventDetail) => {
   showEmoji.value = false
 }
 
-messageStore.getAllImgOfMsg(userInfo.value.id, props.friend.friendInfo.id)
-
 // 图片上传成功
 const imgUploadSuccess = async (res: any, file: any) => {
   msgContent.value = file.response.data.url
-
-  await messageStore.sendMsgToFriend(
-    userInfo.value.id,
-    props.friend.friendInfo.id,
-    msgContent.value,
-    1
-  )
-  msgContent.value = ''
-  await messageStore.getMsgRecordById(
-    userInfo.value.id,
-    props.friend.friendInfo.id
-  )
-  messageStore.getAllImgOfMsg(userInfo.value.id, props.friend.friendInfo.id)
+  sendMsg(undefined, 1)
 }
 </script>
 

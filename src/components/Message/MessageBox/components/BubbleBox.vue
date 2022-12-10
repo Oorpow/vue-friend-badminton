@@ -31,9 +31,10 @@
             v-else
             class="w-15 h-10 overflow-hidden"
             :src="serverUrl + item.content"
-            fit="cover"
             :preview-src-list="imgPreviewList"
-            @click="switchImg"
+            :initial-index="initPreviewIndex"
+            fit="cover"
+            @click="switchImg(item.id)"
           />
         </div>
         <div
@@ -46,24 +47,30 @@
 </template>
 
 <script setup lang="ts">
-import type { IMsgItem } from '@/request/api/message/types'
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useMessageStore } from '@/stores/message'
-import { storeToRefs } from 'pinia'
+import type { IMsgItem } from '@/request/api/message/types'
 
 type Props = {
   msgList: IMsgItem[]
 }
 
 const props = defineProps<Props>()
+
 const store = useUserStore()
 const messageStore = useMessageStore()
 const { userInfo } = storeToRefs(store)
 const { imgPreviewList } = storeToRefs(messageStore)
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 
-const switchImg = () => {
-  console.log('111')
+let initPreviewIndex = ref(0)
+
+// 切换预览图片的索引
+const switchImg = (id: number) => {
+  const result = props.msgList.filter((item) => item.id === id)[0]
+  messageStore.getAllImgOfMsg(result.content)
 }
 
 // 判断该信息是否是己方发送的
