@@ -1179,6 +1179,11 @@ element-plus@^2.2.20:
     memoize-one "^6.0.0"
     normalize-wheel-es "^1.2.0"
 
+emoji-picker-element@^1.10.1:
+  version "1.14.0"
+  resolved "https://registry.npmmirror.com/emoji-picker-element/-/emoji-picker-element-1.14.0.tgz#6e4c23585533b994f07cecb1b8be3f1115ea4ffd"
+  integrity sha512-YNQD2KcszotweW3KYsZw/yRU5M80RM7xdev7L6mhRuI6W5dRJ9FTEPsn5mAG3idN02AqQh0LqZvuaXkdyahr/g==
+
 engine.io-client@~6.2.3:
   version "6.2.3"
   resolved "https://registry.npmmirror.com/engine.io-client/-/engine.io-client-6.2.3.tgz#a8cbdab003162529db85e9de31575097f6d29458"
@@ -3134,6 +3139,11 @@ vue-demi@*:
   resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
   integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
 
+vue-demi@^0.12.4:
+  version "0.12.5"
+  resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.12.5.tgz#8eeed566a7d86eb090209a11723f887d28aeb2d1"
+  integrity sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==
+
 vue-eslint-parser@^9.0.0, vue-eslint-parser@^9.0.1:
   version "9.1.0"
   resolved "https://registry.npmmirror.com/vue-eslint-parser/-/vue-eslint-parser-9.1.0.tgz#0e121d1bb29bd10763c83e3cc583ee03434a9dd5"
@@ -3172,6 +3182,14 @@ vue@^3.2.38:
     "@vue/runtime-dom" "3.2.44"
     "@vue/server-renderer" "3.2.44"
     "@vue/shared" "3.2.44"
+
+vuemoji-picker@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.npmmirror.com/vuemoji-picker/-/vuemoji-picker-0.1.4.tgz#e8410e0f2e2cfadf21d79210b04149962913b334"
+  integrity sha512-gy+MkjcUn92mBENC4b/zqNMW0oz+F005KTf7mWhe1DVUuNhJVsEG2VPJQBIOa7yg+Owd68v7CBrF5TDf45jjzw==
+  dependencies:
+    emoji-picker-element "^1.10.1"
+    vue-demi "^0.12.4"
 
 webpack-sources@^3.2.3:
   version "3.2.3"

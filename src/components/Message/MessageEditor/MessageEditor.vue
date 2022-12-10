@@ -1,18 +1,39 @@
 <template>
-  <!-- 头部上传区域 -->
   <div>
-    <div class="i-ic-outline-image"></div>
-  </div>
-  <div>
-    <el-input
-      v-model="msgContent"
-      v-bind="inputConfig"
-      @keydown.enter="sendMsg"
-    />
-  </div>
-  <div flex justify-end>
+    <!-- 头部上传区域 -->
+    <div mt-2 flex>
+      <ElUpload
+        :action="serverUrl"
+        name="img"
+        :show-file-list="false"
+        :on-success="imgUploadSuccess"
+      >
+        <template #trigger>
+          <ElIcon :size="20" cursor-pointer><Picture /></ElIcon>
+        </template>
+      </ElUpload>
+      <div
+        class="i-ic-outline-insert-emoticon text-xl ml-2 cursor-pointer"
+        @click="showEmoji = !showEmoji"
+      ></div>
+      <VuemojiPicker
+        @emojiClick="handleEmojiClick"
+        v-show="showEmoji"
+        style="position: absolute; bottom: 25%"
+      />
+    </div>
     <div>
-      <span text-sm text-gray-4>{{ msgContent.length }} / 500</span>
+      <el-input
+        v-model="msgContent"
+        v-bind="inputConfig"
+        @keydown.enter="sendMsg"
+      />
+    </div>
+  </div>
+
+  <div flex justify-end mb-2>
+    <div>
+      <!-- <span text-sm text-gray-4>{{ msgContent.length }} / 500</span> -->
       <el-button ml-2 @click="sendMsg">发送</el-button>
     </div>
   </div>
@@ -21,9 +42,12 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 import { storeToRefs } from 'pinia'
+import { VuemojiPicker } from 'vuemoji-picker'
+import { Picture } from '@element-plus/icons-vue'
 import { useMessageStore } from '@/stores/message'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
+import type { EmojiClickEventDetail } from 'vuemoji-picker'
 import type { IChatFriend } from '@/request/api/friend/types'
 import type { Socket } from 'socket.io-client'
 
@@ -41,6 +65,8 @@ const { userInfo } = storeToRefs(userStore)
 const { friendList } = storeToRefs(friendStore)
 
 let msgContent = ref('')
+const showEmoji = ref(false)
+const serverUrl = import.meta.env.VITE_LOCAL_SERVER + 'upload/img'
 
 const inputConfig = {
   maxLength: 300,
@@ -106,6 +132,32 @@ socket.on('get_private_msg', async (targetId: number) => {
     )
   }
 })
+
+// emoji的点击事件
+const handleEmojiClick = (detail: EmojiClickEventDetail) => {
+  msgContent.value += detail.unicode
+  showEmoji.value = false
+}
+
+messageStore.getAllImgOfMsg(userInfo.value.id, props.friend.friendInfo.id)
+
+// 图片上传成功
+const imgUploadSuccess = async (res: any, file: any) => {
+  msgContent.value = file.response.data.url
+
+  await messageStore.sendMsgToFriend(
+    userInfo.value.id,
+    props.friend.friendInfo.id,
+    msgContent.value,
+    1
+  )
+  msgContent.value = ''
+  await messageStore.getMsgRecordById(
+    userInfo.value.id,
+    props.friend.friendInfo.id
+  )
+  messageStore.getAllImgOfMsg(userInfo.value.id, props.friend.friendInfo.id)
+}
 </script>
 
 <style scoped>

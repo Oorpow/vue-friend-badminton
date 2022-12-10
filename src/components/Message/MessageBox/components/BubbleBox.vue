@@ -26,7 +26,15 @@
         :class="isUserSend(item.from_uid, '', 'flex-row-reverse')"
       >
         <div :class="isUserSend(item.from_uid, 'bubble_left', 'bubble_right')">
-          <span>{{ item.content }}</span>
+          <span v-if="item.type === 0">{{ item.content }}</span>
+          <ElImage
+            v-else
+            class="w-15 h-10 overflow-hidden"
+            :src="serverUrl + item.content"
+            fit="cover"
+            :preview-src-list="imgPreviewList"
+            @click="switchImg"
+          />
         </div>
         <div
           v-show="isUserSend(item.from_uid) && item.is_read === 1"
@@ -40,6 +48,7 @@
 <script setup lang="ts">
 import type { IMsgItem } from '@/request/api/message/types'
 import { useUserStore } from '@/stores/user'
+import { useMessageStore } from '@/stores/message'
 import { storeToRefs } from 'pinia'
 
 type Props = {
@@ -48,7 +57,14 @@ type Props = {
 
 const props = defineProps<Props>()
 const store = useUserStore()
+const messageStore = useMessageStore()
 const { userInfo } = storeToRefs(store)
+const { imgPreviewList } = storeToRefs(messageStore)
+const serverUrl = import.meta.env.VITE_LOCAL_SERVER
+
+const switchImg = () => {
+  console.log('111')
+}
 
 // 判断该信息是否是己方发送的
 const isUserSend = (id: number, leftStyle?: string, rightStyle?: string) => {
@@ -70,41 +86,35 @@ const isUserSend = (id: number, leftStyle?: string, rightStyle?: string) => {
 
 .bubble_left,
 .bubble_right {
-  display: flex;
-  align-items: center;
-  position: relative;
-  background: #fff;
-  border: 1px solid #fff;
+  border: 1px solid #f3f3f3;
   border-radius: 5px;
   padding: 7px;
   margin-top: 5px;
+  @apply flex items-center relative bg-minor;
 }
 
 .bubble_left {
-  margin-left: 10px;
+  @apply ml-1;
 }
 
 .bubble_right {
-  margin-right: 20px;
+  @apply mr-4;
 }
 
 .bubble_left::before,
 .bubble_right::before {
-  width: 0;
-  height: 0;
-  content: '';
-  position: absolute;
+  @apply w-0 h-0 content-empty absolute;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   top: 6px;
 }
 
 .bubble_left::before {
-  border-right: 10px solid #fff;
+  border-right: 10px solid #f3f3f3;
   left: -10px;
 }
 .bubble_right::before {
-  border-left: 10px solid #fff;
+  border-left: 10px solid #f3f3f3;
   right: -10px;
 }
 </style>

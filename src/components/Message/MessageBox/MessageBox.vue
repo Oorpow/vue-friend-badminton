@@ -6,7 +6,7 @@
         <span text-sm>{{ friend.friendInfo.name }}</span>
       </div>
       <!-- 聊天框主体 -->
-      <div class="message_wrapper" bg-gray-1>
+      <div class="message_wrapper">
         <!-- 聊天内容 -->
         <div class="message_content" ref="messageContentRef">
           <div p-3 relative>
@@ -15,7 +15,7 @@
           </div>
         </div>
         <!-- 聊天输入框 -->
-        <div class="h-3/10 flex flex-col justify-around px-3">
+        <div class="h-3/10 flex flex-col justify-between px-3">
           <MessageEditor :friend="friend" />
         </div>
       </div>
@@ -23,8 +23,6 @@
     <template v-else>
       <div w-full h-full relative>
         <div class="absolute left-1/2 top-1/2 translate--1/2">
-          <div>logo</div>
-          <!-- logo -->
           <h3>
             Welcome The Chat <span>{{ userInfo.name }}</span>
           </h3>

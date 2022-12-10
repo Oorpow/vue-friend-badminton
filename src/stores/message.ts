@@ -15,6 +15,7 @@ export const useMessageStore = defineStore('messageStore', {
     lastMsgList: <ILastMsg[]>[],
     unreadMap: new Map(),
     numOfUnRead: 0,
+    imgPreviewList: <string[]>[],
   }),
   actions: {
     // 获取聊天记录
@@ -32,8 +33,13 @@ export const useMessageStore = defineStore('messageStore', {
       await updateNoReaadMsgToRead(userId, friendId)
     },
     // 发送消息
-    async sendMsgToFriend(fromId: number, toId: number, content: string) {
-      await sendMsgToOneById(fromId, toId, content)
+    async sendMsgToFriend(
+      fromId: number,
+      toId: number,
+      content: string,
+      type: number = 0
+    ) {
+      await sendMsgToOneById(fromId, toId, content, type)
     },
     // 循环获取用户间聊天的最后一条信息
     getAllLastMsg(userId: number, friendList: IFriend[]) {
@@ -45,6 +51,7 @@ export const useMessageStore = defineStore('messageStore', {
             userId,
             friendId: item.friendInfo.id,
             content: res.data[res.data.length - 1].content,
+            type: res.data[res.data.length - 1].type,
           })
         }
       })
@@ -61,6 +68,18 @@ export const useMessageStore = defineStore('messageStore', {
     async getNumOfAllUnRead(userId: number) {
       const res = await getAmountOfNoReadMsg(userId)
       this.numOfUnRead = res.data.length
+    },
+    // 获取好友聊天之间的所有图片，组成预览列表
+    async getAllImgOfMsg(userId: number, friendId: number) {
+      await this.getMsgRecordById(userId, friendId)
+      this.imgPreviewList.length = 0
+      this.msgList.forEach((item) => {
+        if (item.type === 1) {
+          this.imgPreviewList.unshift(
+            import.meta.env.VITE_LOCAL_SERVER + item.content
+          )
+        }
+      })
     },
   },
 })

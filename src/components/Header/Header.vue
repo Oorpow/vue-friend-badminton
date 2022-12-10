@@ -1,33 +1,45 @@
 <template>
   <div class="header">
-    <div class="w-1/4">LOGO</div>
-    <div>
-      <template v-for="(item, i) in navList" :key="i">
-        <span mx-1 cursor-pointer>{{ item }}</span>
-      </template>
-    </div>
-    <div class="flex items-center">
-      <template v-if="getToken !== ''">
-        <!-- 消息提醒 -->
-        <NotifyMessage
-          :unreadNums="numOfUnRead"
-          :receiveList="getFriendBellList"
-        />
-        <ElAvatar>{{ userInfo.name.slice(0, 1) }}</ElAvatar>
-        <!-- 发布帖子 -->
-        <ElButton ml-2 @click="navToProduceView">投稿</ElButton>
-        <ElButton @click="userLogout">退出登录</ElButton>
-      </template>
-      <template v-else>
-        <!-- 未登录 -->
-        <ElButton
-          @click="isShowDialog = true"
-          circle
-          type="primary"
-          style="padding: 3px"
-          >登录</ElButton
-        >
-      </template>
+    <div flex justify-around items-center w-full>
+      <!-- logo -->
+      <div class="flex w-1/5 items-center">
+        <div mr-4 cursor-pointer @click="navToTargetRoute('/')">
+          <img src="@/assets/images/logo/logo.png" alt="" />
+        </div>
+        <!-- 路由 -->
+        <div>
+          <template v-for="(item, i) in navList" :key="i">
+            <span mx-1 cursor-pointer font-bold text-lg>{{ item }}</span>
+          </template>
+        </div>
+      </div>
+      <!-- 搜索框 -->
+      <div class="w-1/3">
+        <ElInput :suffix-icon="Search" />
+      </div>
+      <!-- 设置区域 -->
+      <div class="flex items-center">
+        <template v-if="getToken !== ''">
+          <ElAvatar>{{ userInfo.name.slice(0, 1) }}</ElAvatar>
+          <!-- 设置菜单 -->
+          <SettingOptions />
+          <!-- 消息提醒 -->
+          <NotifyMessage
+            :unreadNums="numOfUnRead"
+            :receiveList="getFriendBellList"
+          />
+        </template>
+        <template v-else>
+          <!-- 未登录 -->
+          <ElButton
+            @click="isShowDialog = true"
+            circle
+            type="primary"
+            style="padding: 3px"
+            >登录</ElButton
+          >
+        </template>
+      </div>
     </div>
   </div>
   <Teleport to="body">
@@ -40,17 +52,18 @@
 <script setup lang="ts">
 import { ref, inject, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
 import type { Socket } from 'socket.io-client'
 import type { IFriendReq } from '@/request/api/friend/types'
 import { useMessageStore } from '@/stores/message'
+import { useRouter } from 'vue-router'
 
 const socket: Socket = inject('socket') as Socket
-const router = useRouter()
 
+const router = useRouter()
 const store = useUserStore()
 const friendStore = useFriendStore()
 const messageStore = useMessageStore()
@@ -61,18 +74,8 @@ const { numOfUnRead } = storeToRefs(messageStore)
 const navList = ['羽坛动态', '神兵利器']
 let isShowDialog = ref(false)
 
-const navToProduceView = () => {
-  router.push({
-    path: '/produce',
-  })
-}
-
-// 用户退出登录
-const userLogout = async () => {
-  // 通知好友，该用户已离线
-  await store.logout(userInfo.value.id)
-  socket.emit('offline', userInfo.value.name)
-  router.replace('/')
+const navToTargetRoute = (path: string) => {
+  router.push(path)
 }
 
 watchEffect(() => {
@@ -147,6 +150,7 @@ watchEffect(() => {
 
 <style scoped>
 .header {
-  @apply flex justify-around items-center h-6;
+  box-shadow: 0px 4px 8px rgba(178, 199, 210, 0.3);
+  @apply flex justify-center items-center relative z-3 h-6 bg-primary;
 }
 </style>

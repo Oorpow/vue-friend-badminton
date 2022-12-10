@@ -12,7 +12,7 @@
       <div bg-white rounded flex h-75>
         <!-- 左侧好友列表 -->
         <div class="friend_list">
-          <div p-3>
+          <div p-3 bg-gray-1>
             <span text-sm text-gray-4>好友列表</span>
           </div>
           <!-- 好友列表 -->
@@ -101,8 +101,7 @@ onMounted(() => {
 .message_main {
   width: 100%;
   height: calc(100vh - 60px);
-  background: url('https://wallpapercave.com/wp/wp1852919.jpg') no-repeat;
-  background-size: cover;
+  background: rgb(243, 243, 243);
 }
 
 .message_main .message_main_head {
@@ -110,7 +109,9 @@ onMounted(() => {
 }
 
 .message_main .friend_list {
-  @apply w-25 flex flex-col mx-auto b-r-1 border-gray-2;
+  box-shadow: 3px 0px 21px rgba(101, 101, 101, 0.22);
+  background: #f4f4f4;
+  @apply w-25 flex flex-col mx-auto;
 }
 
 .message_main .friend_list_container {

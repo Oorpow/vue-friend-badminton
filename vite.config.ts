@@ -17,6 +17,8 @@ export default defineConfig({
       rules: [
         [/^h-(\d+)$/, ([, d]) => ({ height: `${Number(d) * 10}px` })],
         [/^w-(\d+)$/, ([, d]) => ({ width: `${Number(d) * 10}px` })],
+        ['bg-primary', { 'background-color': '#eef5f9' }],
+        ['bg-minor', { 'background-color': '#f3f3f3' }],
       ],
       transformers: [transformerDirectives()],
     }),
@@ -32,13 +34,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  // server: {
-  //   proxy: {
-  //     '/api': {
-  //       target: 'http://localhost:8000',
-  //       changeOrigin: true,
-  //       rewrite: (path) => path.replace(/^\/api/, ''),
-  //     },
-  //   },
-  // },
 })

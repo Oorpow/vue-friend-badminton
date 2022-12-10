@@ -30,7 +30,8 @@ export const updateNoReaadMsgToRead = (userId: number, friendId: number) =>
 export const sendMsgToOneById = (
   fromId: number,
   toId: number,
-  content: string
+  content: string,
+  type: number = 0
 ) =>
   opRequest.post({
     url: '/message',
@@ -38,5 +39,6 @@ export const sendMsgToOneById = (
       fromId,
       toId,
       content,
+      type,
     },
   })
