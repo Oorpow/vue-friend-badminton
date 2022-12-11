@@ -4,6 +4,7 @@ import { ElMessage } from 'element-plus'
 import {
   createInvitation,
   getAllInvitation,
+  getInvitationByTag,
   getOneInvitation,
 } from '@/request/api/invitation'
 import type { Invitation, InvitationInfo } from '@/request/api/invitation/types'
@@ -14,6 +15,7 @@ export const useInvitationStore = defineStore('invitationStore', {
       invitationList: <InvitationInfo[]>[],
       invitationInfo: <InvitationInfo>{},
       otherInvitation: <InvitationInfo[]>[],
+      invitationListByTag: <InvitationInfo[]>[],
     }
   },
   actions: {
@@ -51,6 +53,12 @@ export const useInvitationStore = defineStore('invitationStore', {
         (item: InvitationInfo) => item.invitation_id !== id
       )
       this.otherInvitation = result
+    },
+    // 按照分类获取动态
+    async getInvitationByTagId(id: number) {
+      const res = await getInvitationByTag(id)
+      this.invitationListByTag.length = 0
+      this.invitationListByTag.push(...res.data)
     },
   },
   getters: {

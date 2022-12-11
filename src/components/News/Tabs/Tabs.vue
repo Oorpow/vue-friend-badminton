@@ -1,50 +1,53 @@
 <template>
-  <div class="mx-auto my-5">
-    <div w-full flex shadow-xl justify-center>
-      <template v-for="(_, tab) in tabs" :key="tab">
-        <div
-          class="tab_item"
-          :class="tab === currentTab ? 'tab_item_span_active' : ''"
-          @click="changeTab(tab)"
-        >
-          <span class="tab_item_span">{{
-            tab === 'LatestNews' ? '最新' : '全部'
-          }}</span>
+  <div class="w-6.5/10 my-10">
+    <ElTabs v-model="activeTab" @tab-click="changeTab">
+      <ElTabPane
+        v-for="tab in tagList"
+        :key="tab.id"
+        :label="tab.name"
+        :name="tab.id"
+      >
+        <div>
+          <KeepAlive>
+            <NewsItem :list="invitationListByTag" />
+          </KeepAlive>
         </div>
-      </template>
-    </div>
-
-    <KeepAlive>
-      <component :is="(tabs as any)[currentTab]"></component>
-    </KeepAlive>
+      </ElTabPane>
+    </ElTabs>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import LatestNews from '../LatestNews/LatestNews.vue'
-import AllNews from '../AllNews/AllNews.vue'
+import { storeToRefs } from 'pinia'
+import { useInvitationStore } from '@/stores/invitation'
+import type { ITag } from '@/request/api/tag/types'
+import type { TabsPaneContext } from 'element-plus'
 
-const tabs = {
-  LatestNews,
-  AllNews,
+type Props = {
+  tagList: ITag[]
 }
+defineProps<Props>()
 
-const currentTab = ref('LatestNews')
+const activeTab = ref(1)
 
-const changeTab = (tab: any) => {
-  currentTab.value = tab
+const invitationStore = useInvitationStore()
+invitationStore.getInvitationByTagId(activeTab.value)
+const { invitationListByTag } = storeToRefs(invitationStore)
+
+const changeTab = (tab: TabsPaneContext) => {
+  invitationStore.getInvitationByTagId(tab.paneName as number)
 }
 </script>
 
 <style scoped>
 .tab_item {
-  @apply flex w-1/4 h-8 items-center justify-center border-gray-3 cursor-pointer hover:border-b-3 hover:border-blue-5 transition;
+  /* @apply flex w-1/4 h-8 items-center justify-center border-gray-3 cursor-pointer hover:border-b-3 hover:border-blue-5 transition; */
 }
 .tab_item .tab_item_span {
-  @apply block w-5/10 text-center;
+  /* @apply block w-5/10 text-center; */
 }
 .tab_item_span_active {
-  @apply border-blue-5 border-b-3;
+  /* @apply border-blue-5 border-b-3; */
 }
 </style>

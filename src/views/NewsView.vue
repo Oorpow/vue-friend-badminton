@@ -1,21 +1,25 @@
 <template>
+  <Header />
   <div class="news_page">
-    <Header />
-    <!-- banner -->
-    <div flex flex-col>
-      <div class="news_page_banner w-full h-36"></div>
+    <div class="w-9/10 mx-auto flex justify-between">
+      <!-- tabs -->
+      <Tabs :tagList="tagList" />
+      <!-- 右侧推荐栏 -->
+      <div class="w-1/4 flex border-l-1 border-gray-2 px-4 py-3">
+        <div>12321</div>
+      </div>
     </div>
-    <!-- tabs -->
-    <Tabs />
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useTagStore } from '@/stores/tag'
 
-<style scoped>
-.news_page_banner {
-  background: url('http://www.yonex.cn/public/uploads/20210723/cc9de45d958bbc71526ce72c159db73c.jpg')
-    no-repeat;
-  background-size: cover;
-}
-</style>
+const tagStore = useTagStore()
+const { tagList } = storeToRefs(tagStore)
+
+tagStore.getTagList()
+</script>
+
+<style scoped></style>

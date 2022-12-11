@@ -17,3 +17,9 @@ export const getOneInvitation = (id: number) =>
   opRequest.get<IResData<InvitationInfo[]>>({
     url: `/invitation/${id}`,
   })
+
+// 按照分类获取帖子
+export const getInvitationByTag = (id: number) =>
+  opRequest.get<IResData<InvitationInfo[]>>({
+    url: `/invitation/tag/${id}`,
+  })
