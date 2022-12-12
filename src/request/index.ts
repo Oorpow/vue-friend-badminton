@@ -82,6 +82,10 @@ class OpRequest {
   put<T>(config: OpRequestConfig): Promise<T> {
     return this.instance.request({ ...config, method: 'PUT' })
   }
+
+  patch<T>(config: OpRequestConfig): Promise<T> {
+    return this.instance.request({ ...config, method: 'PATCH' })
+  }
 }
 
 export default OpRequest

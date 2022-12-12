@@ -20,4 +20,11 @@ export interface InvitationInfo {
   userInfo: IUserInfo
   tagList: ITag[]
   createAt: string
+  stars: number
+}
+
+export interface ILikes {
+  id: number
+  user_id: number
+  invitation_id: number
 }

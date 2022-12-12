@@ -1,25 +1,28 @@
 <template>
   <Header />
-  <div class="news_page">
-    <div class="w-9/10 mx-auto flex justify-between">
+  <div class="news_page relative">
+    <div class="w-7/10 mx-auto my-10 flex justify-around relative">
       <!-- tabs -->
-      <Tabs :tagList="tagList" />
+      <NewsList />
       <!-- 右侧推荐栏 -->
-      <div class="w-1/4 flex border-l-1 border-gray-2 px-4 py-3">
-        <div>12321</div>
+      <div class="w-1/4">
+        <div sticky top-5>
+          <RecommendBox>
+            <template #title>
+              <span text-sm text-gray-4>品牌推荐</span>
+            </template>
+          </RecommendBox>
+          <RecommendBox>
+            <template #title>
+              <span text-sm text-gray-4>人气球员</span>
+            </template>
+          </RecommendBox>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useTagStore } from '@/stores/tag'
-
-const tagStore = useTagStore()
-const { tagList } = storeToRefs(tagStore)
-
-tagStore.getTagList()
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

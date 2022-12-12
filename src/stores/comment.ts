@@ -6,12 +6,14 @@ import type {
   ICommentForm,
   ISpecialComment,
 } from '@/request/api/comment/types'
+import type { InvitationInfo } from '@/request/api/invitation/types'
 
 export const useCommentStore = defineStore('commentStore', {
   state: () => {
     return {
       commentList: <IComment[]>[],
       commentListWithControl: <ISpecialComment[]>[],
+      commentMap: new Map(),
     }
   },
   actions: {
@@ -45,6 +47,13 @@ export const useCommentStore = defineStore('commentStore', {
         }
       })
       return arr
+    },
+    // 获取全部动态各自的评论数量
+    async getAllCommentByOneSelf(list: InvitationInfo[]) {
+      list.forEach(async (item) => {
+        const res = await getAllCommentById(item.invitation_id)
+        this.commentMap.set(item.invitation_id, res.data.length)
+      })
     },
   },
 })

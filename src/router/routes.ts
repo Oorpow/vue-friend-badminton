@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/news',
+    path: '/news/:type',
     name: 'news',
     component: () => import('@/views/NewsView.vue'),
   },

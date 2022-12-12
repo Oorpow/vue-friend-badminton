@@ -1,13 +1,20 @@
+import { starOrUnstarInvitation } from './../request/api/invitation/index'
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 
 import {
   createInvitation,
   getAllInvitation,
+  getAllStarredInvitation,
   getInvitationByTag,
   getOneInvitation,
+  starredInvitation,
 } from '@/request/api/invitation'
-import type { Invitation, InvitationInfo } from '@/request/api/invitation/types'
+import type {
+  ILikes,
+  Invitation,
+  InvitationInfo,
+} from '@/request/api/invitation/types'
 
 export const useInvitationStore = defineStore('invitationStore', {
   state: () => {
@@ -16,6 +23,7 @@ export const useInvitationStore = defineStore('invitationStore', {
       invitationInfo: <InvitationInfo>{},
       otherInvitation: <InvitationInfo[]>[],
       invitationListByTag: <InvitationInfo[]>[],
+      starredList: <ILikes[]>[],
     }
   },
   actions: {
@@ -59,6 +67,27 @@ export const useInvitationStore = defineStore('invitationStore', {
       const res = await getInvitationByTag(id)
       this.invitationListByTag.length = 0
       this.invitationListByTag.push(...res.data)
+    },
+    // 判断用户是否点赞过某个帖子
+    async judgeStarredInvitation(userId: number, invitationId: number) {
+      const res = await starredInvitation(userId, invitationId)
+      // T 有
+      return res.message === 'T'
+    },
+    // 获取用户点赞过的所有帖子
+    async findAllStarredInvitation(userId: number) {
+      const res = await getAllStarredInvitation(userId)
+      this.starredList.length = 0
+      this.starredList.push(...res.data)
+    },
+    // 点赞或取消点赞
+    async starOrUnstarInvitationById(
+      userId: number,
+      invitationId: number,
+      type: number
+    ) {
+      // 默认点赞
+      await starOrUnstarInvitation(userId, invitationId, type)
     },
   },
   getters: {
