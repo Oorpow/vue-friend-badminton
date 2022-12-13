@@ -1,9 +1,9 @@
 <template>
   <Header />
-  <div class="detail">
-    <div class="detail_main">
+  <div class="w-9/10 mx-auto mt-3">
+    <div class="flex my-10 justify-around">
       <!-- left -->
-      <div class="w-7/10 flex flex-col p-r-3">
+      <div class="w-6/10 flex flex-col p-3 bg-white rounded-lg">
         <!-- 文章主体 -->
         <template v-if="flag">
           <ArticleItem :invitationInfo="getTargetInvitation" />
@@ -15,12 +15,26 @@
         />
       </div>
       <!-- 右侧其它文章区域 -->
-      <div class="detail_main_right">
+      <div class="w-35 flex flex-col">
         <div>
-          <span>其它动态</span>
-          <template v-for="item in otherInvitation" :key="item.invitation_id">
-            <OtherArticleItem :invitationInfo="item" />
+          <template v-if="flag">
+            <AuthorInfo
+              :invitationInfo="getTargetInvitation"
+              :isFriend="isFriend"
+              :isMySelf="isMySelf"
+            />
           </template>
+          <div bg-white rounded-lg border-1 border-gray-2 mt-5>
+            <div h-4 rounded-t-lg bg-gray-4 flex items-center>
+              <span ml-2 text-white text-sm>相关推荐</span>
+            </div>
+            <template v-for="item in otherInvitation" :key="item.invitation_id">
+              <OtherArticleItem
+                :invitationInfo="item"
+                :commentMap="commentMap"
+              />
+            </template>
+          </div>
         </div>
       </div>
     </div>
@@ -33,22 +47,43 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useInvitationStore } from '@/stores/invitation'
 import { useCommentStore } from '@/stores/comment'
+import { useFriendStore } from '@/stores/friend'
+import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
 const invitationStore = useInvitationStore()
 const commentStore = useCommentStore()
+const friendStore = useFriendStore()
+const userStore = useUserStore()
 const { getTargetInvitation, otherInvitation } = storeToRefs(invitationStore)
-const { commentList, commentListWithControl } = storeToRefs(commentStore)
+const { commentListWithControl, commentMap } = storeToRefs(commentStore)
+const { friendList } = storeToRefs(friendStore)
+const { userInfo } = storeToRefs(userStore)
 
 let currentInvitationId = ref(0)
+let isFriend = ref(false)
+let isMySelf = ref(false)
 
 // 监听params参数的变化
 watch(
   router.currentRoute,
-  (newVal, oldVal) => {
+  async (newVal) => {
     currentInvitationId.value = Number(newVal.params.id)
-    invitationStore.getInvitationById(Number(currentInvitationId.value))
-    invitationStore.getOtherInvitation(Number(currentInvitationId.value))
+    await invitationStore.getInvitationById(currentInvitationId.value)
+    await commentStore.getCommentListById(currentInvitationId.value)
+    invitationStore.getOtherInvitation(currentInvitationId.value).then(() => {
+      commentStore.getAllCommentByOneSelf(otherInvitation.value)
+    })
+
+    // 判断这个帖子是否是好友写的
+    friendStore.getFriendListById(userInfo.value.id).then(() => {
+      const result = friendList.value.some(
+        (item) => item.friendInfo.id === getTargetInvitation.value.invitation_id
+      )
+      isMySelf.value =
+        getTargetInvitation.value.userInfo.id === userInfo.value.id
+      isFriend.value = result
+    })
   },
   {
     immediate: true,
@@ -66,14 +101,4 @@ watchEffect(() => {
 commentStore.getCommentListById(currentInvitationId.value)
 </script>
 
-<style scoped>
-.detail {
-  @apply w-8.5/10 mx-auto mt-3;
-}
-.detail_main {
-  @apply flex;
-}
-.detail_main .detail_main_right {
-  @apply flex flex-col flex-1;
-}
-</style>
+<style scoped></style>

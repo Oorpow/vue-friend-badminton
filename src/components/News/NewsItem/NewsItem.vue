@@ -7,8 +7,10 @@
     border-gray-2
     bg-white
     rounded-lg
+    cursor-pointer
     v-for="item in list"
     :key="item.invitation_id"
+    @click="navToNewsDetail(item.invitation_id)"
   >
     <div flex items-center justify-between>
       <div>
@@ -124,7 +126,7 @@ import {
 import { useInvitationStore } from '@/stores/invitation'
 import type { InvitationInfo } from '@/request/api/invitation/types'
 import { useUserStore } from '@/stores/user'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 type Props = {
   list: InvitationInfo[]
@@ -135,6 +137,7 @@ const props = defineProps<Props>()
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 
 const route = useRoute()
+const router = useRouter()
 const userStore = useUserStore()
 const invitationStore = useInvitationStore()
 const { userInfo } = storeToRefs(userStore)
@@ -171,6 +174,11 @@ const handleStar = async (invitationId: number) => {
       invitationStore.getInvitationByTagId(Number(route.params.type))
     }
   }
+}
+
+// 导航至详情页
+const navToNewsDetail = (id: number) => {
+  router.push(`/news_det/${id}`)
 }
 </script>
 

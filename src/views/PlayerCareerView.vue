@@ -2,6 +2,7 @@
   <div class="career_page">
     <!-- 生涯背景图 -->
     <div
+      v-show="currentPlayer.bannerImg"
       class="w-full h-40"
       :style="{
         backgroundImage: `url(${serverUrl + getCurrentPlayer.bannerImg})`,
@@ -58,7 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 
@@ -68,7 +68,7 @@ const route = useRoute()
 const store = usePlayerStore()
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 
-const { getCurrentPlayer } = storeToRefs(store)
+const { getCurrentPlayer, currentPlayer } = storeToRefs(store)
 store.getTargetPlayer(Number(route.params.id))
 </script>
 

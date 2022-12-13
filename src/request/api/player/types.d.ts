@@ -12,6 +12,7 @@ export type PlayerItem = {
   bannerImg: string
   cnName: string
   equipmentList: Equipment[]
+  avatar: string
 }
 
 export interface IHonorItem {

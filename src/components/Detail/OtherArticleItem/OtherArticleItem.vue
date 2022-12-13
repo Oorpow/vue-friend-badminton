@@ -1,37 +1,78 @@
 <template>
-  <div flex my-3 cursor-pointer @click="navToArticle">
-    <div class="w-14 h-10 rounded-sm">
-      <img :src="serverUrl + invitationInfo.img" alt="" w-full h-full />
+  <div
+    flex
+    flex-col
+    cursor-pointer
+    p-3
+    border-b-1
+    border-gray-2
+    @click="navToArticle"
+  >
+    <div>
+      <ElAvatar size="small">{{
+        invitationInfo.userInfo.name.slice(0, 1)
+      }}</ElAvatar>
+      <span ml-2 text-sm>{{ invitationInfo.userInfo.name }}</span>
     </div>
-    <div flex flex-col flex-1 ml-1 justify-between>
-      <p class="article_title">
-        {{ invitationInfo.title }}
-      </p>
-      <div flex flex-col>
-        <span text-sm text-gray-4>{{ invitationInfo.userInfo.name }}</span>
-        <span text-sm text-gray-4>{{ postTime }}</span>
+    <div m-auto>
+      <ElImage
+        :src="serverUrl + invitationInfo.img"
+        fit="cover"
+        alt=""
+        style="width: 140px; height: 140px"
+      />
+    </div>
+    <div>
+      <span text-sm text-gray-5>{{ invitationInfo.title }}</span>
+    </div>
+    <div flex mt-2>
+      <div flex items-center>
+        <ElIcon color="#9ca3af">
+          <Star />
+        </ElIcon>
+        <span ml-1 text-sm text-gray-4>{{
+          invitationInfo.stars === 0 ? '' : invitationInfo.stars
+        }}</span>
+      </div>
+      <div flex items-center mx-3>
+        <ElIcon color="#9ca3af">
+          <ChatLineSquare />
+        </ElIcon>
+        <template v-for="(v, k) in commentMap" :key="k">
+          <span
+            ml-1
+            text-sm
+            text-gray-4
+            v-show="v[0] === invitationInfo.invitation_id"
+            >{{ v[1] === 0 ? '' : v[1] }}</span
+          >
+        </template>
+      </div>
+      <div flex items-center>
+        <ElIcon color="#9ca3af">
+          <Timer />
+        </ElIcon>
+        <span ml-1 text-sm text-gray-4>{{
+          $formatTime.format(invitationInfo.createAt)
+        }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { Star, ChatLineSquare, Timer } from '@element-plus/icons-vue'
 import type { InvitationInfo } from '@/request/api/invitation/types'
 
 type Props = {
   invitationInfo: InvitationInfo
+  commentMap: Map<number, number>
 }
 
 const props = defineProps<Props>()
 const router = useRouter()
-const app = getCurrentInstance()
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
-
-const postTime = computed(() =>
-  app?.proxy?.$formatTime.format(props.invitationInfo.createAt)
-)
 
 const navToArticle = () => {
   router.push({

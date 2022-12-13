@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     AccountFriendRequest: typeof import('./src/components/Account/AccountFriendRequest/AccountFriendRequest.vue')['default']
     AccountHome: typeof import('./src/components/Account/AccountHome.vue')['default']
     ArticleItem: typeof import('./src/components/Detail/ArticleItem/ArticleItem.vue')['default']
+    AuthorInfo: typeof import('./src/components/Detail/AuthorInfo/AuthorInfo.vue')['default']
     BubbleBox: typeof import('./src/components/Message/MessageBox/components/BubbleBox.vue')['default']
     Carousel: typeof import('./src/components/Carousel/Carousel.vue')['default']
     Comment: typeof import('./src/components/Detail/Comment/Comment.vue')['default']
@@ -31,9 +32,6 @@ declare module '@vue/runtime-core' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
-    ElTabPane: typeof import('element-plus/es')['ElTabPane']
-    ElTabs: typeof import('element-plus/es')['ElTabs']
-    ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     EquipmentItem: typeof import('./src/components/Player/EquipmentItem/EquipmentItem.vue')['default']
@@ -55,6 +53,5 @@ declare module '@vue/runtime-core' {
     SettingOptions: typeof import('./src/components/Header/SettingOptions.vue')['default']
     StarItem: typeof import('./src/components/Home/Stars/StarItem.vue')['default']
     Stars: typeof import('./src/components/Home/Stars/Stars.vue')['default']
-    Tabs: typeof import('./src/components/News/Tabs/Tabs.vue')['default']
   }
 }
