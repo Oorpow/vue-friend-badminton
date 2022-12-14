@@ -1,4 +1,7 @@
-import { starOrUnstarInvitation } from './../request/api/invitation/index'
+import {
+  getAllInvitationByUserPosted,
+  starOrUnstarInvitation,
+} from './../request/api/invitation/index'
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 
@@ -20,6 +23,7 @@ export const useInvitationStore = defineStore('invitationStore', {
   state: () => {
     return {
       invitationList: <InvitationInfo[]>[],
+      postedInvitationList: <InvitationInfo[]>[],
       invitationInfo: <InvitationInfo>{},
       otherInvitation: <InvitationInfo[]>[],
       invitationListByTag: <InvitationInfo[]>[],
@@ -88,6 +92,12 @@ export const useInvitationStore = defineStore('invitationStore', {
     ) {
       // 默认点赞
       await starOrUnstarInvitation(userId, invitationId, type)
+    },
+    // 获取用户发布过的帖子
+    async getUserPostedInvitation(id: number) {
+      const res = await getAllInvitationByUserPosted(id)
+      this.postedInvitationList.length = 0
+      this.postedInvitationList.push(...res.data)
     },
   },
   getters: {

@@ -30,3 +30,9 @@ export const userSearchByName = (username: string) =>
       username,
     },
   })
+
+// 根据id查询用户信息
+export const userInfoGetById = (id: number) =>
+  opRequest.get<IResData<IUserInfo>>({
+    url: `/user/${id}`,
+  })

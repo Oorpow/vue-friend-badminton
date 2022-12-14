@@ -1,13 +1,13 @@
 <template>
   <div
     my-10
-    first:mt-0
     p-3
     border-1
     border-gray-2
     bg-white
     rounded-lg
     cursor-pointer
+    :style="styleConfig"
     v-for="item in list"
     :key="item.invitation_id"
     @click="navToNewsDetail(item.invitation_id)"
@@ -114,6 +114,7 @@
 </template>
 
 <script setup lang="ts">
+import type { StyleValue } from 'vue'
 import { storeToRefs } from 'pinia'
 import { ElNotification } from 'element-plus'
 import {
@@ -131,6 +132,7 @@ import { useRoute, useRouter } from 'vue-router'
 type Props = {
   list: InvitationInfo[]
   commentMap: Map<number, number>
+  styleConfig?: StyleValue
 }
 const props = defineProps<Props>()
 

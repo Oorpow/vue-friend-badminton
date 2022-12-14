@@ -13,6 +13,12 @@ export const getAllInvitation = () =>
     url: '/invitation',
   })
 
+// 获取用户发布的帖子
+export const getAllInvitationByUserPosted = (id: number) =>
+  opRequest.get<IResData<InvitationInfo[]>>({
+    url: `/invitation/user/${id}`,
+  })
+
 export const getOneInvitation = (id: number) =>
   opRequest.get<IResData<InvitationInfo[]>>({
     url: `/invitation/${id}`,

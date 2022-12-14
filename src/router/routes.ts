@@ -59,6 +59,11 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: '/space/:id',
+    name: 'space',
+    component: () => import('@/views/SpaceView.vue'),
+  },
 ]
 
 export default routes

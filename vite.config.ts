@@ -19,6 +19,7 @@ export default defineConfig({
         [/^w-(\d+)$/, ([, d]) => ({ width: `${Number(d) * 10}px` })],
         ['bg-primary', { 'background-color': '#eef5f9' }],
         ['bg-minor', { 'background-color': '#f3f3f3' }],
+        ['bg-color-primary', { 'background-color': '#3b82f6' }],
       ],
       transformers: [transformerDirectives()],
     }),

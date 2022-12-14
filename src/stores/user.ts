@@ -1,3 +1,4 @@
+import { userInfoGetById } from './../request/api/user/index'
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 
@@ -19,6 +20,7 @@ export const useUserStore = defineStore('userStore', {
       userInfo: <IUserInfo>{},
       token: '',
       userList: <IUserInfo[]>[],
+      spaceUserInfo: <IUserInfo>{},
     }
   },
   persist: {
@@ -61,6 +63,11 @@ export const useUserStore = defineStore('userStore', {
         this.userList.length = 0
         this.userList.push(...res.data)
       }
+    },
+    // 根据id获取用户信息
+    async getUserInfoById(id: number) {
+      const res = await userInfoGetById(id)
+      this.spaceUserInfo = { ...res.data }
     },
   },
   getters: {
