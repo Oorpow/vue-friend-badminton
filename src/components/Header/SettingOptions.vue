@@ -9,7 +9,9 @@
           <ElDropdownItem :icon="EditPen" @click="navToTargetRoute('/produce')"
             >投稿</ElDropdownItem
           >
-          <ElDropdownItem :icon="User" @click="navToTargetRoute('/account')"
+          <ElDropdownItem
+            :icon="User"
+            @click="navToTargetRoute(`/space/${userInfo.id}`)"
             >个人中心</ElDropdownItem
           >
           <ElDropdownItem :icon="Switch" divided @click="userLogout"

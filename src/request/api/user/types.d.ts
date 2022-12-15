@@ -14,6 +14,7 @@ export interface IUserInfo {
   name: string
   avatar: string
   status: number
+  space_bg: string
 }
 
 export interface ILoginData {

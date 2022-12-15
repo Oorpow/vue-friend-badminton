@@ -1,4 +1,3 @@
-import { userInfoGetById } from './../request/api/user/index'
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 
@@ -7,6 +6,9 @@ import {
   userRegister,
   userSearchByName,
   userLogout,
+  updateUserBg,
+  userInfoGetById,
+  updateUserAvatar,
 } from '@/request/api/user'
 import type {
   ILoginForm,
@@ -68,6 +70,14 @@ export const useUserStore = defineStore('userStore', {
     async getUserInfoById(id: number) {
       const res = await userInfoGetById(id)
       this.spaceUserInfo = { ...res.data }
+    },
+    // 用户更新空间背景
+    async updateUserSpaceBg(id: number, url: string) {
+      await updateUserBg(id, url)
+    },
+    // 更新用户头像
+    async updateUserAvatar(id: number, url: string) {
+      await updateUserAvatar(id, url)
     },
   },
   getters: {

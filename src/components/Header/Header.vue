@@ -51,15 +51,15 @@
 
 <script setup lang="ts">
 import { ref, inject, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { ElNotification } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
+import { useMessageStore } from '@/stores/message'
 import type { Socket } from 'socket.io-client'
 import type { IFriendReq } from '@/request/api/friend/types'
-import { useMessageStore } from '@/stores/message'
-import { useRouter } from 'vue-router'
 
 const socket: Socket = inject('socket') as Socket
 

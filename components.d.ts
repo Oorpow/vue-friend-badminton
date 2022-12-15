@@ -33,9 +33,8 @@ declare module '@vue/runtime-core' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
-    ElTabPane: typeof import('element-plus/es')['ElTabPane']
-    ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     EquipmentItem: typeof import('./src/components/Player/EquipmentItem/EquipmentItem.vue')['default']
     FriendItem: typeof import('./src/components/Message/FriendItem/FriendItem.vue')['default']
     FriendSearch: typeof import('./src/components/Message/FriendSearch/FriendSearch.vue')['default']
@@ -54,9 +53,10 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SettingOptions: typeof import('./src/components/Header/SettingOptions.vue')['default']
     SpaceFriend: typeof import('./src/components/Space/SpaceFriend/SpaceFriend.vue')['default']
-    SpaceFriends: typeof import('./src/components/Space/SpaceFriends/SpaceFriends.vue')['default']
     SpaceInvitation: typeof import('./src/components/Space/SpaceInvitation/SpaceInvitation.vue')['default']
     StarItem: typeof import('./src/components/Home/Stars/StarItem.vue')['default']
     Stars: typeof import('./src/components/Home/Stars/Stars.vue')['default']
+    Test: typeof import('./src/components/Space/Test.vue')['default']
+    UploadCpn: typeof import('./src/components/Space/UploadCpn/UploadCpn.vue')['default']
   }
 }

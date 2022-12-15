@@ -36,3 +36,22 @@ export const userInfoGetById = (id: number) =>
   opRequest.get<IResData<IUserInfo>>({
     url: `/user/${id}`,
   })
+
+// 用户修改空间背景图片
+export const updateUserBg = (userId: number, url: string) =>
+  opRequest.patch({
+    url: '/user/bg',
+    data: {
+      userId,
+      url,
+    },
+  })
+
+export const updateUserAvatar = (userId: number, url: string) =>
+  opRequest.patch({
+    url: '/user/avatar',
+    data: {
+      userId,
+      url,
+    },
+  })

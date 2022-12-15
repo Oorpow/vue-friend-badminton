@@ -27,6 +27,7 @@
         v-model="msgContent"
         v-bind="inputConfig"
         @keydown.enter="sendMsg($event)"
+        resize="none"
       />
     </div>
   </div>
@@ -73,11 +74,10 @@ const inputConfig = {
   placeholder: '',
   type: 'textarea',
   rows: 2,
-  resize: 'none',
 }
 
 // 发送消息
-const sendMsg = async (event: Event, type?: number) => {
+const sendMsg = async (event?: Event, type?: number) => {
   // 离线状态, 直接调接口发送离线消息
   if (props.friend.friendInfo.status === 0) {
     await messageStore.sendMsgToFriend(
