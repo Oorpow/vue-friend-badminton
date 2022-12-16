@@ -1,4 +1,5 @@
 import {
+  getAllInvitationByKeywords,
   getAllInvitationByUserPosted,
   starOrUnstarInvitation,
 } from './../request/api/invitation/index'
@@ -17,6 +18,7 @@ import type {
   ILikes,
   Invitation,
   InvitationInfo,
+  InvitationSearch,
 } from '@/request/api/invitation/types'
 
 export const useInvitationStore = defineStore('invitationStore', {
@@ -28,6 +30,7 @@ export const useInvitationStore = defineStore('invitationStore', {
       otherInvitation: <InvitationInfo[]>[],
       invitationListByTag: <InvitationInfo[]>[],
       starredList: <ILikes[]>[],
+      invitationSearchList: <InvitationSearch[]>[],
     }
   },
   actions: {
@@ -98,6 +101,12 @@ export const useInvitationStore = defineStore('invitationStore', {
       const res = await getAllInvitationByUserPosted(id)
       this.postedInvitationList.length = 0
       this.postedInvitationList.push(...res.data)
+    },
+    // 模糊查询帖子
+    async getInvitationBySearchVal(val: string) {
+      const res = await getAllInvitationByKeywords(val)
+      this.invitationSearchList.length = 0
+      this.invitationSearchList.push(...res.data)
     },
   },
   getters: {

@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     AccountHome: typeof import('./src/components/Account/AccountHome.vue')['default']
     ArticleItem: typeof import('./src/components/Detail/ArticleItem/ArticleItem.vue')['default']
     AuthorInfo: typeof import('./src/components/Detail/AuthorInfo/AuthorInfo.vue')['default']
+    Avatar: typeof import('./src/components/Header/Avatar.vue')['default']
     BubbleBox: typeof import('./src/components/Message/MessageBox/components/BubbleBox.vue')['default']
     Carousel: typeof import('./src/components/Carousel/Carousel.vue')['default']
     Comment: typeof import('./src/components/Detail/Comment/Comment.vue')['default']
@@ -51,12 +52,14 @@ declare module '@vue/runtime-core' {
     RecommendBox: typeof import('./src/components/News/RecommendBox/RecommendBox.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchBox: typeof import('./src/components/Header/SearchBox/SearchBox.vue')['default']
+    SearchItem: typeof import('./src/components/Header/SearchBox/components/SearchItem.vue')['default']
+    SearchResultItem: typeof import('./src/components/Header/SearchBox/components/SearchResultItem.vue')['default']
     SettingOptions: typeof import('./src/components/Header/SettingOptions.vue')['default']
     SpaceFriend: typeof import('./src/components/Space/SpaceFriend/SpaceFriend.vue')['default']
     SpaceInvitation: typeof import('./src/components/Space/SpaceInvitation/SpaceInvitation.vue')['default']
     StarItem: typeof import('./src/components/Home/Stars/StarItem.vue')['default']
     Stars: typeof import('./src/components/Home/Stars/Stars.vue')['default']
-    Test: typeof import('./src/components/Space/Test.vue')['default']
     UploadCpn: typeof import('./src/components/Space/UploadCpn/UploadCpn.vue')['default']
   }
 }

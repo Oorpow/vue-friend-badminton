@@ -23,6 +23,12 @@ export interface InvitationInfo {
   stars: number
 }
 
+export interface InvitationSearch {
+  id: number
+  title: string
+  img: string
+}
+
 export interface ILikes {
   id: number
   user_id: number

@@ -8,19 +8,30 @@
         </div>
         <!-- 路由 -->
         <div>
-          <template v-for="(item, i) in navList" :key="i">
-            <span mx-1 cursor-pointer font-bold text-lg>{{ item }}</span>
-          </template>
+          <span
+            mx-1
+            cursor-pointer
+            font-bold
+            text-lg
+            v-for="(item, i) in navList"
+            :key="i"
+            >{{ item }}</span
+          >
         </div>
       </div>
       <!-- 搜索框 -->
-      <div class="w-1/3">
-        <ElInput :suffix-icon="Search" />
+      <div class="w-1/3 relative">
+        <SearchBox
+          v-model="searchModelValue"
+          :invitationList="invitationSearchList"
+          :userList="userList"
+        />
       </div>
       <!-- 设置区域 -->
       <div class="flex items-center">
+        <!-- 已登录 -->
         <template v-if="getToken !== ''">
-          <ElAvatar>{{ userInfo.name.slice(0, 1) }}</ElAvatar>
+          <Avatar :username="userInfo.name" :avatar="userInfo.avatar" />
           <!-- 设置菜单 -->
           <SettingOptions />
           <!-- 消息提醒 -->
@@ -29,8 +40,9 @@
             :receiveList="getFriendBellList"
           />
         </template>
+
+        <!-- 未登录 -->
         <template v-else>
-          <!-- 未登录 -->
           <ElButton
             @click="isShowDialog = true"
             circle
@@ -42,6 +54,8 @@
       </div>
     </div>
   </div>
+
+  <!-- 登录框 -->
   <Teleport to="body">
     <div>
       <Login v-model:isShowValue="isShowDialog" />
@@ -50,14 +64,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, watchEffect } from 'vue'
+import { ref, inject, watchEffect, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { ElNotification } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
 import { useMessageStore } from '@/stores/message'
+import { useInvitationStore } from '@/stores/invitation'
 import type { Socket } from 'socket.io-client'
 import type { IFriendReq } from '@/request/api/friend/types'
 
@@ -67,12 +81,26 @@ const router = useRouter()
 const store = useUserStore()
 const friendStore = useFriendStore()
 const messageStore = useMessageStore()
-const { userInfo, getToken } = storeToRefs(store)
+const invitationStore = useInvitationStore()
+const { userInfo, getToken, userList } = storeToRefs(store)
 const { getFriendBellList } = storeToRefs(friendStore)
 const { numOfUnRead } = storeToRefs(messageStore)
+const { invitationSearchList } = storeToRefs(invitationStore)
 
 const navList = ['羽坛动态', '神兵利器']
 let isShowDialog = ref(false)
+// 搜索框的关键字
+let searchModelValue = ref('')
+
+watch(
+  () => searchModelValue.value,
+  async (newVal) => {
+    if (newVal !== '') {
+      await store.getUserByName(searchModelValue.value)
+      await invitationStore.getInvitationBySearchVal(searchModelValue.value)
+    }
+  }
+)
 
 const navToTargetRoute = (path: string) => {
   router.push(path)

@@ -12,34 +12,27 @@
         backgroundRepeat: 'no-repeat',
       }"
     >
-      <div absolute right-5 bottom-1>
-        <UploadCpn
-          :uploadConfig="uploadConfig"
-          :type="uploadType.bg"
-          @updateBgOrAvatar="updateBgOrAvatar"
-        />
-      </div>
+      <template v-if="spaceUserInfo.id === userInfo.id">
+        <div absolute right-5 bottom-1>
+          <UploadCpn
+            :uploadConfig="uploadConfig"
+            :type="uploadType.bg"
+            @updateBgOrAvatar="updateBgOrAvatar"
+          />
+        </div>
+      </template>
     </div>
 
     <div w-full bg-white>
       <div class="w-8/10 mx-auto">
         <!-- 头像和用户信息 -->
         <div flex items-center relative>
-          <ElAvatar
+          <Avatar
+            :username="spaceUserInfo.name"
+            :avatar="spaceUserInfo.avatar"
+            :configStyle="defaultStyle"
             :size="80"
-            style="margin-top: -15px; border: 4px solid #fff"
-            v-if="!spaceUserInfo.avatar"
-            >{{
-              spaceUserInfo.name && spaceUserInfo.name.slice(0, 1)
-            }}</ElAvatar
-          >
-          <ElAvatar
-            :size="80"
-            style="margin-top: -15px; border: 4px solid #fff"
-            :src="serverUrl + spaceUserInfo.avatar"
-            v-else
           />
-
           <div flex flex-col ml-3>
             <h3 m-0>{{ spaceUserInfo.name && spaceUserInfo.name }}</h3>
             <span text-sm mt-2>个性签名...</span>
@@ -53,13 +46,15 @@
           </template>
         </div>
         <!-- 头像上传 -->
-        <div flex mt--8 ml-12>
-          <UploadCpn
-            :uploadConfig="uploadConfig"
-            :type="uploadType.avatar"
-            @updateBgOrAvatar="updateBgOrAvatar"
-          />
-        </div>
+        <template v-if="spaceUserInfo.id === userInfo.id">
+          <div flex mt--8 ml-12>
+            <UploadCpn
+              :uploadConfig="uploadConfig"
+              :type="uploadType.avatar"
+              @updateBgOrAvatar="updateBgOrAvatar"
+            />
+          </div>
+        </template>
         <!-- 选项卡 -->
         <div my-2 p-2>
           <span
@@ -88,7 +83,6 @@ import SpaceFriend from '@/components/Space/SpaceFriend/SpaceFriend.vue'
 import { markRaw, shallowRef, watch, ref, computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { Camera } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
 import type { IFriend } from '@/request/api/friend/types'
@@ -105,6 +99,11 @@ const tabList = [
   { id: 1, name: '投稿', comName: markRaw(SpaceInvitation) },
   { id: 2, name: '关注列表', comName: markRaw(SpaceFriend) },
 ]
+
+const defaultStyle = {
+  marginTop: '-15px',
+  border: '4px solid #fff',
+}
 
 const currentTab = shallowRef(SpaceInvitation)
 const isFriend = ref(false)

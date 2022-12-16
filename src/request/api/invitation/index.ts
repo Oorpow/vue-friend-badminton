@@ -1,6 +1,11 @@
 import opRequest from '@/request/config'
 import type { IResData, ISpecialData } from '@/request/types'
-import type { ILikes, Invitation, InvitationInfo } from './types'
+import type {
+  ILikes,
+  Invitation,
+  InvitationInfo,
+  InvitationSearch,
+} from './types'
 
 export const createInvitation = (invitationForm: Invitation) =>
   opRequest.post<ISpecialData>({
@@ -17,6 +22,15 @@ export const getAllInvitation = () =>
 export const getAllInvitationByUserPosted = (id: number) =>
   opRequest.get<IResData<InvitationInfo[]>>({
     url: `/invitation/user/${id}`,
+  })
+
+// 根据关键字查询帖子
+export const getAllInvitationByKeywords = (val: string) =>
+  opRequest.post<IResData<InvitationSearch[]>>({
+    url: '/invitation/search',
+    data: {
+      val,
+    },
   })
 
 export const getOneInvitation = (id: number) =>

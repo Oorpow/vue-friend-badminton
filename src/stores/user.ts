@@ -66,7 +66,7 @@ export const useUserStore = defineStore('userStore', {
         this.userList.push(...res.data)
       }
     },
-    // 根据id获取用户信息
+    // 根据id获取空间用户信息
     async getUserInfoById(id: number) {
       const res = await userInfoGetById(id)
       this.spaceUserInfo = { ...res.data }
