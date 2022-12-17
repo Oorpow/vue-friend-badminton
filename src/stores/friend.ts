@@ -17,6 +17,7 @@ export const useFriendStore = defineStore('friendStore', {
     friendReceiveList: <IFriendReqItem[]>[],
     // 小铃铛提示的好友申请数量
     friendBellList: <IFriendReqItem[]>[],
+    friendListBySearch: <IFriend[]>[],
   }),
   actions: {
     // 获取好友列表
@@ -53,6 +54,15 @@ export const useFriendStore = defineStore('friendStore', {
 
       const result = this.friendReceiveList.filter((item) => item.status === 0)
       this.friendBellList = result
+    },
+    // 基于好友列表筛选出与搜索相关的用户
+    async getFriendBySearch(id: number, name: string) {
+      await this.getFriendListById(id)
+      const result = this.friendList.filter((item) =>
+        item.friendInfo.name.includes(name)
+      )
+      this.friendListBySearch.length = 0
+      this.friendListBySearch.push(...result)
     },
   },
   getters: {

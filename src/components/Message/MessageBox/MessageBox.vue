@@ -53,7 +53,7 @@ const { userInfo } = storeToRefs(store)
 // 监听信息的收发，保证信息一直在底部出现
 watch(
   () => props.msgList,
-  async (newVal, oldVal) => {
+  async () => {
     await nextTick(() => {
       messageContentRef.value?.firstElementChild?.lastElementChild?.scrollIntoView()
     })

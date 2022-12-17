@@ -6,7 +6,7 @@
       </ElBadge>
       <template #dropdown>
         <ElDropdownMenu>
-          <ElDropdownItem @click="navToAccount" :icon="CirclePlus">
+          <ElDropdownItem @click="navToMessage" :icon="CirclePlus">
             {{
               receiveList.length === 0 ? '暂无' : `${receiveList.length}个`
             }}好友请求
@@ -35,13 +35,6 @@ type Props = {
 const props = defineProps<Props>()
 
 const router = useRouter()
-
-// 导航至message页
-const navToAccount = () => {
-  router.push({
-    name: 'account-request',
-  })
-}
 
 const navToMessage = () => {
   router.push('/message')

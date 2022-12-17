@@ -3,31 +3,72 @@
   <div class="message_main">
     <!-- 消息框 -->
     <div class="w-8/10 flex flex-col mx-auto">
-      <!-- 头部 -->
-      <div class="message_main_head">
-        <span text-sm text-gray-4>我的消息</span>
-        <FriendSearch />
-      </div>
+      <div h-5></div>
       <!-- 主体 -->
       <div bg-white rounded flex h-75>
         <!-- 左侧好友列表 -->
         <div class="friend_list">
-          <div p-3 bg-gray-1>
-            <span text-sm text-gray-4>好友列表</span>
+          <!-- 面板切换 -->
+          <div w-6 bg-gray flex flex-col items-center>
+            <div
+              py-3
+              cursor-pointer
+              v-for="iconItem in chatIconList"
+              :key="iconItem.id"
+              @click=";(currentPanel as any) = iconItem.comName"
+            >
+              <ElIcon
+                :size="iconItem.size"
+                :style="{
+                  color: currentPanel === iconItem.comName ? 'green' : 'white',
+                }"
+              >
+                <template v-if="iconItem.id === 1">
+                  <ElBadge :value="numOfUnRead === 0 ? '' : numOfUnRead" ml-2>
+                    <ChatRound />
+                  </ElBadge>
+                </template>
+                <template v-else>
+                  <ElBadge
+                    :value="
+                      friendBellList.length === 0 ? '' : friendBellList.length
+                    "
+                    ml-2
+                  >
+                    <User />
+                  </ElBadge>
+                </template>
+              </ElIcon>
+            </div>
           </div>
           <!-- 好友列表 -->
           <div class="friend_list_container">
-            <FriendItem
-              :friendList="friendList"
-              :lastMsgList="lastMsgList"
-              :unreadMap="unreadMap"
-              @chooseFriend="chooseFriend"
-            />
+            <SearchExistFriend v-model="searchUserByName" />
+            <template v-if="friendListBySearch.length">
+              <FriendItemSearched
+                :list="friendListBySearch"
+                :strangers="userList"
+              />
+            </template>
+            <template v-else>
+              <FriendItem
+                :friendList="friendList"
+                :lastMsgList="lastMsgList"
+                :unreadMap="unreadMap"
+                @chooseFriend="chooseFriend"
+              />
+            </template>
           </div>
         </div>
         <!-- 右侧聊天框 -->
         <div flex-1>
-          <MessageBox :friend="currentChatTarget" :msgList="msgList" />
+          <component
+            :is="currentPanel"
+            :friend="currentChatTarget"
+            :msgList="msgList"
+            :reqList="friendReceiveList"
+            :userInfo="userInfo"
+          ></component>
         </div>
       </div>
     </div>
@@ -35,9 +76,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, inject } from 'vue'
+import MessageBox from '@/components/Message/MessageBox/MessageBox.vue'
+import FriendRequest from '@/components/Message/FriendRequest/FriendRequest.vue'
+import {
+  onMounted,
+  reactive,
+  inject,
+  markRaw,
+  shallowRef,
+  ref,
+  watch,
+} from 'vue'
 import { storeToRefs } from 'pinia'
 import { ElNotification } from 'element-plus'
+import { ChatRound, User } from '@element-plus/icons-vue'
 import { useFriendStore } from '@/stores/friend'
 import { useUserStore } from '@/stores/user'
 import type { IChatFriend, IFriendItem } from '@/request/api/friend/types'
@@ -49,9 +101,18 @@ const socket = inject('socket') as Socket
 const friendStore = useFriendStore()
 const userStore = useUserStore()
 const messageStore = useMessageStore()
-const { friendList } = storeToRefs(friendStore)
-const { userInfo } = storeToRefs(userStore)
-const { msgList, lastMsgList, unreadMap } = storeToRefs(messageStore)
+const { friendList, friendReceiveList, friendListBySearch, friendBellList } =
+  storeToRefs(friendStore)
+const { userInfo, userList } = storeToRefs(userStore)
+const { msgList, lastMsgList, unreadMap, numOfUnRead } =
+  storeToRefs(messageStore)
+
+const chatIconList = [
+  { id: 1, comName: markRaw(MessageBox), size: 25 },
+  { id: 2, comName: markRaw(FriendRequest), size: 25 },
+]
+
+const currentPanel = shallowRef(MessageBox)
 
 // 当前选择聊天的好友
 const currentChatTarget = reactive<IChatFriend>({
@@ -95,6 +156,30 @@ onMounted(() => {
     messageStore.getNoReadMsgWithAllUser(userInfo.value.id, friendList.value)
   })
 })
+
+friendStore.getFriendReceiveList(userInfo.value.id)
+
+let searchUserByName = ref('')
+
+watch(
+  () => searchUserByName.value,
+  async (newVal) => {
+    if (newVal !== '') {
+      await friendStore.getFriendBySearch(userInfo.value.id, newVal)
+      await userStore.getUserByName(newVal)
+      // 排列出陌生人列表
+      friendList.value.forEach((item, i) => {
+        userList.value.forEach((user, index) => {
+          if (item.friendInfo.id === user.id) {
+            userList.value.splice(index, 1)
+          }
+        })
+      })
+    } else {
+      friendListBySearch.value.length = 0
+    }
+  }
+)
 </script>
 
 <style scoped>
@@ -111,11 +196,11 @@ onMounted(() => {
 .message_main .friend_list {
   box-shadow: 3px 0px 21px rgba(101, 101, 101, 0.22);
   background: #f4f4f4;
-  @apply w-25 flex flex-col mx-auto;
+  @apply w-25 flex;
 }
 
 .message_main .friend_list_container {
-  @apply overflow-auto;
+  @apply overflow-auto flex-1;
 }
 
 .message_main .friend_list_container::-webkit-scrollbar {
@@ -124,5 +209,12 @@ onMounted(() => {
 
 .message_main .friend_list_container::-webkit-scrollbar-thumb {
   @apply border-1 border-gray-2 bg-gray-2 rounded-lg;
+}
+:deep(.el-badge) {
+  --el-badge-padding: 4px;
+  --el-badge-size: 14px;
+}
+:deep(.el-badge__content.is-fixed) {
+  right: 15px;
 }
 </style>
