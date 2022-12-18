@@ -18,5 +18,4 @@ export const editorConfig: Partial<IEditorConfig> = {
 export const uploadConfig = {
   action: serverUrl,
   name: 'invitation',
-  showFileList: false,
 }

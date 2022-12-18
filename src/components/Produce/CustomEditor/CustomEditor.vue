@@ -28,8 +28,11 @@
           <span text-sm>请选择分类</span>
           <!-- 标签列表 -->
           <ElCheckboxGroup v-model="invitationForm.tag">
-            <ElCheckbox :label="CheckTag.match" />
-            <ElCheckbox :label="CheckTag.equipment" />
+            <ElCheckbox
+              v-for="(tag, i) in fixedTag"
+              :key="i"
+              :label="tag"
+            ></ElCheckbox>
           </ElCheckboxGroup>
         </div>
         <!-- 封面 -->
@@ -38,19 +41,15 @@
           <!-- 封面图上传 -->
           <ElUpload
             mt-2
-            border-dashed
-            border-1
-            border-gray-2
-            :on-success="uploadSuccess"
+            list-type="picture-card"
+            :limit="1"
+            v-model:file-list="pictureList"
             v-bind="uploadConfig"
+            :on-remove="handleRemove"
+            :on-success="uploadSuccess"
           >
-            <img
-              v-if="invitationForm.img"
-              :src="invitationForm.img"
-              class="avatar"
-            />
-            <ElIcon v-else :size="60" color="#e5e7eb">
-              <PictureFilled />
+            <ElIcon>
+              <Plus />
             </ElIcon>
           </ElUpload>
         </div>
@@ -61,15 +60,14 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, reactive, shallowRef } from 'vue'
+import { onBeforeUnmount, reactive, shallowRef, watch } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { PictureFilled } from '@element-plus/icons-vue'
-import type { UploadProps } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
+import type { UploadFile, UploadProps, UploadUserFile } from 'element-plus'
 import type { IDomEditor } from '@wangeditor/editor/dist/editor/src/index'
 import type { Invitation } from '@/request/api/invitation/types'
 import { CheckTag, handleEnum } from '@/utils/handleEnum'
 import '@wangeditor/editor/dist/css/style.css'
-
 import {
   serverUrl,
   textareaConfig,
@@ -82,17 +80,48 @@ import { useInvitationStore } from '@/stores/invitation'
 
 type InsertFnType = (url: string, alt: string, href: string) => void
 
+type Props = {
+  editorForm?: Invitation
+}
+
+const props = defineProps<Props>()
+const localServer = import.meta.env.VITE_LOCAL_SERVER
+
 const userStore = useUserStore()
 const invitationStore = useInvitationStore()
 
+const fixedTag = ['赛事', '装备']
+const pictureList = reactive<UploadUserFile[]>([])
+
 // 服务器接受的表单信息
-const invitationForm = reactive<Invitation>({
+let invitationForm = reactive<Invitation>({
   title: '',
   content: '',
   tag: [],
   img: '',
   uid: userStore.getUid,
 })
+
+watch(
+  () => props.editorForm,
+  (newVal) => {
+    invitationForm = Object.assign(invitationForm, newVal)
+    let extension = ''
+    if (invitationForm.img) {
+      const extensionList = invitationForm.img.split('/')
+      extension = extensionList[extensionList.length - 1]
+    }
+    pictureList.length = 0
+
+    pictureList.push({
+      name: extension,
+      url: localServer + invitationForm.img,
+    })
+  },
+  {
+    deep: true,
+  }
+)
 
 // 编辑器实例
 const editorRef = shallowRef()
@@ -109,6 +138,10 @@ const editorRef = shallowRef()
 // 保存editor实例
 const handleCreated = (editor: IDomEditor) => {
   editorRef.value = editor // 记录 editor 实例，重要！
+}
+
+const handleRemove = (file: UploadFile) => {
+  console.log(file)
 }
 
 // upload封面图上传成功
@@ -135,10 +168,10 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-:deep(.el-upload) {
-  @apply w-full h-20;
-}
 :deep(.el-textarea__inner) {
   box-shadow: none;
+}
+:deep(.el-upload-list) {
+  @apply w-full;
 }
 </style>

@@ -1,5 +1,5 @@
 export enum CheckTag {
-  match = '赛事动态',
+  match = '赛事',
   equipment = '装备',
 }
 
