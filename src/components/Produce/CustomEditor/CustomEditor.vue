@@ -7,10 +7,11 @@
         v-model="invitationForm.title"
         style="font-size: 28px"
         v-bind="textareaConfig"
+        resize="none"
       />
       <!-- 工具栏 -->
       <Toolbar
-        style="border-bottom: 1px solid #ccc"
+        style="border-bottom: 1px solid #e5e7eb"
         :editor="editorRef"
         :defaultConfig="toolbarConfig"
       />
@@ -20,34 +21,49 @@
         :defaultConfig="editorConfig"
         @onCreated="handleCreated"
       />
-      <!-- 封面图上传 -->
-      <el-upload
-        class="avatar-uploader"
-        :on-success="uploadSuccess"
-        v-bind="uploadConfig"
-      >
-        <img
-          v-if="invitationForm.img"
-          :src="invitationForm.img"
-          class="avatar"
-        />
-        <el-icon v-else class="avatar-uploader-icon">
-          <div class="i-ic-baseline-plus"></div>
-        </el-icon>
-      </el-upload>
-      <!-- 标签列表 -->
-      <el-checkbox-group v-model="invitationForm.tag">
-        <el-checkbox :label="CheckTag.match" />
-        <el-checkbox :label="CheckTag.equipment" />
-      </el-checkbox-group>
+      <!-- 设置区 -->
+      <div p-y-2 border-t-1 border-gray-2>
+        <!-- 标签分类 -->
+        <div>
+          <span text-sm>请选择分类</span>
+          <!-- 标签列表 -->
+          <ElCheckboxGroup v-model="invitationForm.tag">
+            <ElCheckbox :label="CheckTag.match" />
+            <ElCheckbox :label="CheckTag.equipment" />
+          </ElCheckboxGroup>
+        </div>
+        <!-- 封面 -->
+        <div mt-3>
+          <span text-sm>请设置封面</span>
+          <!-- 封面图上传 -->
+          <ElUpload
+            mt-2
+            border-dashed
+            border-1
+            border-gray-2
+            :on-success="uploadSuccess"
+            v-bind="uploadConfig"
+          >
+            <img
+              v-if="invitationForm.img"
+              :src="invitationForm.img"
+              class="avatar"
+            />
+            <ElIcon v-else :size="60" color="#e5e7eb">
+              <PictureFilled />
+            </ElIcon>
+          </ElUpload>
+        </div>
+      </div>
     </div>
-    <ElButton @click="postArticle">发布</ElButton>
+    <ElButton @click="postArticle" round color="#3b82f6">提交文章</ElButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onBeforeUnmount, reactive, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { PictureFilled } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 import type { IDomEditor } from '@wangeditor/editor/dist/editor/src/index'
 import type { Invitation } from '@/request/api/invitation/types'
@@ -119,25 +135,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-:deep(.avatar-uploader .el-upload) {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: var(--el-transition-duration-fast);
-}
-
-:deep(.avatar-uploader .el-upload:hover) {
-  border-color: var(--el-color-primary);
-}
-
-:deep(.el-icon.avatar-uploader-icon) {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  text-align: center;
+:deep(.el-upload) {
+  @apply w-full h-20;
 }
 :deep(.el-textarea__inner) {
   box-shadow: none;

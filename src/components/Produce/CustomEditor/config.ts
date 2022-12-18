@@ -3,7 +3,6 @@ export const serverUrl = import.meta.env.VITE_LOCAL_SERVER + 'upload/invitation'
 
 // 文本框配置项
 export const textareaConfig = {
-  resize: 'none',
   maxlength: '30',
   placeholder: '请输入标题: (30字以内)',
 }
