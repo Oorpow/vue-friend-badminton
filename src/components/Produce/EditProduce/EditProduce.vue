@@ -48,7 +48,7 @@
         </div>
       </template>
     </div>
-    <div v-show="isShowEditor">
+    <div v-if="isShowEditor">
       <CustomEditor :editorForm="editorForm" />
     </div>
   </div>
@@ -75,7 +75,7 @@ const goCreate = () => {
   emits('switchTab')
 }
 
-let editorForm = reactive<Invitation>({
+let editorForm = ref<Invitation>({
   title: '',
   content: '',
   img: '',
@@ -92,13 +92,13 @@ const editOneProduce = (item: InvitationInfo) => {
     newTagList.push(iterator.name)
   }
 
-  editorForm = Object.assign(editorForm, {
+  editorForm.value = {
     title: item.title,
     content: item.content,
     img: item.img,
     tag: newTagList,
     uid: userInfo.value.id,
-  })
+  }
   isShowEditor.value = true
 }
 </script>
