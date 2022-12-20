@@ -69,3 +69,10 @@ export const starOrUnstarInvitation = (
       invitationId,
     },
   })
+
+// 更新帖子信息
+export const updateInvitationById = (info: Invitation) =>
+  opRequest.patch<ISpecialData>({
+    url: '/invitation/update',
+    data: info,
+  })

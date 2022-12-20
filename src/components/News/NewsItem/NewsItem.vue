@@ -33,7 +33,7 @@
       </div>
     </div>
     <div>
-      <h3 font-normal>
+      <h3 font-normal truncate>
         {{ item.title }}
       </h3>
 

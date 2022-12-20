@@ -5,6 +5,7 @@ export interface Invitation {
   img: string
   uid: number
   tag: any[]
+  invId?: number
 }
 
 export interface ITag {

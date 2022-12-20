@@ -40,7 +40,11 @@
             class="absolute left-1/2 top-1/2 translate-x--1/2 translate-y--1/2"
           >
             <ElEmpty description="还没有内容~快去创作吧~">
-              <ElButton round color="#3b82f6" size="large" @click="goCreate"
+              <ElButton
+                round
+                color="#3b82f6"
+                size="large"
+                @click="$emit('switchTab', 'CustomEditor')"
                 >立即创作</ElButton
               >
             </ElEmpty>
@@ -49,13 +53,17 @@
       </template>
     </div>
     <div v-if="isShowEditor">
-      <CustomEditor :editorForm="editorForm" />
+      <CustomEditor
+        :editorForm="editorForm"
+        type="edit"
+        @showEditor="showEditor"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import type { InvitationInfo, Invitation } from '@/request/api/invitation/types'
@@ -64,15 +72,19 @@ type Props = {
   postList: InvitationInfo[]
 }
 const props = defineProps<Props>()
-const emits = defineEmits(['switchTab'])
+const emits = defineEmits(['switchTab', 'refreshPostList'])
 
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 
-const goCreate = () => {
-  emits('switchTab')
+let isShowEditor = ref(false)
+const showEditor = (flag: boolean, refresh: boolean = true) => {
+  if (refresh) {
+    emits('refreshPostList')
+  }
+  isShowEditor.value = flag
 }
 
 let editorForm = ref<Invitation>({
@@ -82,8 +94,6 @@ let editorForm = ref<Invitation>({
   uid: 0,
   tag: [],
 })
-
-let isShowEditor = ref(false)
 
 const editOneProduce = (item: InvitationInfo) => {
   let newTagList = []
@@ -98,6 +108,7 @@ const editOneProduce = (item: InvitationInfo) => {
     img: item.img,
     tag: newTagList,
     uid: userInfo.value.id,
+    invId: item.invitation_id,
   }
   isShowEditor.value = true
 }

@@ -65,8 +65,13 @@
         </div>
       </ElForm>
     </div>
-    <ElButton @click="postArticle(invitationFormRef)" round color="#3b82f6"
-      >提交文章</ElButton
+    <ElButton @click="postArticle(invitationFormRef)" round color="#3b82f6">{{
+      type === 'edit' ? '完成编辑' : '发布文章'
+    }}</ElButton>
+    <ElButton
+      v-show="type === 'edit'"
+      @click="$emit('showEditor', false, false)"
+      >取消编辑</ElButton
     >
   </div>
 </template>
@@ -100,9 +105,13 @@ type InsertFnType = (url: string, alt: string, href: string) => void
 
 type Props = {
   editorForm?: Invitation
+  type?: string
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  type: 'post',
+})
+const emits = defineEmits(['showEditor', 'switchTab', 'refreshPostList'])
 
 const localServer = import.meta.env.VITE_LOCAL_SERVER
 const fixedTag = ['赛事', '装备']
@@ -157,7 +166,6 @@ watch(
 
 // 编辑器实例
 const editorRef = shallowRef()
-
 // 富文本自定义上传图片
 ;(editorConfig as any).MENU_CONF['uploadImage'] = {
   server: serverUrl,
@@ -166,7 +174,6 @@ const editorRef = shallowRef()
     insertFn(import.meta.env.VITE_LOCAL_SERVER + res.data.url, '', '')
   },
 }
-
 // 保存editor实例
 const handleCreated = (editor: IDomEditor) => {
   editorRef.value = editor // 记录 editor 实例，重要！
@@ -188,9 +195,17 @@ const postArticle = async (formEl: FormInstance | undefined) => {
       invitationForm.value.tag.length = 0
       invitationForm.value.tag.push(...tagList)
       // 修正表单信息，提交给后台服务器插入数据
-      // console.log(invitationForm.value)
-      // await invitationStore.postInvitation(invitationForm)
-      // 提交成功后，跳转至内容管理区
+      if (props.type === 'edit') {
+        // 编辑
+        await invitationStore.editInvitation(invitationForm.value)
+        emits('showEditor', false)
+      } else if (props.type === 'post') {
+        // 发布
+        await invitationStore.postInvitation(invitationForm.value)
+        // 提交成功后，跳转至内容管理区
+        emits('switchTab', 'EditProduce')
+        emits('refreshPostList')
+      }
     } else {
       console.log('oops')
     }

@@ -1,9 +1,10 @@
 <template>
   <Header />
   <div class="w-9/10 mx-auto mt-3">
-    <div class="flex my-10 justify-around">
+    <!-- items-start解决子项继承父元素高度的问题 -->
+    <div class="flex my-10 justify-around items-start">
       <!-- left -->
-      <div class="w-6/10 flex flex-col p-3 bg-white rounded-lg">
+      <div class="w-6/10 flex flex-col bg-white p-3 rounded-lg">
         <!-- 文章主体 -->
         <template v-if="flag">
           <ArticleItem :invitationInfo="getTargetInvitation" />

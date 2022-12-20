@@ -2,6 +2,7 @@ import {
   getAllInvitationByKeywords,
   getAllInvitationByUserPosted,
   starOrUnstarInvitation,
+  updateInvitationById,
 } from './../request/api/invitation/index'
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
@@ -107,6 +108,15 @@ export const useInvitationStore = defineStore('invitationStore', {
       const res = await getAllInvitationByKeywords(val)
       this.invitationSearchList.length = 0
       this.invitationSearchList.push(...res.data)
+    },
+    // 用户帖子更新
+    async editInvitation(info: Invitation) {
+      const res = await updateInvitationById(info)
+
+      ElMessage({
+        type: res.code === 200 ? 'success' : 'warning',
+        message: res.message,
+      })
     },
   },
   getters: {

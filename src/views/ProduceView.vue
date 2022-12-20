@@ -32,6 +32,7 @@
       :is="(tabs as any)[currentTab]"
       :postList="postedInvitationList"
       @switchTab="switchTab"
+      @refreshPostList="refreshPostList"
     ></component>
   </div>
 </template>
@@ -60,8 +61,13 @@ const { userInfo } = storeToRefs(userStore)
 
 invitationStore.getUserPostedInvitation(userInfo.value.id)
 
-const switchTab = () => {
-  currentTab.value = 'CustomEditor'
+const switchTab = (tab: string) => {
+  currentTab.value = tab
+}
+
+// 刷新发布列表
+const refreshPostList = () => {
+  invitationStore.getUserPostedInvitation(userInfo.value.id)
 }
 </script>
 
