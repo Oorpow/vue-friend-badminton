@@ -44,7 +44,7 @@
         <!-- 未登录 -->
         <template v-else>
           <ElButton
-            @click="isShowDialog = true"
+            @click="$router.push('/login')"
             circle
             type="primary"
             style="padding: 3px"
@@ -54,13 +54,6 @@
       </div>
     </div>
   </div>
-
-  <!-- 登录框 -->
-  <Teleport to="body">
-    <div>
-      <Login v-model:isShowValue="isShowDialog" />
-    </div>
-  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -88,7 +81,6 @@ const { numOfUnRead } = storeToRefs(messageStore)
 const { invitationSearchList } = storeToRefs(invitationStore)
 
 const navList = ['羽坛动态', '神兵利器']
-let isShowDialog = ref(false)
 // 搜索框的关键字
 let searchModelValue = ref('')
 

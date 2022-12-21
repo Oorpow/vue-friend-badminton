@@ -1,40 +1,55 @@
 <template>
-  <el-dialog :model-value="isShowValue" @close="hideDialog">
-    <el-form :model="form">
-      <el-form-item label="账号">
+  <div
+    class="w-50 p-3 rounded bg-white m-auto absolute left-1/2 top-1/2 translate-x--1/2 translate-y--1/2"
+  >
+    <div flex justify-center my-3>
+      <img src="/src/assets/images/logo/logo.png" alt="logo" />
+    </div>
+    <el-form
+      label-position="top"
+      :model="form"
+      ref="loginFormRef"
+      :rules="loginRules"
+    >
+      <el-form-item label="账号" prop="name">
         <el-input v-model="form.name" />
       </el-form-item>
-      <el-form-item label="密码">
+      <el-form-item label="密码" prop="password">
         <el-input v-model="form.password" type="password" />
       </el-form-item>
       <el-form-item>
-        <el-button class="w-4.8/10" @click="registerHandler">注册</el-button>
-        <el-button class="w-4.8/10" type="primary" @click="loginHandler"
+        <el-button
+          class="w-4.8/10"
+          @click="handleSubmit(loginFormRef, IsLogin.register)"
+          >注册</el-button
+        >
+        <el-button
+          class="w-4.8/10"
+          type="primary"
+          @click="handleSubmit(loginFormRef, IsLogin.login)"
           >登录</el-button
         >
       </el-form-item>
     </el-form>
-  </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-
+import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
+import type { FormInstance, FormRules } from 'element-plus'
 import type { ILoginForm } from '@/request/api/user/types'
 
-type Props = {
-  isShowValue: boolean
+enum IsLogin {
+  register,
+  login,
 }
-defineProps<Props>()
 
-const emits = defineEmits(['update:isShowValue'])
+const router = useRouter()
 const store = useUserStore()
-
-// 隐藏对话框
-const hideDialog = () => {
-  emits('update:isShowValue', false)
-}
+const { getToken } = storeToRefs(store)
 
 // 表单
 const form = reactive<ILoginForm>({
@@ -42,16 +57,27 @@ const form = reactive<ILoginForm>({
   password: '',
 })
 
-// 用户登录
-const loginHandler = () => {
-  store.login(form)
-  hideDialog()
-}
+const loginFormRef = ref<FormInstance>()
+const loginRules = reactive<FormRules>({
+  name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+})
 
-// 用户注册
-const registerHandler = () => {
-  store.register(form)
-  hideDialog()
+// 用户登录
+const handleSubmit = async (
+  formEl: FormInstance | undefined,
+  isLogin: boolean | number
+) => {
+  await formEl?.validate(async (valid, fields) => {
+    if (valid) {
+      if (isLogin) {
+        await store.login(form)
+        getToken.value && router.push('/')
+      } else {
+        store.register(form)
+      }
+    }
+  })
 }
 </script>
 

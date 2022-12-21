@@ -6,6 +6,7 @@ import type {
   AxiosError,
 } from 'axios'
 import type { OpInterceptors, OpRequestConfig } from './types'
+import { ElMessage } from 'element-plus'
 
 class OpRequest {
   instance: AxiosInstance
@@ -39,7 +40,11 @@ class OpRequest {
       (res: AxiosResponse) => {
         return res.data
       },
-      (err) => {
+      (err: AxiosError) => {
+        ElMessage({
+          type: 'warning',
+          message: err.response?.data as string,
+        })
         return err
       }
     )

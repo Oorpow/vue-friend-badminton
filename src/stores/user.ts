@@ -32,8 +32,10 @@ export const useUserStore = defineStore('userStore', {
     // 用户登录获取用户信息
     async login(loginForm: ILoginForm) {
       const res = await userLogin(loginForm)
-      this.userInfo = { ...res.data.user }
-      this.token = res.data.token
+      if (res.code === 200) {
+        this.userInfo = { ...res.data.user }
+        this.token = res.data.token
+      }
     },
     // 退出登录
     async logout(id: number) {
