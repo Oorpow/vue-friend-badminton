@@ -19,5 +19,6 @@ export interface IUserInfo {
 
 export interface ILoginData {
   token: string
+  refreshToken: string
   user: IUserInfo
 }

@@ -42,9 +42,10 @@ const navToTargetRoute = (path: string) => {
 
 // 用户退出登录
 const userLogout = async () => {
+  let name = userInfo.value.name
   // 通知好友，该用户已离线
   await userStore.logout(userInfo.value.id)
-  socket.emit('offline', userInfo.value.name)
+  socket.emit('offline', name)
   router.replace('/')
 }
 </script>

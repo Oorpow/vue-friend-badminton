@@ -7,6 +7,8 @@ import type {
 } from 'axios'
 import type { OpInterceptors, OpRequestConfig } from './types'
 import { ElMessage } from 'element-plus'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/stores/user'
 
 class OpRequest {
   instance: AxiosInstance
@@ -41,6 +43,8 @@ class OpRequest {
         return res.data
       },
       (err: AxiosError) => {
+        this.handleStatus(err.response?.status as number)
+
         ElMessage({
           type: 'warning',
           message: err.response?.data as string,
@@ -91,6 +95,23 @@ class OpRequest {
   patch<T>(config: OpRequestConfig): Promise<T> {
     return this.instance.request({ ...config, method: 'PATCH' })
   }
+
+  handleStatus(status: number) {
+    switch (status) {
+      case 401:
+        tokenOut()
+        break
+      default:
+        break
+    }
+  }
+}
+
+function tokenOut() {
+  const store = useUserStore()
+  const { userInfo } = storeToRefs(store)
+
+  store.logout(userInfo.value.id)
 }
 
 export default OpRequest

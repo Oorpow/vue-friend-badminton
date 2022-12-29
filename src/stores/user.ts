@@ -40,6 +40,13 @@ export const useUserStore = defineStore('userStore', {
     // 退出登录
     async logout(id: number) {
       this.token = ''
+      this.userInfo = {
+        id: 0,
+        name: '',
+        avatar: '',
+        status: 0,
+        space_bg: '',
+      }
       await userLogout(id)
       localStorage.removeItem('userStore')
     },

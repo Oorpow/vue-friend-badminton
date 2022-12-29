@@ -1,5 +1,5 @@
 <template>
-  <TransitionGroup appear tag="div" @before-enter="beforeEnter" @enter="enter">
+  <TransitionGroup appear @before-enter="beforeEnter" @enter="enter">
     <div
       my-10
       p-3
@@ -7,11 +7,9 @@
       border-gray-2
       bg-white
       rounded-lg
-      cursor-pointer
       :style="styleConfig"
       v-for="(item, index) in list"
       :key="item.invitation_id"
-      @click="navToNewsDetail(item.invitation_id)"
     >
       <div :data-index="index">
         <div flex items-center justify-between>
@@ -37,20 +35,22 @@
           </div>
         </div>
         <div>
-          <h3 font-normal truncate>
-            {{ item.title }}
-          </h3>
-
-          <div class="article_content">
-            <div w-full h-20>
-              <ElImage
-                :src="serverUrl + item.img"
-                class="w-full h-full"
-                fit="cover"
-              />
+          <div cursor-pointer @click="navToNewsDetail(item.invitation_id)">
+            <h3 font-normal truncate>
+              {{ item.title }}
+            </h3>
+            <div class="article_content">
+              <div w-full h-20>
+                <ElImage
+                  :src="serverUrl + item.img"
+                  class="w-full h-full"
+                  fit="cover"
+                />
+              </div>
+              <div v-html="item.content"></div>
             </div>
-            <div v-html="item.content"></div>
           </div>
+
           <!-- 帖子数据 -->
           <div flex mt-3>
             <div flex>
@@ -139,7 +139,7 @@ import {
 import { useInvitationStore } from '@/stores/invitation'
 import type { InvitationInfo } from '@/request/api/invitation/types'
 import { useUserStore } from '@/stores/user'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 type Props = {
   list: InvitationInfo[]
@@ -151,7 +151,6 @@ const props = defineProps<Props>()
 gsap.registerPlugin(ScrollTrigger)
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 
-const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const invitationStore = useInvitationStore()
@@ -182,12 +181,8 @@ const handleStar = async (invitationId: number) => {
       invitationId,
       starred ? 0 : 1
     )
+    await invitationStore.getUserPostedInvitation(userInfo.value.id)
     await invitationStore.findAllStarredInvitation(userInfo.value.id)
-    if (Number(route.params.type) === 0) {
-      invitationStore.getInvitationList()
-    } else {
-      invitationStore.getInvitationByTagId(Number(route.params.type))
-    }
   }
 }
 

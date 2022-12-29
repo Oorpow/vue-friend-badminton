@@ -22,7 +22,7 @@
           <h4 m-0>
             {{ friend.friendInfo.name }}
           </h4>
-          <span>{{ judgeUserStatus(friend.friendInfo.status) }}</span>
+          <span text-sm>{{ judgeUserStatus(friend.friendInfo.status) }}</span>
           <!-- 未读信息数 -->
           <template v-for="(v, k) in unreadMap" :key="k">
             <ElBadge

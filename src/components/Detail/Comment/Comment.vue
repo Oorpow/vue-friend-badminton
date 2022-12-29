@@ -25,10 +25,17 @@
             />
           </div>
           <div flex w-full h-full border-b-1 border-b-gray-3 p-b-5>
-            <ElInput v-bind="inputConfig" v-model="commentForm.content" />
+            <ElInput
+              v-bind="inputConfig"
+              v-model="commentForm.content"
+              resize="none"
+              :disabled="!ableToComment"
+              :placeholder="commentPlaceHolder"
+            />
             <ElButton
               type="primary"
               style="height: 100%; margin-left: 10px"
+              :disabled="!ableToComment"
               @click="postComment"
               >发表评论</ElButton
             >
@@ -47,13 +54,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import type {
-  IComment,
-  ICommentForm,
-  ISpecialComment,
-} from '@/request/api/comment/types'
+import type { ICommentForm, ISpecialComment } from '@/request/api/comment/types'
 import { useUserStore } from '@/stores/user'
 import { useCommentStore } from '@/stores/comment'
 
@@ -70,7 +73,6 @@ const { userInfo } = storeToRefs(userStore)
 const inputConfig = {
   rows: 2,
   type: 'textarea',
-  resize: 'none',
 }
 
 const commentForm = reactive<ICommentForm>({
@@ -80,10 +82,17 @@ const commentForm = reactive<ICommentForm>({
   user_id: userInfo.value.id,
 })
 
+const ableToComment = computed(() => (userInfo.value.id ? true : false))
+const commentPlaceHolder = computed(() =>
+  ableToComment.value ? '请发表友善的评论' : '请先登录后再进行评论'
+)
+
 // 发表评论
 const postComment = () => {
-  commentStore.createComment(commentForm)
-  commentForm.content = ''
+  if (userInfo.value.id) {
+    commentStore.createComment(commentForm)
+    commentForm.content = ''
+  }
 }
 </script>
 

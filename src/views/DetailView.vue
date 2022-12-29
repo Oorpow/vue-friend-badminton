@@ -76,15 +76,18 @@ watch(
       commentStore.getAllCommentByOneSelf(otherInvitation.value)
     })
 
-    // 判断这个帖子是否是好友写的
-    friendStore.getFriendListById(userInfo.value.id).then(() => {
-      const result = friendList.value.some(
-        (item) => item.friendInfo.id === getTargetInvitation.value.invitation_id
-      )
-      isMySelf.value =
-        getTargetInvitation.value.userInfo.id === userInfo.value.id
-      isFriend.value = result
-    })
+    if (userInfo.value.id) {
+      // 判断这个帖子是否是好友写的
+      friendStore.getFriendListById(userInfo.value.id).then(() => {
+        const result = friendList.value.some(
+          (item) =>
+            item.friendInfo.id === getTargetInvitation.value.invitation_id
+        )
+        isMySelf.value =
+          getTargetInvitation.value.userInfo.id === userInfo.value.id
+        isFriend.value = result
+      })
+    }
   },
   {
     immediate: true,

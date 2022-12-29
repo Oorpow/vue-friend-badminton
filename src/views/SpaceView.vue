@@ -6,10 +6,10 @@
       w-full
       h-16
       relative
+      bg-cover
+      bg-no-repeat
       :style="{
         background: currentSpaceBg,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
       }"
     >
       <template v-if="spaceUserInfo.id === userInfo.id">
@@ -72,7 +72,9 @@
     </div>
 
     <div class="w-8/10 mx-auto">
-      <component :is="currentTab" :friends="friendList"></component>
+      <KeepAlive>
+        <component :is="currentTab" :friends="friendList"></component>
+      </KeepAlive>
     </div>
   </div>
 </template>

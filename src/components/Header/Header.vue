@@ -1,7 +1,6 @@
 <template>
   <div class="header">
     <div flex justify-around items-center w-full>
-      <!-- logo -->
       <div class="flex w-1/5 items-center">
         <div mr-4 cursor-pointer @click="navToTargetRoute('/')">
           <img src="@/assets/images/logo/logo.png" alt="" />
@@ -15,7 +14,8 @@
             text-lg
             v-for="(item, i) in navList"
             :key="i"
-            >{{ item }}</span
+            @click="navToTargetRoute(item.path)"
+            >{{ item.name }}</span
           >
         </div>
       </div>
@@ -40,7 +40,6 @@
             :receiveList="getFriendBellList"
           />
         </template>
-
         <!-- 未登录 -->
         <template v-else>
           <ElButton
@@ -80,7 +79,16 @@ const { getFriendBellList } = storeToRefs(friendStore)
 const { numOfUnRead } = storeToRefs(messageStore)
 const { invitationSearchList } = storeToRefs(invitationStore)
 
-const navList = ['羽坛动态', '神兵利器']
+const navList = [
+  {
+    path: '/news/0',
+    name: '羽坛动态',
+  },
+  {
+    path: '/',
+    name: '神兵利器',
+  },
+]
 // 搜索框的关键字
 let searchModelValue = ref('')
 
@@ -120,11 +128,6 @@ watchEffect(() => {
           type: 'info',
         })
       }
-    })
-
-    // 监听server发布的离线订阅
-    socket.on('offline_message', () => {
-      // console.log('收到离线状态的信息, socketId为 ' + id)
     })
 
     // 监听好友请求发送是否成功
