@@ -1,6 +1,12 @@
 import opRequest from '@/request/config'
 import type { IResData, ISpecialData } from '@/request/types'
-import type { ILoginData, ILoginForm, IRegisterForm, IUserInfo } from './types'
+import type {
+  ILoginData,
+  ILoginForm,
+  IRegisterForm,
+  IUserInfo,
+  IUserForm,
+} from './types'
 
 export const userLogin = (loginForm: ILoginForm) =>
   opRequest.post<IResData<ILoginData>>({
@@ -35,6 +41,13 @@ export const userSearchByName = (username: string) =>
 export const userInfoGetById = (id: number) =>
   opRequest.get<IResData<IUserInfo>>({
     url: `/user/${id}`,
+  })
+
+// 修改用户信息
+export const updateInfo = (form: IUserForm) =>
+  opRequest.patch<ISpecialData>({
+    url: '/user',
+    data: form,
   })
 
 // 用户修改空间背景图片

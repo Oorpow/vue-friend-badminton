@@ -8,10 +8,11 @@
     border-gray-2
     @click="navToArticle"
   >
-    <div>
-      <ElAvatar size="small">{{
-        invitationInfo.userInfo.name.slice(0, 1)
-      }}</ElAvatar>
+    <div flex items-center>
+      <Avatar
+        :username="invitationInfo.userInfo.name"
+        :avatar="invitationInfo.userInfo.avatar"
+      />
       <span ml-2 text-sm>{{ invitationInfo.userInfo.name }}</span>
     </div>
     <div m-auto>

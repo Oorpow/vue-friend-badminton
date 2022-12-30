@@ -9,12 +9,15 @@ import {
   updateUserBg,
   userInfoGetById,
   updateUserAvatar,
+  updateInfo,
 } from '@/request/api/user'
 import type {
   ILoginForm,
   IRegisterForm,
   IUserInfo,
+  IUserForm,
 } from '@/request/api/user/types'
+import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('userStore', {
   state: () => {
@@ -42,10 +45,12 @@ export const useUserStore = defineStore('userStore', {
       this.token = ''
       this.userInfo = {
         id: 0,
+        password: '',
         name: '',
         avatar: '',
         status: 0,
         space_bg: '',
+        description: '',
       }
       await userLogout(id)
       localStorage.removeItem('userStore')
@@ -87,6 +92,21 @@ export const useUserStore = defineStore('userStore', {
     // 更新用户头像
     async updateUserAvatar(id: number, url: string) {
       await updateUserAvatar(id, url)
+    },
+    // 用户修改个人信息
+    async updatePersonalInfo(form: IUserForm) {
+      const res = await updateInfo(form)
+
+      if (res.code === 200) {
+        ElMessage({
+          type: 'success',
+          message: res.message + ',请重新登录以应用',
+        })
+        setTimeout(() => {
+          this.logout(form.id)
+          window.location.href = '/login'
+        }, 1000)
+      }
     },
   },
   getters: {

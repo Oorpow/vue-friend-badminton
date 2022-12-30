@@ -11,13 +11,18 @@
       ></div>
       <div p-3>
         <div flex items-center>
-          <ElAvatar>{{ invitationInfo.userInfo.name.slice(0, 1) }}</ElAvatar>
-          <span ml-2>{{ invitationInfo.userInfo.name }}</span>
+          <Avatar
+            :username="invitationInfo.userInfo.name"
+            :avatar="invitationInfo.userInfo.avatar"
+          />
+          <div flex flex-col ml-2>
+            <span>{{ invitationInfo.userInfo.name }}</span>
+            <span text-sm text-gray>{{
+              invitationInfo.userInfo.description
+            }}</span>
+          </div>
         </div>
-        <div>
-          <p>{{ !isMe ? '该用户很懒，什么都没有留下' : '' }}</p>
-        </div>
-        <div flex p-b-4 border-b-1 border-gray-2>
+        <div flex mt-2 p-b-4 border-b-1 border-gray-2>
           <ElIcon :size="20">
             <Calendar />
           </ElIcon>

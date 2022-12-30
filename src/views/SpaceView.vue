@@ -34,8 +34,20 @@
             :size="80"
           />
           <div flex flex-col ml-3>
-            <h3 m-0>{{ spaceUserInfo.name && spaceUserInfo.name }}</h3>
-            <span text-sm mt-2>个性签名...</span>
+            <div flex items-center>
+              <h3 my-0 mr-1>{{ spaceUserInfo.name && spaceUserInfo.name }}</h3>
+              <ElIcon
+                mt-1
+                cursor-pointer
+                hover:rotate-90
+                transition
+                @click="openUserInfoDialog"
+                ><Setting
+              /></ElIcon>
+            </div>
+            <span text-sm mt-2 text-gray>{{
+              userInfo.description ? userInfo.description : '暂无个性签名'
+            }}</span>
           </div>
           <template v-if="!isFriend && !isMyself">
             <ElButton color="#3b82f6" round ml-2>关注</ElButton></template
@@ -77,6 +89,46 @@
       </KeepAlive>
     </div>
   </div>
+
+  <ElDialog
+    v-model="userInfoDialogVisible"
+    title="修改个人信息"
+    width="40%"
+    align-center
+  >
+    <ElForm
+      label-position="right"
+      label-width="80px"
+      ref="userInfoFormRef"
+      :model="userInfoForm"
+      :rules="userInfoFormRules"
+    >
+      <ElFormItem label="用户名" prop="name">
+        <ElInput placeholder="" v-model="userInfoForm.name" />
+      </ElFormItem>
+      <ElFormItem label="密码" prop="password">
+        <ElInput
+          type="password"
+          placeholder=""
+          show-password
+          v-model="userInfoForm.password"
+        />
+      </ElFormItem>
+      <ElFormItem label="个人介绍">
+        <ElInput
+          type="textarea"
+          placeholder=""
+          resize="none"
+          v-model="userInfoForm.desc"
+          :rows="2"
+        />
+      </ElFormItem>
+      <ElFormItem>
+        <ElButton @click="editUserInfo(userInfoFormRef)">修改</ElButton>
+        <ElButton>取消</ElButton>
+      </ElFormItem>
+    </ElForm>
+  </ElDialog>
 </template>
 
 <script setup lang="ts">
@@ -85,10 +137,13 @@ import SpaceFriend from '@/components/Space/SpaceFriend/SpaceFriend.vue'
 import { markRaw, shallowRef, watch, ref, computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import { Setting } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
 import type { IFriend } from '@/request/api/friend/types'
 import { uploadConfig, uploadType } from '@/components/Space/UploadCpn/config'
+import type { FormInstance, FormRules } from 'element-plus'
+import type { IUserForm } from '@/request/api/user/types'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -157,6 +212,38 @@ const updateBgOrAvatar = async (type: string, url: string) => {
   }
   await userStore.getUserInfoById(spaceUserInfo.value.id)
   computeSpaceBg.value = spaceUserInfo.value.space_bg
+}
+
+let userInfoDialogVisible = ref(false)
+const userInfoFormRef = ref<FormInstance>()
+const userInfoFormRules = reactive<FormRules>({
+  name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+})
+const userInfoForm = reactive<IUserForm>({
+  id: 0,
+  name: '',
+  password: '',
+  desc: '',
+})
+
+const openUserInfoDialog = () => {
+  userInfoDialogVisible.value = true
+  userInfoForm.id = userInfo.value.id
+  userInfoForm.name = userInfo.value.name
+  userInfoForm.password = userInfo.value.password
+  userInfoForm.desc = userInfo.value.description
+}
+// 编辑个人信息
+const editUserInfo = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      await userStore.updatePersonalInfo(userInfoForm)
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
 }
 </script>
 

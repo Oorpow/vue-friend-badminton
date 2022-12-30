@@ -8,9 +8,6 @@
           <span ml-1>{{ commentList.length }}</span>
         </div>
       </template>
-      <template v-else>
-        <span>暂无评论，快来发表评论吧</span>
-      </template>
     </div>
     <!-- 评论区主体 -->
     <div mt-7>
@@ -18,11 +15,7 @@
       <div w-full flex flex-col>
         <div flex w-full h-6>
           <div w-5>
-            <ElAvatar
-              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-              size="default"
-              w-6
-            />
+            <Avatar :username="userInfo.name" :avatar="userInfo.avatar" />
           </div>
           <div flex w-full h-full border-b-1 border-b-gray-3 p-b-5>
             <ElInput
@@ -44,6 +37,9 @@
       </div>
       <!-- 用户评论 -->
       <div mt-10>
+        <template v-if="!commentList.length">
+          <ElEmpty description="暂无评论"></ElEmpty>
+        </template>
         <CommentItem
           :commentList="commentList"
           :currentInvitationId="currentInvitationId"
