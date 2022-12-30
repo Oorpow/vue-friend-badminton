@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
-
 import {
   userLogin,
   userRegister,
@@ -17,7 +16,6 @@ import type {
   IUserInfo,
   IUserForm,
 } from '@/request/api/user/types'
-import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('userStore', {
   state: () => {

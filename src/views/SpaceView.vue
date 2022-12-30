@@ -36,17 +36,20 @@
           <div flex flex-col ml-3>
             <div flex items-center>
               <h3 my-0 mr-1>{{ spaceUserInfo.name && spaceUserInfo.name }}</h3>
-              <ElIcon
-                mt-1
-                cursor-pointer
-                hover:rotate-90
-                transition
-                @click="openUserInfoDialog"
-                ><Setting
-              /></ElIcon>
+              <template v-if="isMaster">
+                <ElIcon
+                  mt-1
+                  cursor-pointer
+                  hover:rotate-90
+                  transition
+                  @click="openUserInfoDialog"
+                  ><Setting /></ElIcon
+              ></template>
             </div>
             <span text-sm mt-2 text-gray>{{
-              userInfo.description ? userInfo.description : '暂无个性签名'
+              spaceUserInfo.description
+                ? spaceUserInfo.description
+                : '暂无个性签名'
             }}</span>
           </div>
           <template v-if="!isFriend && !isMyself">
@@ -166,6 +169,8 @@ const currentTab = shallowRef(SpaceInvitation)
 const isFriend = ref(false)
 const isMyself = ref(false)
 const currentUserFriends = reactive<IFriend[]>([])
+// 是否是空间的主人
+let isMaster = computed(() => spaceUserInfo.value.id === userInfo.value.id)
 
 // 保存一份当前用户的好友列表
 friendStore.getFriendListById(userInfo.value.id).then(() => {
