@@ -28,7 +28,7 @@
             <ElButton
               type="primary"
               style="height: 100%; margin-left: 10px"
-              :disabled="!ableToComment"
+              :disabled="!ableToComment || commentForm.content === ''"
               @click="postComment"
               >发表评论</ElButton
             >
@@ -43,14 +43,39 @@
         <CommentItem
           :commentList="commentList"
           :currentInvitationId="currentInvitationId"
+          @showReplyInput="showReplyInput"
         />
       </div>
+    </div>
+  </div>
+  <div class="w-5.5/10 fixed bottom-0" v-if="isShowReplyInput">
+    <i class="reply_box absolute w-full h-3 z--1 top--3"></i>
+    <div
+      relative
+      flex
+      items-center
+      h-3
+      p-5
+      bg-white
+      ml--3
+      border-t-0.5
+      border-gray-3
+    >
+      <Avatar :username="userInfo.name" :avatar="userInfo.avatar" mr-2 />
+      <ElInput v-model="replyForm.content" resize="none" />
+      <ElButton
+        type="primary"
+        @click="replyComment"
+        ml-2
+        :disabled="replyForm.content === ''"
+        >回复</ElButton
+      >
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue'
+import { reactive, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { ICommentForm, ISpecialComment } from '@/request/api/comment/types'
 import { useUserStore } from '@/stores/user'
@@ -90,10 +115,37 @@ const postComment = () => {
     commentForm.content = ''
   }
 }
+
+const replyForm = reactive<ICommentForm>({
+  content: '',
+  inv_id: props.currentInvitationId,
+  parent_id: null,
+  user_id: userInfo.value.id,
+})
+let isShowReplyInput = ref(false)
+
+const showReplyInput = (comment: ISpecialComment) => {
+  isShowReplyInput.value = true
+  replyForm.parent_id = comment.id
+}
+
+// 回复评论
+const replyComment = () => {
+  if (userInfo.value.id) {
+    commentStore.createComment(replyForm)
+    replyForm.content = ''
+    isShowReplyInput.value = false
+  }
+}
 </script>
 
 <style scoped>
 :deep(.el-textarea__inner) {
   @apply h-6;
+}
+.reply_box {
+  background-color: rgba(0, 0, 0, 0.08);
+  filter: blur(10px);
+  border-radius: 50%;
 }
 </style>

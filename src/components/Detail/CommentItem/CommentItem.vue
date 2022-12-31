@@ -8,34 +8,21 @@
       <p m-0>{{ item.content }}</p>
       <div mt-2>
         <span text-sm text-gray-4>{{ $formatTime.format(item.createAt) }}</span>
-        <span class="reply_button" @click="showReplyInput(item)">回复</span>
-        <template v-if="item.isShowInput">
-          <div>
-            <ElInput
-              v-bind="inputConfig"
-              v-model="commentForm.content"
-              resize="none"
-            />
-            <ElButton type="primary" @click="postComment(item)">发布</ElButton>
-          </div>
-        </template>
+        <span class="reply_button" @click="emitShowReplyInput(item)">回复</span>
       </div>
       <!-- 递归组件 -->
       <CommentItem
         v-if="'children' in item"
         :commentList="item.children"
         :currentInvitationId="currentInvitationId"
+        @showReplyInput="emitShowReplyInput"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import { storeToRefs } from 'pinia'
-import type { ICommentForm, ISpecialComment } from '@/request/api/comment/types'
-import { useCommentStore } from '@/stores/comment'
-import { useUserStore } from '@/stores/user'
+import type { ISpecialComment } from '@/request/api/comment/types'
 
 type Props = {
   commentList: any[]
@@ -43,34 +30,11 @@ type Props = {
 }
 
 const props = defineProps<Props>()
-
-const userStore = useUserStore()
-const commentStore = useCommentStore()
-const { userInfo } = storeToRefs(userStore)
-
-const inputConfig = {
-  rows: 2,
-  type: 'textarea',
-}
-
-const commentForm = reactive<ICommentForm>({
-  content: '',
-  inv_id: props.currentInvitationId,
-  parent_id: null,
-  user_id: userInfo.value.id,
-})
+const emits = defineEmits(['showReplyInput'])
 
 // 显示评论的回复框
-const showReplyInput = (item: ISpecialComment) => {
-  item.isShowInput = true
-  commentForm.parent_id = item.id
-}
-
-// 回复/评论
-const postComment = (item: ISpecialComment) => {
-  commentStore.createComment(commentForm)
-  commentForm.content = ''
-  item.isShowInput = false
+const emitShowReplyInput = (item: ISpecialComment) => {
+  emits('showReplyInput', item)
 }
 </script>
 
