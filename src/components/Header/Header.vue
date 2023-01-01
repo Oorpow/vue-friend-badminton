@@ -174,6 +174,6 @@ watchEffect(() => {
 <style scoped>
 .header {
   box-shadow: 0px 4px 8px rgba(178, 199, 210, 0.3);
-  @apply flex justify-center items-center relative z-3 h-6 bg-primary;
+  @apply flex justify-center items-center relative z-3 h-6 bg-white;
 }
 </style>

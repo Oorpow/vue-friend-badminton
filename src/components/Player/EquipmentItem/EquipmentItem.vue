@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col items-center w-1/4">
+  <div class="flex flex-col items-center w-1/4 mx-2 first:ml-0">
     <ElImage :src="serverUrl + equipment.img" :alt="equipment.name" w-full />
-    <span>{{ equipment.name }}</span>
+    <span mt-2>{{ equipment.name }}</span>
   </div>
 </template>
 

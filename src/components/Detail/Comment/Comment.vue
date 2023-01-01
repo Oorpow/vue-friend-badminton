@@ -48,38 +48,39 @@
       </div>
     </div>
   </div>
-  <div class="w-5.5/10 fixed bottom-0" v-if="isShowReplyInput">
-    <i class="reply_box absolute w-full h-3 z--1 top--3"></i>
-    <div
-      relative
-      flex
-      items-center
-      h-3
-      p-5
-      bg-white
-      ml--3
-      border-t-0.5
-      border-gray-3
-    >
-      <Avatar :username="userInfo.name" :avatar="userInfo.avatar" mr-2 />
-      <ElInput v-model="replyForm.content" resize="none" />
-      <ElButton
-        type="primary"
-        @click="replyComment"
-        ml-2
-        :disabled="replyForm.content === ''"
-        >回复</ElButton
-      >
+  <Transition appear @before-enter="beforeEnter" @enter="enter">
+    <div class="w-5.5/10 fixed bottom-0" v-show="isShowReplyInput">
+      <i class="reply_box absolute w-full h-3 z--1 top--3"></i>
+      <div relative flex flex-col p-5 bg-white ml--3 border-t-0.5 border-gray-3>
+        <div flex justify-end cursor-pointer @click="isShowReplyInput = false">
+          <ElIcon>
+            <ArrowDown />
+          </ElIcon>
+        </div>
+        <div flex items-center mt-2>
+          <Avatar :username="userInfo.name" :avatar="userInfo.avatar" mr-2 />
+          <ElInput v-model="replyForm.content" resize="none" />
+          <ElButton
+            type="primary"
+            @click="replyComment"
+            ml-2
+            :disabled="replyForm.content === ''"
+            >回复</ElButton
+          >
+        </div>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import { reactive, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import type { ICommentForm, ISpecialComment } from '@/request/api/comment/types'
+import gsap from 'gsap'
+import { ArrowDown } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useCommentStore } from '@/stores/comment'
+import type { ICommentForm, ISpecialComment } from '@/request/api/comment/types'
 
 type Props = {
   commentList: ISpecialComment[]
@@ -136,6 +137,18 @@ const replyComment = () => {
     replyForm.content = ''
     isShowReplyInput.value = false
   }
+}
+
+const beforeEnter = (el: HTMLElement) => {
+  el.style.transform = 'translateY(50px)'
+  el.style.opacity = '0'
+}
+const enter = (el: HTMLElement) => {
+  gsap.to(el, {
+    y: 0,
+    opacity: 1,
+    duration: 0.5,
+  })
 }
 </script>
 

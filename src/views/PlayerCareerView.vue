@@ -61,7 +61,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
-
 import { usePlayerStore } from '@/stores/player'
 
 const route = useRoute()

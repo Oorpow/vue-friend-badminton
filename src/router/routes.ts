@@ -44,27 +44,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/ProduceView.vue'),
   },
   {
-    path: '/account',
-    name: 'account',
-    component: () => import('@/views/AccountView.vue'),
-    redirect: '/account/home',
-    children: [
-      {
-        path: 'home',
-        name: 'account-home',
-        component: () => import('@/components/Account/AccountHome.vue'),
-      },
-      {
-        path: 'request',
-        name: 'account-request',
-        component: () =>
-          import(
-            '@/components/Account/AccountFriendRequest/AccountFriendRequest.vue'
-          ),
-      },
-    ],
-  },
-  {
     path: '/space/:id',
     name: 'space',
     component: () => import('@/views/SpaceView.vue'),

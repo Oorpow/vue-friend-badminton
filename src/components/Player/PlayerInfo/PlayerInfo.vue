@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span text-xl>{{ title }}</span>
+    <span text-xl border-b-1 border-blue>{{ title }}</span>
     <slot name="content"></slot>
   </div>
 </template>
