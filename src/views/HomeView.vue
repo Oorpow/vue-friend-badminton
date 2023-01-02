@@ -12,10 +12,17 @@
         >
       </div>
     </div>
+    <!-- 近期资讯 -->
+    <SectionNews
+      :list="invitationList.slice(0, 3)"
+      v-if="invitationList.length"
+    />
     <!-- 球员 -->
     <Transition appear @before-enter="beforeEnter" @enter="enter">
       <Stars :playerList="playerList" />
     </Transition>
+    <!-- 品牌专区 -->
+    <Brand />
   </div>
 </template>
 
@@ -27,16 +34,20 @@ import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import { usePlayerStore } from '@/stores/player'
 import { useUserStore } from '@/stores/user'
+import { useInvitationStore } from '@/stores/invitation'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const router = useRouter()
 const userStore = useUserStore()
 const playerStore = usePlayerStore()
+const invitationStore = useInvitationStore()
 
 const { userInfo } = storeToRefs(userStore)
 const { playerList } = storeToRefs(playerStore)
+const { invitationList } = storeToRefs(invitationStore)
 
+invitationStore.getInvitationList()
 playerStore.getPlayerList()
 
 const beforeEnter = (el: HTMLElement) => {
@@ -52,16 +63,6 @@ const enter = (el: HTMLElement) => {
   })
 }
 
-// const isLogin = ref(false)
-// watchEffect(() => {
-//   console.log(userInfo.value)
-
-//   if (userInfo.value.id) {
-//     isLogin.value = true
-//   } else {
-//     isLogin.value = false
-//   }
-// })
 const isLogin = computed(() => (userInfo.value.id ? true : false))
 
 const navToRoute = () => {

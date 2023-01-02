@@ -7,13 +7,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AccountFriendReceive: typeof import('./src/components/Account/AccountFriendRequest/src/components/AccountFriendReceive.vue')['default']
-    AccountFriendReqItem: typeof import('./src/components/Account/AccountFriendRequest/src/components/AccountFriendReqItem.vue')['default']
-    AccountFriendRequest: typeof import('./src/components/Account/AccountFriendRequest/AccountFriendRequest.vue')['default']
-    AccountHome: typeof import('./src/components/Account/AccountHome.vue')['default']
     ArticleItem: typeof import('./src/components/Detail/ArticleItem/ArticleItem.vue')['default']
     AuthorInfo: typeof import('./src/components/Detail/AuthorInfo/AuthorInfo.vue')['default']
     Avatar: typeof import('./src/components/Header/components/Avatar.vue')['default']
+    Brand: typeof import('./src/components/Home/Brand.vue')['default']
     BubbleBox: typeof import('./src/components/Message/MessageBox/components/BubbleBox.vue')['default']
     Carousel: typeof import('./src/components/Carousel/Carousel.vue')['default']
     Comment: typeof import('./src/components/Detail/Comment/Comment.vue')['default']
@@ -28,13 +25,9 @@ declare module '@vue/runtime-core' {
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
-    ElEmpty: typeof import('element-plus/es')['ElEmpty']
-    ElForm: typeof import('element-plus/es')['ElForm']
-    ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
-    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     EquipmentItem: typeof import('./src/components/Player/EquipmentItem/EquipmentItem.vue')['default']
     Footer: typeof import('./src/components/Footer/Footer.vue')['default']
     FriendItem: typeof import('./src/components/Message/FriendItem/FriendItem.vue')['default']
@@ -57,10 +50,11 @@ declare module '@vue/runtime-core' {
     SearchedItem: typeof import('./src/components/Message/FriendItemSearched/components/SearchedItem.vue')['default']
     SearchExistFriend: typeof import('./src/components/Message/SearchExistFriend/SearchExistFriend.vue')['default']
     SearchResultItem: typeof import('./src/components/Header/components/SearchBox/components/SearchResultItem.vue')['default']
+    SectionNews: typeof import('./src/components/Home/SectionNews.vue')['default']
     SettingOptions: typeof import('./src/components/Header/components/SettingOptions.vue')['default']
     SpaceFriend: typeof import('./src/components/Space/SpaceFriend/SpaceFriend.vue')['default']
     SpaceInvitation: typeof import('./src/components/Space/SpaceInvitation/SpaceInvitation.vue')['default']
-    Stars: typeof import('./src/components/Home/Stars/Stars.vue')['default']
+    Stars: typeof import('./src/components/Home/Stars.vue')['default']
     UploadCpn: typeof import('./src/components/Space/UploadCpn/UploadCpn.vue')['default']
   }
 }
