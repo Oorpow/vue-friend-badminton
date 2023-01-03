@@ -5,6 +5,7 @@ import type {
   Invitation,
   InvitationInfo,
   InvitationSearch,
+  InvitationListByPage,
 } from './types'
 
 export const createInvitation = (invitationForm: Invitation) =>
@@ -22,6 +23,15 @@ export const getAllInvitation = () =>
 export const getAllInvitationByUserPosted = (id: number) =>
   opRequest.get<IResData<InvitationInfo[]>>({
     url: `/invitation/user/${id}`,
+  })
+
+// 获取用户发布的帖子(分页)
+export const getAllInvitationByUserIdAndPagenum = (
+  id: number,
+  pagenum: number
+) =>
+  opRequest.get<IResData<InvitationListByPage>>({
+    url: `/invitation/user/${id}/pagenum/${pagenum}`,
   })
 
 // 根据关键字查询帖子

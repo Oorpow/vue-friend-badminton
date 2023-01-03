@@ -1,5 +1,6 @@
 import {
   getAllInvitationByKeywords,
+  getAllInvitationByUserIdAndPagenum,
   getAllInvitationByUserPosted,
   starOrUnstarInvitation,
   updateInvitationById,
@@ -27,6 +28,7 @@ export const useInvitationStore = defineStore('invitationStore', {
     return {
       invitationList: <InvitationInfo[]>[],
       postedInvitationList: <InvitationInfo[]>[],
+      totalNum: 0,
       invitationInfo: <InvitationInfo>{},
       otherInvitation: <InvitationInfo[]>[],
       invitationListByTag: <InvitationInfo[]>[],
@@ -102,6 +104,12 @@ export const useInvitationStore = defineStore('invitationStore', {
       const res = await getAllInvitationByUserPosted(id)
       this.postedInvitationList.length = 0
       this.postedInvitationList.push(...res.data)
+    },
+    async getUserPostedInvitationByPage(id: number, pagenum: number) {
+      const res = await getAllInvitationByUserIdAndPagenum(id, pagenum)
+      this.postedInvitationList.length = 0
+      this.postedInvitationList.push(...res.data.result)
+      this.totalNum = res.data.total
     },
     // 模糊查询帖子
     async getInvitationBySearchVal(val: string) {

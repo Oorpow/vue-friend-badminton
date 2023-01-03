@@ -120,7 +120,6 @@
       <ElFormItem label="个人介绍">
         <ElInput
           type="textarea"
-          placeholder=""
           resize="none"
           v-model="userInfoForm.desc"
           :rows="2"
@@ -141,12 +140,15 @@ import { markRaw, shallowRef, watch, ref, computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { Setting } from '@element-plus/icons-vue'
+
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
+import { useInvitationStore } from '@/stores/invitation'
+import { useCommentStore } from '@/stores/comment'
 import type { IFriend } from '@/request/api/friend/types'
-import { uploadConfig, uploadType } from '@/components/Space/UploadCpn/config'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { IUserForm } from '@/request/api/user/types'
+import { uploadConfig, uploadType } from '@/components/Space/UploadCpn/config'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -180,15 +182,21 @@ friendStore.getFriendListById(userInfo.value.id).then(() => {
 
 watch(
   () => route.params,
-  async (newVal) => {
+  (newVal) => {
     // 获取空间的主人信息
-    await userStore.getUserInfoById(Number(newVal.id))
-    isMyself.value = spaceUserInfo.value.id === userInfo.value.id
-    computeSpaceBg.value = spaceUserInfo.value.space_bg
-    await friendStore.getFriendListById(Number(newVal.id))
-    isFriend.value = currentUserFriends.some(
-      (item) => item.friendInfo.id === spaceUserInfo.value.id
-    )
+    userStore.getUserInfoById(Number(newVal.id)).then(() => {
+      // 判断用户是否是空间的主人
+      isMyself.value = spaceUserInfo.value.id === userInfo.value.id
+      computeSpaceBg.value = spaceUserInfo.value.space_bg
+    })
+
+    // 获取该用户关注的好友
+    friendStore.getFriendListById(Number(newVal.id)).then(() => {
+      // 判断该空间的主人跟用户是否是好友关系
+      isFriend.value = currentUserFriends.some(
+        (item) => item.friendInfo.id === spaceUserInfo.value.id
+      )
+    })
   },
   {
     deep: true,

@@ -35,3 +35,7 @@ export interface ILikes {
   user_id: number
   invitation_id: number
 }
+export interface InvitationListByPage {
+  total: number
+  result: InvitationInfo[]
+}
