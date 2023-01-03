@@ -9,7 +9,18 @@
 import { computed } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 const route = useRoute()
-const showFooter = computed(() => route.path !== '/login')
+
+const forbiddenList = ['/login', '/space']
+
+const showFooter = computed(() => {
+  let val = true
+  forbiddenList.forEach((item) => {
+    if (route.path.startsWith(item)) {
+      val = false
+    }
+  })
+  return val
+})
 </script>
 
 <style>

@@ -53,7 +53,9 @@
             }}</span>
           </div>
           <template v-if="!isFriend && !isMyself">
-            <ElButton color="#3b82f6" round ml-2>关注</ElButton></template
+            <ElButton color="#3b82f6" round ml-2 @click="handleAddFriend"
+              >关注</ElButton
+            ></template
           >
           <template v-else-if="isMyself"> </template>
           <template v-else>
@@ -75,7 +77,7 @@
           <span
             text-gray
             cursor-pointer
-            last:ml-5
+            mr-5
             v-for="tab in tabList"
             :key="tab.id"
             @click=";(currentTab as any) = tab.comName"
@@ -86,7 +88,7 @@
       </div>
     </div>
 
-    <div class="w-8/10 mx-auto">
+    <div class="w-8/10 mx-auto mb-10">
       <KeepAlive>
         <component :is="currentTab" :friends="friendList"></component>
       </KeepAlive>
@@ -146,7 +148,7 @@ import { useFriendStore } from '@/stores/friend'
 import { useInvitationStore } from '@/stores/invitation'
 import { useCommentStore } from '@/stores/comment'
 import type { IFriend } from '@/request/api/friend/types'
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import type { IUserForm } from '@/request/api/user/types'
 import { uploadConfig, uploadType } from '@/components/Space/UploadCpn/config'
 
@@ -157,10 +159,9 @@ const friendStore = useFriendStore()
 const { spaceUserInfo, userInfo } = storeToRefs(userStore)
 const { friendList } = storeToRefs(friendStore)
 
-const tabList = [
+const tabList = reactive<any[]>([
   { id: 1, name: '投稿', comName: markRaw(SpaceInvitation) },
-  { id: 2, name: '关注列表', comName: markRaw(SpaceFriend) },
-]
+])
 
 const defaultStyle = {
   marginTop: '-15px',
@@ -174,11 +175,13 @@ const currentUserFriends = reactive<IFriend[]>([])
 // 是否是空间的主人
 let isMaster = computed(() => spaceUserInfo.value.id === userInfo.value.id)
 
-// 保存一份当前用户的好友列表
-friendStore.getFriendListById(userInfo.value.id).then(() => {
-  currentUserFriends.length = 0
-  currentUserFriends.push(...friendList.value)
-})
+if (userInfo.value.id) {
+  // 保存一份当前用户的好友列表
+  friendStore.getFriendListById(userInfo.value.id).then(() => {
+    currentUserFriends.length = 0
+    currentUserFriends.push(...friendList.value)
+  })
+}
 
 watch(
   () => route.params,
@@ -190,13 +193,16 @@ watch(
       computeSpaceBg.value = spaceUserInfo.value.space_bg
     })
 
-    // 获取该用户关注的好友
-    friendStore.getFriendListById(Number(newVal.id)).then(() => {
-      // 判断该空间的主人跟用户是否是好友关系
-      isFriend.value = currentUserFriends.some(
-        (item) => item.friendInfo.id === spaceUserInfo.value.id
-      )
-    })
+    if (userInfo.value.id) {
+      tabList.push({ id: 2, name: '关注列表', comName: markRaw(SpaceFriend) })
+      // 获取该用户关注的好友
+      friendStore.getFriendListById(Number(newVal.id)).then(() => {
+        // 判断该空间的主人跟用户是否是好友关系
+        isFriend.value = currentUserFriends.some(
+          (item) => item.friendInfo.id === spaceUserInfo.value.id
+        )
+      })
+    }
   },
   {
     deep: true,
@@ -257,6 +263,18 @@ const editUserInfo = async (formEl: FormInstance | undefined) => {
       console.log('error submit!', fields)
     }
   })
+}
+
+// 添加好友
+const handleAddFriend = () => {
+  if (userInfo.value.id) {
+    console.log()
+  } else {
+    ElMessage({
+      type: 'warning',
+      message: '请先登录再进行该操作',
+    })
+  }
 }
 </script>
 

@@ -42,7 +42,6 @@ const props = withDefaults(defineProps<Props>(), {
   list: () => [],
 })
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
-console.log(props.list)
 </script>
 
 <style scoped>
