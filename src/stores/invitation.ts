@@ -52,11 +52,12 @@ export const useInvitationStore = defineStore('invitationStore', {
         })
       }
     },
-    // 获取全部动态
-    async getInvitationList() {
-      const res = await getAllInvitation()
+    // 获取全部动态(分页查询)
+    async getInvitationList(pagenum: number = 1) {
+      const res = await getAllInvitation(pagenum)
       this.invitationList.length = 0
-      this.invitationList.push(...res.data)
+      this.totalNum = res.data.total
+      this.invitationList.push(...res.data.result)
     },
     // 根据id获取某条动态的详情
     async getInvitationById(id: number) {
@@ -66,17 +67,20 @@ export const useInvitationStore = defineStore('invitationStore', {
     // 获取除指定动态外的其他动态
     async getOtherInvitation(id: number) {
       const res = await getAllInvitation()
-      const copyRes = [...res.data]
+      const copyRes = [...res.data.result]
       const result = copyRes.filter(
         (item: InvitationInfo) => item.invitation_id !== id
       )
       this.otherInvitation = result
     },
     // 按照分类获取动态
-    async getInvitationByTagId(id: number) {
-      const res = await getInvitationByTag(id)
-      this.invitationListByTag.length = 0
-      this.invitationListByTag.push(...res.data)
+    async getInvitationByTagId(id: number, pagenum: number) {
+      const res = await getInvitationByTag(id, pagenum)
+      this.invitationList.length = 0
+      this.invitationList.push(...res.data.result)
+      this.totalNum = res.data.total
+      // this.invitationListByTag.length = 0
+      // this.invitationListByTag.push(...res.data.result)
     },
     // 判断用户是否点赞过某个帖子
     async judgeStarredInvitation(userId: number, invitationId: number) {
@@ -105,6 +109,7 @@ export const useInvitationStore = defineStore('invitationStore', {
       this.postedInvitationList.length = 0
       this.postedInvitationList.push(...res.data)
     },
+    // 分页查询用户发布过的帖子
     async getUserPostedInvitationByPage(id: number, pagenum: number) {
       const res = await getAllInvitationByUserIdAndPagenum(id, pagenum)
       this.postedInvitationList.length = 0

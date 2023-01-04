@@ -14,9 +14,9 @@ export const createInvitation = (invitationForm: Invitation) =>
     data: invitationForm,
   })
 
-export const getAllInvitation = () =>
-  opRequest.get<IResData<InvitationInfo[]>>({
-    url: '/invitation',
+export const getAllInvitation = (pagenum: number = 1) =>
+  opRequest.get<IResData<InvitationListByPage>>({
+    url: `/invitation/pagenum/${pagenum}`,
   })
 
 // 获取用户发布的帖子
@@ -49,9 +49,9 @@ export const getOneInvitation = (id: number) =>
   })
 
 // 按照分类获取帖子
-export const getInvitationByTag = (id: number) =>
-  opRequest.get<IResData<InvitationInfo[]>>({
-    url: `/invitation/tag/${id}`,
+export const getInvitationByTag = (id: number, pagenum: number = 1) =>
+  opRequest.get<IResData<InvitationListByPage>>({
+    url: `/invitation/tag/${id}/pagenum/${pagenum}`,
   })
 
 // 判断用户是否曾点赞过某个帖子

@@ -1,42 +1,20 @@
 <template>
-  <div class="w-2/3">
-    <NewsItem
-      :list="getAll ? invitationList : invitationListByTag"
-      :commentMap="commentMap"
-    />
+  <div>
+    <NewsItem :list="list" :commentMap="commentMap" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useInvitationStore } from '@/stores/invitation'
-import { useCommentStore } from '@/stores/comment'
+import type { InvitationInfo } from '@/request/api/invitation/types'
 
-const route = useRoute()
+type Props = {
+  list: InvitationInfo[]
+  commentMap: any
+}
 
-const invitationStore = useInvitationStore()
-const commentStore = useCommentStore()
-const { invitationListByTag, invitationList } = storeToRefs(invitationStore)
-const { commentMap } = storeToRefs(commentStore)
-
-// 默认情况下获取全部帖子
-let getAll = ref(true)
-
-watchEffect(() => {
-  if (Number(route.params.type) === 0) {
-    getAll.value = true
-    invitationStore.getInvitationList().then(() => {
-      commentStore.getAllCommentByOneSelf(invitationList.value)
-    })
-  } else {
-    getAll.value = false
-    // 根据params决定获取不同标签的帖子
-    invitationStore.getInvitationByTagId(Number(route.params.type)).then(() => {
-      commentStore.getAllCommentByOneSelf(invitationListByTag.value)
-    })
-  }
+const props = withDefaults(defineProps<Props>(), {
+  list: () => [],
+  commentMap: new Map(),
 })
 </script>
 

@@ -145,8 +145,6 @@ import { Setting } from '@element-plus/icons-vue'
 
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
-import { useInvitationStore } from '@/stores/invitation'
-import { useCommentStore } from '@/stores/comment'
 import type { IFriend } from '@/request/api/friend/types'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import type { IUserForm } from '@/request/api/user/types'
@@ -176,7 +174,7 @@ const currentUserFriends = reactive<IFriend[]>([])
 let isMaster = computed(() => spaceUserInfo.value.id === userInfo.value.id)
 
 if (userInfo.value.id) {
-  // 保存一份当前用户的好友列表
+  // 已登录的情况下, 保存一份当前用户的好友列表
   friendStore.getFriendListById(userInfo.value.id).then(() => {
     currentUserFriends.length = 0
     currentUserFriends.push(...friendList.value)

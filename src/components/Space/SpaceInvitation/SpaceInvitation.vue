@@ -20,7 +20,7 @@
       hide-on-single-page
       flex
       justify-center
-      :page-size="5"
+      :page-size="6"
       v-model:current-page="currentPage"
       :total="totalNum"
       @current-change="handleCurrentChange"
@@ -56,10 +56,11 @@ let currentPage = ref(1)
 watch(
   () => route.params,
   (newVal) => {
-    invitationStore.getUserPostedInvitationByPage(
-      userInfo.value.id,
-      currentPage.value
-    )
+    invitationStore
+      .getUserPostedInvitationByPage(userInfo.value.id, currentPage.value)
+      .then(() => {
+        console.log(postedInvitationList.value)
+      })
   },
   {
     deep: true,

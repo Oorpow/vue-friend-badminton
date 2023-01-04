@@ -1,126 +1,120 @@
 <template>
-  <TransitionGroup appear @before-enter="beforeEnter" @enter="enter">
-    <div
-      my-10
-      p-3
-      border-1
-      border-gray-2
-      bg-white
-      rounded-lg
-      :style="styleConfig"
-      v-for="(item, index) in list"
-      :key="item.invitation_id"
-    >
-      <div :data-index="index">
-        <div flex items-center justify-between>
-          <div>
-            <ElAvatar size="small">{{
-              item.userInfo.name.slice(0, 1)
-            }}</ElAvatar>
-            <span ml-2 text-sm>{{ item.userInfo.name }}</span>
-          </div>
-          <div>
-            <span
-              text-sm
-              px-2
-              py-1
-              ml-2
-              first:ml-0
-              bg-gray-2
-              rounded-2xl
-              v-for="tag in item.tagList"
-              :key="tag.id"
-              >{{ tag.name }}</span
-            >
-          </div>
+  <div
+    my-10
+    p-3
+    border-1
+    border-gray-2
+    bg-white
+    rounded-lg
+    :style="styleConfig"
+    v-for="(item, index) in list"
+    :key="item.invitation_id"
+  >
+    <div :data-index="index">
+      <div flex items-center justify-between>
+        <div>
+          <ElAvatar size="small">{{ item.userInfo.name.slice(0, 1) }}</ElAvatar>
+          <span ml-2 text-sm>{{ item.userInfo.name }}</span>
         </div>
         <div>
-          <div cursor-pointer @click="navToNewsDetail(item.invitation_id)">
-            <h3 font-normal truncate>
-              {{ item.title }}
-            </h3>
-            <div class="article_content">
-              <div w-full h-20>
-                <ElImage
-                  :src="serverUrl + item.img"
-                  class="w-full h-full"
-                  fit="cover"
-                />
-              </div>
-              <div v-html="item.content"></div>
+          <span
+            text-sm
+            px-2
+            py-1
+            ml-2
+            first:ml-0
+            bg-gray-2
+            rounded-2xl
+            v-for="tag in item.tagList"
+            :key="tag.id"
+            >{{ tag.name }}</span
+          >
+        </div>
+      </div>
+      <div>
+        <div cursor-pointer @click="navToNewsDetail(item.invitation_id)">
+          <h3 font-normal truncate>
+            {{ item.title }}
+          </h3>
+          <div class="article_content">
+            <div w-full h-20>
+              <ElImage
+                :src="serverUrl + item.img"
+                class="w-full h-full"
+                fit="cover"
+              />
             </div>
+            <div v-html="item.content"></div>
           </div>
+        </div>
 
-          <!-- 帖子数据 -->
-          <div flex mt-3>
-            <div flex>
-              <ElTooltip content="阅读量" placement="top">
-                <ElIcon :size="18" color="#9ca3af">
-                  <Mouse />
-                </ElIcon>
-              </ElTooltip>
-              <span ml-1 text-sm text-gray-4>{{ 11 }}</span>
-            </div>
-            <div flex mx-3>
-              <ElTooltip
-                :content="
-                  isStarred(userInfo.id, item.invitation_id)
-                    ? '取消点赞'
-                    : '点赞'
-                "
-                placement="top"
-              >
-                <ElIcon
-                  :size="18"
-                  @click="handleStar(item.invitation_id)"
-                  class="cursor-pointer"
-                  :color="
-                    isStarred(userInfo.id, item.invitation_id)
-                      ? '#f6bf48'
-                      : '#9ca3af'
-                  "
-                >
-                  <StarFilled
-                    v-if="
-                      userInfo.id && isStarred(userInfo.id, item.invitation_id)
-                    "
-                  />
-                  <Star v-else />
-                </ElIcon>
-              </ElTooltip>
-              <span ml-1 text-sm text-gray-4>{{
-                item.stars !== 0 ? item.stars : ''
-              }}</span>
-            </div>
-            <div flex>
-              <ElTooltip content="评论" placement="top">
-                <ElIcon :size="18" class="cursor-pointer" color="#9ca3af">
-                  <ChatLineSquare />
-                </ElIcon>
-              </ElTooltip>
-              <template v-for="(v, k) in commentMap" :key="k">
-                <span
-                  ml-1
-                  text-sm
-                  text-gray-4
-                  v-show="v[0] === item.invitation_id"
-                  >{{ v[1] === 0 ? '' : v[1] }}</span
-                ></template
-              >
-            </div>
-            <div flex ml-3>
+        <!-- 帖子数据 -->
+        <div flex mt-3>
+          <div flex>
+            <ElTooltip content="阅读量" placement="top">
               <ElIcon :size="18" color="#9ca3af">
-                <Timer />
+                <Mouse />
               </ElIcon>
-              <span ml-1 text-sm text-gray-4>{{
-                $formatTime.format(item.createAt)
-              }}</span>
-            </div>
+            </ElTooltip>
+            <span ml-1 text-sm text-gray-4>{{ 11 }}</span>
+          </div>
+          <div flex mx-3>
+            <ElTooltip
+              :content="
+                isStarred(userInfo.id, item.invitation_id) ? '取消点赞' : '点赞'
+              "
+              placement="top"
+            >
+              <ElIcon
+                :size="18"
+                @click="handleStar(item.invitation_id)"
+                class="cursor-pointer"
+                :color="
+                  isStarred(userInfo.id, item.invitation_id)
+                    ? '#f6bf48'
+                    : '#9ca3af'
+                "
+              >
+                <StarFilled
+                  v-if="
+                    userInfo.id && isStarred(userInfo.id, item.invitation_id)
+                  "
+                />
+                <Star v-else />
+              </ElIcon>
+            </ElTooltip>
+            <span ml-1 text-sm text-gray-4>{{
+              item.stars !== 0 ? item.stars : ''
+            }}</span>
+          </div>
+          <div flex>
+            <ElTooltip content="评论" placement="top">
+              <ElIcon :size="18" class="cursor-pointer" color="#9ca3af">
+                <ChatLineSquare />
+              </ElIcon>
+            </ElTooltip>
+            <template v-for="(v, k) in commentMap" :key="k">
+              <span
+                ml-1
+                text-sm
+                text-gray-4
+                v-show="v[0] === item.invitation_id"
+                >{{ v[1] === 0 ? '' : v[1] }}</span
+              ></template
+            >
+          </div>
+          <div flex ml-3>
+            <ElIcon :size="18" color="#9ca3af">
+              <Timer />
+            </ElIcon>
+            <span ml-1 text-sm text-gray-4>{{
+              $formatTime.format(item.createAt)
+            }}</span>
           </div>
         </div>
       </div>
     </div>
-  </TransitionGroup>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -189,20 +183,6 @@ const handleStar = async (invitationId: number) => {
 // 导航至详情页
 const navToNewsDetail = (id: number) => {
   router.push(`/news_det/${id}`)
-}
-
-const beforeEnter = (el: Element) => {
-  ;(el as HTMLElement).style.opacity = '0'
-  ;(el as HTMLElement).style.transform = 'translateY(60px)'
-}
-const enter = (el: Element, done: () => void) => {
-  gsap.to(el, {
-    scrollTrigger: el,
-    y: 0,
-    opacity: 1,
-    delay: 0.2,
-    onComplete: done,
-  })
 }
 </script>
 
