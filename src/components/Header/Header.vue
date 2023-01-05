@@ -85,8 +85,8 @@ const navList = [
     name: '羽坛动态',
   },
   {
-    path: '/',
-    name: '神兵利器',
+    path: '/match',
+    name: '近期赛事',
   },
 ]
 // 搜索框的关键字
