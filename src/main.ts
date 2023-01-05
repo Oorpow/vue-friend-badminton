@@ -3,14 +3,14 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import dayjs from 'dayjs'
 import { io } from 'socket.io-client'
-
-import App from './App.vue'
-import router from './router'
-
 import 'element-plus/dist/index.css'
 import 'uno.css'
 import '@unocss/reset/normalize.css'
 import '@/assets/css/global.css'
+
+import App from './App.vue'
+import router from './router'
+import { vHasAuth } from './directives/vHasAuth'
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -43,5 +43,6 @@ declare module 'vue' {
 pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 app.use(router)
+app.directive('hasAuth', vHasAuth)
 
 app.mount('#app')

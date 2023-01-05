@@ -64,21 +64,20 @@
             <span ml-2>获得Star {{ invitationInfo.stars }}</span>
           </div>
         </div>
-        <div mt-3>
-          <template v-if="!isFriendWith && !isMe">
-            <ElButton w-full round color="#3b82f6">关注</ElButton>
-          </template>
-          <template v-else-if="isMe"> </template>
-          <template v-else>
-            <ElButton
-              w-full
-              round
-              color="#3b82f6"
-              :icon="Message"
-              @click="navToChat"
-              >发消息</ElButton
-            >
-          </template>
+        <div mt-3 v-has-auth="userInfo.id">
+          <ElButton
+            w-full
+            round
+            color="#3b82f6"
+            @click="
+              navToRoute(
+                computeButtonText === ButtonText.chat
+                  ? '/message'
+                  : `/space/${userInfo.id}`
+              )
+            "
+            >{{ computeButtonText }}</ElButton
+          >
         </div>
       </div>
     </div>
@@ -89,17 +88,11 @@
 import { watch, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import {
-  Calendar,
-  Message,
-  Star,
-  StarFilled,
-  View,
-} from '@element-plus/icons-vue'
-import { useInvitationStore } from '@/stores/invitation'
-import type { InvitationInfo } from '@/request/api/invitation/types'
-import { useUserStore } from '@/stores/user'
 import { ElNotification } from 'element-plus'
+import { Calendar, Star, StarFilled, View } from '@element-plus/icons-vue'
+import { useInvitationStore } from '@/stores/invitation'
+import { useUserStore } from '@/stores/user'
+import type { InvitationInfo } from '@/request/api/invitation/types'
 
 type Props = {
   invitationInfo: InvitationInfo
@@ -127,17 +120,35 @@ watch(
   }
 )
 
-// 进入聊天室发消息
-const navToChat = () => {
-  router.push(`/message`)
-}
-
 // 个人背景的控制
 const computeSpaceBg = computed(() => {
   return props.invitationInfo.userInfo.space_bg
     ? `url(${serverUrl + props.invitationInfo.userInfo.space_bg})`
     : '#3b82f6'
 })
+
+enum ButtonText {
+  follow = '关注',
+  space = '我的空间',
+  chat = '发消息',
+}
+
+const computeButtonText = computed(() => {
+  let val = ''
+
+  if (!isFriendWith.value && !isMe.value) {
+    val = ButtonText.follow
+  } else if (isMe.value) {
+    val = ButtonText.space
+  } else {
+    val = ButtonText.chat
+  }
+  return val
+})
+
+const navToRoute = (path: string) => {
+  router.push(path)
+}
 
 if (userInfo.value.id) {
   invitationStore.findAllStarredInvitation(userInfo.value.id)
