@@ -2,7 +2,7 @@
   <Header />
   <div class="news_page relative">
     <div class="w-7/10 mx-auto my-10 flex justify-around relative">
-      <div flex flex-col overflow-hidden class="w-2/3">
+      <div class="w-2/3 flex flex-col overflow-hidden">
         <div>
           <ElPopover placement="bottom" trigger="click" :width="120">
             <template #reference>
@@ -62,7 +62,6 @@ import { useInvitationStore } from '@/stores/invitation'
 import { useCommentStore } from '@/stores/comment'
 import { useBrandStore } from '@/stores/brand'
 import { usePlayerStore } from '@/stores/player'
-import type { CheckboxValueType } from 'element-plus'
 
 enum Tag {
   'All',

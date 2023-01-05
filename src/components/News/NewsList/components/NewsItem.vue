@@ -133,7 +133,7 @@ import {
 import { useInvitationStore } from '@/stores/invitation'
 import type { InvitationInfo } from '@/request/api/invitation/types'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 type Props = {
   list: InvitationInfo[]
@@ -145,6 +145,7 @@ const props = defineProps<Props>()
 gsap.registerPlugin(ScrollTrigger)
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 
+const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const invitationStore = useInvitationStore()
@@ -175,7 +176,11 @@ const handleStar = async (invitationId: number) => {
       invitationId,
       starred ? 0 : 1
     )
-    await invitationStore.getUserPostedInvitation(userInfo.value.id)
+    if (route.path.startsWith('/news')) {
+      await invitationStore.getInvitationList()
+    } else {
+      await invitationStore.getUserPostedInvitation(userInfo.value.id)
+    }
     await invitationStore.findAllStarredInvitation(userInfo.value.id)
   }
 }
