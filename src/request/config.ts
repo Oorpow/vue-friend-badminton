@@ -1,6 +1,6 @@
-import type { OpRequestConfig } from './types'
-import type { AxiosRequestHeaders } from 'axios'
 import OpRequest from '.'
+import type { AxiosRequestHeaders } from 'axios'
+import type { OpRequestConfig } from './types'
 import { getLocalToken } from '@/utils/getLocalStorage'
 
 const config: OpRequestConfig = {
