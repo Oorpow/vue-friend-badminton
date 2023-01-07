@@ -1,9 +1,9 @@
 <template>
   <div>
     <div flex flex-wrap items-start>
-      <template v-if="postedInvitationList.length">
+      <template v-if="postedInvitationList.length || invitationList.length">
         <NewsItem
-          :list="postedInvitationList"
+          :list="userInfo.id ? postedInvitationList : invitationList"
           :commentMap="commentMap"
           :styleConfig="styleConfig"
         />
@@ -42,7 +42,8 @@ const invitationStore = useInvitationStore()
 const commentStore = useCommentStore()
 
 const { userInfo } = storeToRefs(userStore)
-const { postedInvitationList, totalNum } = storeToRefs(invitationStore)
+const { postedInvitationList, invitationList, totalNum } =
+  storeToRefs(invitationStore)
 const { commentMap } = storeToRefs(commentStore)
 
 const styleConfig = {
@@ -56,11 +57,14 @@ let currentPage = ref(1)
 watch(
   () => route.params,
   (newVal) => {
-    invitationStore
-      .getUserPostedInvitationByPage(userInfo.value.id, currentPage.value)
-      .then(() => {
-        console.log(postedInvitationList.value)
-      })
+    if (userInfo.value.id) {
+      invitationStore.getUserPostedInvitationByPage(
+        userInfo.value.id,
+        currentPage.value
+      )
+    } else {
+      invitationStore.getInvitationList()
+    }
   },
   {
     deep: true,
@@ -70,7 +74,11 @@ watch(
 
 // 改变页码
 const handleCurrentChange = (val: number) => {
-  invitationStore.getUserPostedInvitationByPage(userInfo.value.id, val)
+  if (userInfo.value.id) {
+    invitationStore.getUserPostedInvitationByPage(userInfo.value.id, val)
+  } else {
+    invitationStore.getInvitationList(currentPage.value)
+  }
 }
 </script>
 

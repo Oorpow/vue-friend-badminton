@@ -50,6 +50,6 @@ const navToPlayerCareer = (id: number) => {
 
 <style scoped>
 .stars {
-  @apply w-9/10 flex flex-col my-5 mx-auto;
+  @apply w-9/10 flex flex-col my-20 mx-auto;
 }
 </style>

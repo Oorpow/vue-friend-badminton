@@ -72,7 +72,7 @@ const navToRoute = () => {
 
 <style scoped>
 .home_page {
-  @apply w-full m-auto relative;
+  @apply w-full m-auto relative bg-white;
 }
 .home_page .home_page_bg {
   height: 500px;

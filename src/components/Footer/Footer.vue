@@ -1,5 +1,5 @@
 <template>
-  <div flex items-center w-full mt-10 h-6 bg-neutral-2>
+  <div flex items-center w-full h-6 bg-neutral-2>
     <div class="w-9/10 m-auto flex items-center justify-center">
       <div w-10>
         <img src="@/assets/images/logo/logo.png" alt="logo" />
