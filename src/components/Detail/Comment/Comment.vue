@@ -51,7 +51,9 @@
   <Transition appear @before-enter="beforeEnter" @enter="enter">
     <div class="w-5.5/10 fixed bottom-0" v-show="isShowReplyInput">
       <i class="reply_box absolute w-full h-3 z--1 top--3"></i>
-      <div relative flex flex-col p-5 bg-white ml--3 border-t-0.5 border-gray-3>
+      <div
+        class="relative flex flex-col p-5 bg-white ml--3 border-t-0.5 border-gray-3"
+      >
         <div flex justify-end cursor-pointer @click="isShowReplyInput = false">
           <ElIcon>
             <ArrowDown />

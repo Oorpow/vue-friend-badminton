@@ -80,7 +80,7 @@
             mr-5
             v-for="tab in tabList"
             :key="tab.id"
-            @click=";(currentTab as any) = tab.comName"
+            @click="changeTab(tab)"
             :class="currentTab === tab.comName ? 'tab_active' : ''"
             >{{ tab.name }}</span
           >
@@ -207,6 +207,10 @@ watch(
     immediate: true,
   }
 )
+
+const changeTab = (tab: any) => {
+  currentTab.value = tab.comName
+}
 
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 // 空间背景的控制

@@ -15,7 +15,7 @@
               cursor-pointer
               v-for="iconItem in chatIconList"
               :key="iconItem.id"
-              @click=";(currentPanel as any) = iconItem.comName"
+              @click="changePanel(iconItem)"
             >
               <ElIcon
                 :size="iconItem.size"
@@ -113,6 +113,10 @@ const chatIconList = [
 ]
 
 const currentPanel = shallowRef(MessageBox)
+
+const changePanel = (panel: any) => {
+  currentPanel.value = panel.comName
+}
 
 // 当前选择聊天的好友
 const currentChatTarget = reactive<IChatFriend>({
