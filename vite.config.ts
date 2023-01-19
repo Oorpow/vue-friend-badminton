@@ -8,6 +8,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Unocss from 'unocss/vite'
 import { presetAttributify, presetUno, presetIcons } from 'unocss'
 import transformerDirectives from '@unocss/transformer-directives'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   plugins: [
@@ -23,6 +24,9 @@ export default defineConfig({
       ],
       transformers: [transformerDirectives()],
     }),
+    visualizer({
+      open: true,
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
@@ -34,5 +38,11 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+  },
+  build: {
+    cssCodeSplit: true,
+    sourcemap: false,
+    minify: false,
+    assetsInlineLimit: 5000,
   },
 })
