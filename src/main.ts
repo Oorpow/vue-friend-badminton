@@ -3,7 +3,8 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import dayjs from 'dayjs'
 import { io } from 'socket.io-client'
-import 'element-plus/dist/index.css'
+import ElementPlus from 'element-plus'
+// import 'element-plus/dist/index.css'
 import 'uno.css'
 import '@unocss/reset/normalize.css'
 import '@/assets/css/global.css'
@@ -43,6 +44,7 @@ declare module 'vue' {
 pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 app.use(router)
+app.use(ElementPlus)
 app.directive('hasAuth', vHasAuth)
 
 app.mount('#app')

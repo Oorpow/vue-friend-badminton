@@ -5,14 +5,38 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { visualizer } from 'rollup-plugin-visualizer'
+import importToCDN from 'vite-plugin-cdn-import'
+import viteCompression from 'vite-plugin-compression'
+
 import Unocss from 'unocss/vite'
 import { presetAttributify, presetUno, presetIcons } from 'unocss'
 import transformerDirectives from '@unocss/transformer-directives'
-import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   plugins: [
     vue(),
+    viteCompression(),
+    importToCDN({
+      modules: [
+        {
+          name: 'vue',
+          var: 'Vue',
+          path: 'https://unpkg.com/vue@3',
+        },
+        {
+          name: 'vue-demi',
+          var: 'VueDemi',
+          path: 'lib/index.iife.min.js',
+        },
+        {
+          name: 'element-plus',
+          var: 'ElementPlus',
+          path: 'https://unpkg.com/element-plus@2.2.28',
+          css: 'https://unpkg.com/element-plus/dist/index.css',
+        },
+      ],
+    }),
     Unocss({
       presets: [presetAttributify(), presetUno(), presetIcons()],
       rules: [
@@ -26,12 +50,14 @@ export default defineConfig({
     }),
     visualizer({
       open: true,
+      gzipSize: true,
     }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
     Components({
       resolvers: [ElementPlusResolver()],
+      dts: true,
     }),
   ],
   resolve: {

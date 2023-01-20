@@ -27,6 +27,11 @@
 </template>
 
 <script setup lang="ts">
+import Header from '@/components/Header/Header.vue'
+import SectionNews from '@/components/Home/SectionNews.vue'
+import Stars from '@/components/Home/Stars.vue'
+import Brand from '@/components/Home/Brand.vue'
+
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'

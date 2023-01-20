@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import Footer from '@/components/Footer/Footer.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
