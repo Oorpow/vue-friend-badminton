@@ -12,7 +12,6 @@ node_modules
 dist
 dist-ssr
 coverage
-stats.html
 *.local
 
 /cypress/videos/
@@ -27,3 +26,5 @@ stats.html
 *.njsproj
 *.sln
 *.sw?
+
+stats.html
