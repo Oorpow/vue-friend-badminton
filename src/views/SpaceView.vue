@@ -138,6 +138,9 @@
 <script setup lang="ts">
 import SpaceInvitation from '@/components/Space/SpaceInvitation/SpaceInvitation.vue'
 import SpaceFriend from '@/components/Space/SpaceFriend/SpaceFriend.vue'
+import Avatar from '@/components/Header/components/Avatar.vue'
+import UploadCpn from '@/components/Space/UploadCpn/UploadCpn.vue'
+
 import { markRaw, shallowRef, watch, ref, computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'

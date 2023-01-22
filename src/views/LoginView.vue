@@ -4,6 +4,8 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Login from '@/components/Login/Login.vue'
+</script>
 
 <style scoped></style>

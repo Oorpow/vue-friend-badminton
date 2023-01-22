@@ -63,6 +63,8 @@
 </template>
 
 <script setup lang="ts">
+import CustomEditor from '../CustomEditor/CustomEditor.vue'
+
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'

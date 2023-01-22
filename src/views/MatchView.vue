@@ -27,6 +27,9 @@
 </template>
 
 <script setup lang="ts">
+import Header from '@/components/Header/Header.vue'
+import TimeCard from '@/components/Match/components/TimeCard.vue'
+
 import { storeToRefs } from 'pinia'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'

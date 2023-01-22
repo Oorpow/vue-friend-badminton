@@ -43,6 +43,12 @@
 </template>
 
 <script setup lang="ts">
+import Header from '@/components/Header/Header.vue'
+import ArticleItem from '@/components/Detail/ArticleItem/ArticleItem.vue'
+import OtherArticleItem from '@/components/Detail/OtherArticleItem/OtherArticleItem.vue'
+import Comment from '@/components/Detail/Comment/Comment.vue'
+import AuthorInfo from '@/components/Detail/AuthorInfo/AuthorInfo.vue'
+
 import { ref, watchEffect, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'

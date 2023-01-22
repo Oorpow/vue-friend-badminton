@@ -28,5 +28,6 @@ const showFooter = computed(() => {
 <style>
 body {
   background-color: rgb(243, 243, 243);
+  font-family: var(--el-font-family);
 }
 </style>

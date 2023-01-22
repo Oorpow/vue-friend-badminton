@@ -41,6 +41,9 @@
 </template>
 
 <script setup lang="ts">
+import BubbleBox from './components/BubbleBox.vue'
+import MessageEditor from '../MessageEditor/MessageEditor.vue'
+
 import { ref, nextTick, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { HomeFilled } from '@element-plus/icons-vue'

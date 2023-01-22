@@ -8,6 +8,7 @@
         backgroundImage: `url(${serverUrl + getCurrentPlayer.bannerImg})`,
       }"
     ></div>
+
     <!-- 球员姓名 -->
     <div class="player_name">
       <h2 uppercase>{{ getCurrentPlayer.name }}</h2>
@@ -59,6 +60,8 @@
 </template>
 
 <script setup lang="ts">
+import PlayerInfo from '@/components/Player/PlayerInfo/PlayerInfo.vue'
+
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 import { usePlayerStore } from '@/stores/player'

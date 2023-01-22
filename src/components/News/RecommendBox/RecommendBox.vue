@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElAvatar } from 'element-plus'
 import { useRouter } from 'vue-router'
 
 type Props = {

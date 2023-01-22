@@ -1,8 +1,5 @@
 <template>
   <div class="w-9/10 mt-20 mx-auto pb-10">
-    <div flex justify-center>
-      <h2 p-b-2 border-b-blue border-b-4>知名品牌</h2>
-    </div>
     <div flex justify-between mt-5>
       <img
         :src="getImageUrl(item.url)"

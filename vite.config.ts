@@ -37,6 +37,10 @@ export default defineConfig({
         },
       ],
     }),
+    visualizer({
+      open: true,
+      gzipSize: true,
+    }),
     Unocss({
       presets: [presetAttributify(), presetUno(), presetIcons()],
       rules: [
@@ -45,12 +49,9 @@ export default defineConfig({
         ['bg-primary', { 'background-color': '#eef5f9' }],
         ['bg-minor', { 'background-color': '#f3f3f3' }],
         ['bg-color-primary', { 'background-color': '#3b82f6' }],
+        ['text-primary', { color: '#414141' }],
       ],
       transformers: [transformerDirectives()],
-    }),
-    visualizer({
-      open: true,
-      gzipSize: true,
     }),
     AutoImport({
       resolvers: [ElementPlusResolver()],

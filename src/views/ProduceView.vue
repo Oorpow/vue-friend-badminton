@@ -40,12 +40,12 @@
 <script setup lang="ts">
 import CustomEditor from '@/components/Produce/CustomEditor/CustomEditor.vue'
 import EditProduce from '@/components/Produce/EditProduce/EditProduce.vue'
-import { shallowRef, reactive } from 'vue'
+
+import { shallowRef } from 'vue'
 import { storeToRefs } from 'pinia'
 import { Edit, Document } from '@element-plus/icons-vue'
 import { useInvitationStore } from '@/stores/invitation'
 import { useUserStore } from '@/stores/user'
-import type { Invitation } from '@/request/api/invitation/types'
 
 const tabs = {
   CustomEditor,

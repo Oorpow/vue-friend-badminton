@@ -76,6 +76,9 @@
 </template>
 
 <script setup lang="ts">
+import Avatar from '@/components/Header/components/Avatar.vue'
+import CommentItem from './components/CommentItem/CommentItem.vue'
+
 import { reactive, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import gsap from 'gsap'

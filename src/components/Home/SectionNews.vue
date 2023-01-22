@@ -4,9 +4,7 @@
       <h2 p-b-2 border-b-blue border-b-4>近期资讯</h2>
     </div>
     <div flex overflow-hidden>
-      <div
-        class="news_bg w-6/10 h-50 bg-center bg-cover relative cursor-pointer"
-      >
+      <div class="news_bg w-80 h-50 relative cursor-pointer">
         <img :src="serverUrl + list[0].img" w-full h-full />
         <div absolute inset-0 class="mask"></div>
         <div absolute bottom-0 px-3>
@@ -15,7 +13,7 @@
       </div>
       <div flex-1 overflow-hidden>
         <div
-          class="news_bg h-25 bg-center bg-cover relative cursor-pointer"
+          class="news_bg w-40 h-25 relative cursor-pointer"
           v-for="item in list.slice(1)"
           :key="item.invitation_id"
           overflow-hidden

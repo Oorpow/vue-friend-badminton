@@ -56,6 +56,10 @@
 </template>
 
 <script setup lang="ts">
+import SearchBox from './components/SearchBox/SearchBox.vue'
+import SettingOptions from './components/SettingOptions.vue'
+import NotifyMessage from './components/NotifyMessage.vue'
+
 import { ref, inject, watchEffect, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'

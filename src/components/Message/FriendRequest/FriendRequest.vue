@@ -44,6 +44,8 @@
 </template>
 
 <script setup lang="ts">
+import Avatar from '@/components/Header/components/Avatar.vue'
+
 import { inject } from 'vue'
 import { useFriendStore } from '@/stores/friend'
 import type { Socket } from 'socket.io-client'

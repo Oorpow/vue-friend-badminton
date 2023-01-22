@@ -8,6 +8,8 @@
 </template>
 
 <script setup lang="ts">
+import SearchedItem from './components/SearchedItem.vue'
+
 import type { IFriend } from '@/request/api/friend/types'
 import type { IUserInfo } from '@/request/api/user/types'
 

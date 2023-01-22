@@ -19,7 +19,6 @@
       <ElImage
         :src="serverUrl + invitationInfo.img"
         fit="cover"
-        alt=""
         style="width: 140px; height: 140px"
       />
     </div>
@@ -62,6 +61,8 @@
 </template>
 
 <script setup lang="ts">
+import Avatar from '@/components/Header/components/Avatar.vue'
+
 import { useRouter } from 'vue-router'
 import { Star, ChatLineSquare, Timer } from '@element-plus/icons-vue'
 import type { InvitationInfo } from '@/request/api/invitation/types'

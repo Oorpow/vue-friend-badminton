@@ -80,6 +80,7 @@
 import { onBeforeUnmount, reactive, shallowRef, watch, ref } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { Plus } from '@element-plus/icons-vue'
+
 import type {
   FormInstance,
   FormRules,
@@ -89,8 +90,9 @@ import type {
 } from 'element-plus'
 import type { IDomEditor } from '@wangeditor/editor/dist/editor/src/index'
 import type { Invitation } from '@/request/api/invitation/types'
-import { CheckTag, handleEnum } from '@/utils/handleEnum'
 import '@wangeditor/editor/dist/css/style.css'
+
+import { handleEnum } from '@/utils/handleEnum'
 import {
   serverUrl,
   textareaConfig,

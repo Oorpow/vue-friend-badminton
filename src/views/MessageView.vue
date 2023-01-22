@@ -76,8 +76,12 @@
 </template>
 
 <script setup lang="ts">
+import SearchExistFriend from '@/components/Message/SearchExistFriend/SearchExistFriend.vue'
+import FriendItemSearched from '@/components/Message/FriendItemSearched/FriendItemSearched.vue'
+import FriendItem from '@/components/Message/FriendItem/FriendItem.vue'
 import MessageBox from '@/components/Message/MessageBox/MessageBox.vue'
 import FriendRequest from '@/components/Message/FriendRequest/FriendRequest.vue'
+
 import {
   onMounted,
   reactive,

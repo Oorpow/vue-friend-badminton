@@ -12,6 +12,9 @@
         >
       </div>
     </div>
+    <!-- 品牌专区 -->
+    <Brand />
+    <Introduce />
     <!-- 近期资讯 -->
     <SectionNews
       :list="invitationList.slice(0, 3)"
@@ -21,13 +24,12 @@
     <Transition appear @before-enter="beforeEnter" @enter="enter">
       <Stars :playerList="playerList" />
     </Transition>
-    <!-- 品牌专区 -->
-    <Brand />
   </div>
 </template>
 
 <script setup lang="ts">
 import Header from '@/components/Header/Header.vue'
+import Introduce from '@/components/Home/Introduce/Introduce.vue'
 import SectionNews from '@/components/Home/SectionNews.vue'
 import Stars from '@/components/Home/Stars.vue'
 import Brand from '@/components/Home/Brand.vue'

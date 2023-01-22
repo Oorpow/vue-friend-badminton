@@ -5,6 +5,8 @@
 </template>
 
 <script setup lang="ts">
+import NewsItem from './components/NewsItem.vue'
+
 import type { InvitationInfo } from '@/request/api/invitation/types'
 
 type Props = {

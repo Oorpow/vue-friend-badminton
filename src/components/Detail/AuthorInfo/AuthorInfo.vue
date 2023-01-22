@@ -85,6 +85,8 @@
 </template>
 
 <script setup lang="ts">
+import Avatar from '@/components/Header/components/Avatar.vue'
+
 import { watch, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'

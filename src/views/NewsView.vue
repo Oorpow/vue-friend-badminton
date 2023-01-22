@@ -55,6 +55,9 @@
 </template>
 
 <script setup lang="ts">
+import NewsList from '@/components/News/NewsList/NewsList.vue'
+import RecommendBox from '@/components/News/RecommendBox/RecommendBox.vue'
+
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { Filter } from '@element-plus/icons-vue'
