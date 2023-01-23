@@ -1,14 +1,14 @@
 <template>
   <div class="header">
     <div flex justify-around items-center w-full>
-      <div class="flex w-1/5 items-center">
+      <div class="flex flex-1 items-center ml-10">
         <div mr-4 cursor-pointer @click="navToTargetRoute('/')">
           <img src="@/assets/images/logo/logo.png" alt="" />
         </div>
         <!-- 路由 -->
         <div>
           <span
-            mx-1
+            mx-3
             cursor-pointer
             font-bold
             text-lg
@@ -28,7 +28,7 @@
         />
       </div>
       <!-- 设置区域 -->
-      <div class="flex items-center">
+      <div class="flex flex-1 items-center justify-end mr-10">
         <!-- 已登录 -->
         <template v-if="getToken !== ''">
           <Avatar :username="userInfo.name" :avatar="userInfo.avatar" />
@@ -42,12 +42,8 @@
         </template>
         <!-- 未登录 -->
         <template v-else>
-          <ElButton
-            @click="$router.push('/login')"
-            circle
-            type="primary"
-            style="padding: 3px"
-            >登录</ElButton
+          <ElButton @click="$router.push('/login')" type="primary"
+            >登录账户</ElButton
           >
         </template>
       </div>
