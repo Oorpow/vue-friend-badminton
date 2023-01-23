@@ -1,5 +1,5 @@
 <template>
-  <div class="w-7/10 mx-auto">
+  <div class="w-6/10 mx-auto">
     <div flex justify-center>
       <h1>近期资讯</h1>
     </div>

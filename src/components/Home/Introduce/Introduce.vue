@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/2 mx-auto mt-20">
+  <div class="w-6/10 mx-auto mt-20">
     <div text-center>
       <h1 text-primary>关于羽坛在线</h1>
       <p my-8 text-normal leading-7 text-lg>

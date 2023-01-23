@@ -1,5 +1,5 @@
 <template>
-  <div class="w-7/10 flex flex-col my-40 mx-auto">
+  <div class="w-6/10 flex flex-col my-40 mx-auto">
     <div flex w-full mt-5>
       <div mr-10>
         <div flex items-center>

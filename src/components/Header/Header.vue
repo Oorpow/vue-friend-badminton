@@ -7,16 +7,22 @@
         </div>
         <!-- 路由 -->
         <div>
-          <span
-            mx-3
-            cursor-pointer
-            font-bold
-            text-lg
-            v-for="(item, i) in navList"
-            :key="i"
-            @click="navToTargetRoute(item.path)"
-            >{{ item.name }}</span
-          >
+          <ul flex>
+            <li
+              class="menu_item relative"
+              v-for="(item, i) in navList"
+              :key="i"
+            >
+              <span
+                mx-3
+                cursor-pointer
+                font-bold
+                text-lg
+                @click="navToTargetRoute(item.path)"
+                >{{ item.name }}</span
+              >
+            </li>
+          </ul>
         </div>
       </div>
       <!-- 搜索框 -->
@@ -42,12 +48,7 @@
         </template>
         <!-- 未登录 -->
         <template v-else>
-          <ElButton
-            @click="$router.push('/login')"
-            style="
-              background: linear-gradient(to left top, #005c97, #363795);
-              color: #fff;
-            "
+          <ElButton type="primary" @click="$router.push('/login')"
             >登录账户</ElButton
           >
         </template>
@@ -87,7 +88,7 @@ const { invitationSearchList } = storeToRefs(invitationStore)
 const navList = [
   {
     path: '/news/0',
-    name: '羽坛动态',
+    name: '社区动态',
   },
   {
     path: '/match',
@@ -180,5 +181,22 @@ watchEffect(() => {
 .header {
   box-shadow: 0px 4px 8px rgba(178, 199, 210, 0.3);
   @apply flex justify-center items-center relative z-3 h-6 bg-white;
+}
+.menu_item span::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  height: 2px;
+  bottom: 0;
+  background-color: #0096d6;
+  transform: scale(0);
+  transition: transform 0.5s ease-in-out;
+}
+.menu_item span:hover {
+  color: #0096d6;
+}
+.menu_item span:hover::before {
+  transform: scale(1);
 }
 </style>
