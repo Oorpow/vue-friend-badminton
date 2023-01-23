@@ -1,8 +1,8 @@
 <template>
-  <div class="w-6/10 mx-auto">
+  <div class="w-1/2 mx-auto mt-20">
     <div text-center>
-      <h1 text-primary>什么是羽坛在线？</h1>
-      <p my-8 text-primary leading-7>
+      <h1 text-primary>关于羽坛在线</h1>
+      <p my-8 text-normal leading-7 text-lg>
         羽坛在线是一个供羽球爱好者互动交流的平台，在这里你能够认识许多志同道合的好友、掌握近期的赛事资讯、也可以加入到社区与其他用户互动。
       </p>
     </div>

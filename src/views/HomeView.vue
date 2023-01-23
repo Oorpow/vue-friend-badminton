@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <div class="home_page">
+  <div class="w-full m-auto relative bg-white pb-20">
     <!-- 背景 -->
     <div class="home_page_bg relative">
       <div class="absolute top-1/3 left-20">
@@ -12,18 +12,12 @@
         >
       </div>
     </div>
-    <!-- 品牌专区 -->
-    <Brand />
     <Introduce />
-    <!-- 近期资讯 -->
+    <Stars :playerList="playerList" />
     <SectionNews
       :list="invitationList.slice(0, 3)"
       v-if="invitationList.length"
     />
-    <!-- 球员 -->
-    <Transition appear @before-enter="beforeEnter" @enter="enter">
-      <Stars :playerList="playerList" />
-    </Transition>
   </div>
 </template>
 
@@ -32,7 +26,6 @@ import Header from '@/components/Header/Header.vue'
 import Introduce from '@/components/Home/Introduce/Introduce.vue'
 import SectionNews from '@/components/Home/SectionNews.vue'
 import Stars from '@/components/Home/Stars.vue'
-import Brand from '@/components/Home/Brand.vue'
 
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -57,19 +50,6 @@ const { invitationList } = storeToRefs(invitationStore)
 invitationStore.getInvitationList()
 playerStore.getPlayerList()
 
-const beforeEnter = (el: HTMLElement) => {
-  el.style.transform = 'translateY(100px)'
-  el.style.opacity = '0'
-}
-const enter = (el: HTMLElement) => {
-  gsap.to(el, {
-    scrollTrigger: el,
-    y: 0,
-    opacity: 1,
-    duration: 0.5,
-  })
-}
-
 const isLogin = computed(() => (userInfo.value.id ? true : false))
 
 const navToRoute = () => {
@@ -78,10 +58,7 @@ const navToRoute = () => {
 </script>
 
 <style scoped>
-.home_page {
-  @apply w-full m-auto relative bg-white;
-}
-.home_page .home_page_bg {
+.home_page_bg {
   height: 500px;
   background: url('/src/assets/images/home-bg/bg.jpg');
   background-position: 50%;

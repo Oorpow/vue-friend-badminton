@@ -42,7 +42,12 @@
         </template>
         <!-- 未登录 -->
         <template v-else>
-          <ElButton @click="$router.push('/login')" type="primary"
+          <ElButton
+            @click="$router.push('/login')"
+            style="
+              background: linear-gradient(to left top, #005c97, #363795);
+              color: #fff;
+            "
             >登录账户</ElButton
           >
         </template>

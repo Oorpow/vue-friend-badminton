@@ -1,35 +1,38 @@
 <template>
   <div class="w-7/10 mx-auto">
     <div flex justify-center>
-      <h2 p-b-2 border-b-blue border-b-4>近期资讯</h2>
+      <h1>近期资讯</h1>
     </div>
-    <div flex overflow-hidden>
-      <div class="news_bg w-80 h-50 relative cursor-pointer">
-        <img :src="serverUrl + list[0].img" w-full h-full />
-        <div absolute inset-0 class="mask"></div>
-        <div absolute bottom-0 px-3>
-          <h3 flex text-gray-2>{{ list[0].title }}</h3>
-        </div>
-      </div>
-      <div flex-1 overflow-hidden>
+    <div flex>
+      <n-carousel show-arrow autoplay>
         <div
-          class="news_bg w-40 h-25 relative cursor-pointer"
-          v-for="item in list.slice(1)"
-          :key="item.invitation_id"
-          overflow-hidden
+          class="news_bg relative cursor-pointer overflow-hidden"
+          v-for="slide in list"
+          :key="slide.invitation_id"
         >
-          <img :src="serverUrl + item.img" w-full h-full />
-          <div absolute inset-0 class="mask"></div>
-          <div absolute bottom-0 px-3>
-            <h4 flex text-gray-2>{{ item.title }}</h4>
+          <img class="carousel-img relative" :src="serverUrl + slide.img" />
+          <div absolute class="mask"></div>
+          <div absolute bottom-4 px-5>
+            <h3 flex text-white>{{ slide.title }}</h3>
           </div>
         </div>
-      </div>
+        <template #dots="{ total, currentIndex, to }">
+          <ul class="custom-dots">
+            <li
+              v-for="index of total"
+              :key="index"
+              :class="{ ['is-active']: currentIndex === index - 1 }"
+              @click="to(index - 1)"
+            />
+          </ul>
+        </template>
+      </n-carousel>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NCarousel } from 'naive-ui'
 import type { InvitationInfo } from '@/request/api/invitation/types'
 
 type Props = {
@@ -43,13 +46,40 @@ const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 </script>
 
 <style scoped>
-.news_bg img {
-  transition: transform 0.3s ease-in-out;
-}
-.news_bg:hover img {
-  transform: scale(1.1);
-}
 .mask {
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 6px;
   background-color: rgba(0, 0, 0, 0.2);
+}
+.carousel-img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+.custom-dots {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.custom-dots li {
+  display: inline-block;
+  width: 12px;
+  height: 4px;
+  margin: 0 3px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.custom-dots li.is-active {
+  width: 40px;
+  background: #fff;
 }
 </style>
