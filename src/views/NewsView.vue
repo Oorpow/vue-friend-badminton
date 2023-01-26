@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <div class="news_page relative">
+  <div class="news_page min-h-60 relative">
     <div class="w-7/10 mx-auto my-10 flex justify-around relative">
       <div class="w-2/3 flex flex-col overflow-hidden">
         <div>
@@ -22,7 +22,12 @@
           </ElPopover>
         </div>
         <!-- tabs -->
-        <NewsList :list="invitationList" :commentMap="commentMap" />
+        <Suspense>
+          <NewsList :list="invitationList" :commentMap="commentMap" />
+          <template #fallback>
+            <ElSkeleton :rows="4" animated style="margin: 50px 0"></ElSkeleton>
+          </template>
+        </Suspense>
         <ElPagination
           background
           layout="prev, pager, next"
@@ -30,8 +35,8 @@
           flex
           justify-center
           :page-size="6"
-          v-model:current-page="currentPage"
           :total="totalNum"
+          v-model:current-page="currentPage"
           @current-change="handleCurrentChange"
         />
       </div>
@@ -55,16 +60,19 @@
 </template>
 
 <script setup lang="ts">
-import NewsList from '@/components/News/NewsList/NewsList.vue'
 import RecommendBox from '@/components/News/RecommendBox/RecommendBox.vue'
 
-import { ref } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { Filter } from '@element-plus/icons-vue'
 import { useInvitationStore } from '@/stores/invitation'
 import { useCommentStore } from '@/stores/comment'
 import { useBrandStore } from '@/stores/brand'
 import { usePlayerStore } from '@/stores/player'
+
+const NewsList = defineAsyncComponent(
+  () => import('@/components/News/NewsList/NewsList.vue')
+)
 
 enum Tag {
   'All',

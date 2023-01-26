@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-50 p-3 rounded bg-white m-auto absolute left-1/2 top-1/2 translate-x--1/2 translate-y--1/2"
+    class="w-50 p-3 rounded border-1 border-gray-2 m-auto absolute left-1/2 top-1/2 translate-x--1/2 translate-y--1/2"
   >
     <div flex justify-center my-3>
       <img src="/src/assets/images/logo/logo.png" alt="logo" />

@@ -2,11 +2,19 @@
   <div>
     <div flex flex-wrap items-start>
       <template v-if="postedInvitationList.length || invitationList.length">
-        <NewsItem
-          :list="userInfo.id ? postedInvitationList : invitationList"
-          :commentMap="commentMap"
-          :styleConfig="styleConfig"
-        />
+        <Suspense>
+          <NewsItem
+            :list="userInfo.id ? postedInvitationList : invitationList"
+            :commentMap="commentMap"
+            :styleConfig="styleConfig"
+          />
+          <template #fallback>
+            <SkeletonImg
+              :style-config="styleConfig"
+              :nums="postedInvitationList.length"
+            />
+          </template>
+        </Suspense>
       </template>
       <template v-else>
         <div mx-auto mt-30>
@@ -21,20 +29,26 @@
       flex
       justify-center
       :page-size="6"
-      v-model:current-page="currentPage"
       :total="totalNum"
+      v-model:current-page="currentPage"
       @current-change="handleCurrentChange"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { watch, ref } from 'vue'
+import SkeletonImg from '@/components/SkeletonImg/SkeletonImg.vue'
+
+import { watch, ref, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useInvitationStore } from '@/stores/invitation'
 import { useCommentStore } from '@/stores/comment'
+
+const NewsItem = defineAsyncComponent(
+  () => import('@/components/News/NewsList/components/NewsItem.vue')
+)
 
 const route = useRoute()
 const userStore = useUserStore()

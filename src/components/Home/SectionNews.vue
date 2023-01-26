@@ -10,7 +10,13 @@
           v-for="slide in list"
           :key="slide.invitation_id"
         >
-          <img class="carousel-img relative" :src="serverUrl + slide.img" />
+          <n-image
+            class="carousel-img relative"
+            lazy
+            object-fit="cover"
+            :src="serverUrl + slide.img"
+            fallback-src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
+          />
           <div absolute class="mask"></div>
           <div absolute bottom-4 px-5>
             <h3 flex text-white>{{ slide.title }}</h3>
@@ -32,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { NCarousel } from 'naive-ui'
+import { NCarousel, NImage } from 'naive-ui'
 import type { InvitationInfo } from '@/request/api/invitation/types'
 
 type Props = {
@@ -56,8 +62,14 @@ const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 .carousel-img {
   width: 100%;
   height: 500px;
-  object-fit: cover;
+  /* object-fit: cover; */
 }
+
+:deep(.n-image img) {
+  width: 100%;
+  height: 100%;
+}
+
 .custom-dots {
   display: flex;
   margin: 0;

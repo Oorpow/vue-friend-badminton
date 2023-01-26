@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import Footer from '@/components/Footer/Footer.vue'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -23,11 +23,18 @@ const showFooter = computed(() => {
   })
   return val
 })
+
+onMounted(() => {
+  if (document.getElementById('loading')) {
+    document.getElementById('loading')?.remove()
+  }
+})
 </script>
 
 <style>
 body {
-  background-color: rgb(243, 243, 243);
+  min-height: 80vh;
+  /* background-color: rgb(243, 243, 243); */
   font-family: var(--el-font-family);
 }
 </style>
