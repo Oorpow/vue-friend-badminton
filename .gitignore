@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 stats.html
+
+.env.development
+.env.production

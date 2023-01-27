@@ -48,7 +48,7 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   list: () => [],
 })
-const serverUrl = import.meta.env.VITE_LOCAL_SERVER
+const serverUrl = import.meta.env.VITE_STATIC_HOST
 </script>
 
 <style scoped>

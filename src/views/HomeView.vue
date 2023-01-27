@@ -30,13 +30,9 @@ import Stars from '@/components/Home/Stars.vue'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
 import { usePlayerStore } from '@/stores/player'
 import { useUserStore } from '@/stores/user'
 import { useInvitationStore } from '@/stores/invitation'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const router = useRouter()
 const userStore = useUserStore()

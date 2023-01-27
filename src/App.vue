@@ -1,5 +1,7 @@
 <template>
-  <RouterView />
+  <div min-h-90vh>
+    <RouterView />
+  </div>
   <template v-if="showFooter">
     <Footer />
   </template>
