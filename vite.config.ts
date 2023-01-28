@@ -35,6 +35,11 @@ export default defineConfig({
           path: 'https://unpkg.com/element-plus@2.2.28',
           css: 'https://unpkg.com/element-plus/dist/index.css',
         },
+        {
+          name: 'gsap',
+          var: 'Gsap',
+          path: 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js',
+        },
       ],
     }),
     visualizer({
