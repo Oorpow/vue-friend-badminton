@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import Header from '@/components/Header/Header.vue'
 import RecommendBox from '@/components/News/RecommendBox/RecommendBox.vue'
 
 import { defineAsyncComponent, ref } from 'vue'

@@ -121,8 +121,6 @@
 import type { StyleValue } from 'vue'
 import { storeToRefs } from 'pinia'
 import { ElNotification } from 'element-plus'
-import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
 import {
   Star,
   StarFilled,
@@ -142,7 +140,6 @@ type Props = {
 }
 const props = defineProps<Props>()
 
-gsap.registerPlugin(ScrollTrigger)
 const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 
 const route = useRoute()

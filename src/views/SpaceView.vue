@@ -136,6 +136,7 @@
 </template>
 
 <script setup lang="ts">
+import Header from '@/components/Header/Header.vue'
 import SpaceInvitation from '@/components/Space/SpaceInvitation/SpaceInvitation.vue'
 import SpaceFriend from '@/components/Space/SpaceFriend/SpaceFriend.vue'
 import Avatar from '@/components/Header/components/Avatar.vue'

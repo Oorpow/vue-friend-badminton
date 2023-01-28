@@ -67,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import Avatar from '../Avatar.vue'
 import SearchResultItem from '@/components/Header/components/SearchBox/components/SearchResultItem.vue'
 
 import { ref } from 'vue'

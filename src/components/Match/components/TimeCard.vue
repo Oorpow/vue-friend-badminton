@@ -45,7 +45,6 @@ const computeMatchBg = computed(() => {
   }
   return url
 })
-console.log(props.matchInfo)
 </script>
 
 <style scoped></style>

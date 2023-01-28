@@ -76,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+import Header from '@/components/Header/Header.vue'
 import SearchExistFriend from '@/components/Message/SearchExistFriend/SearchExistFriend.vue'
 import FriendItemSearched from '@/components/Message/FriendItemSearched/FriendItemSearched.vue'
 import FriendItem from '@/components/Message/FriendItem/FriendItem.vue'

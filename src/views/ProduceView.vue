@@ -38,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+import Header from '@/components/Header/Header.vue'
 import CustomEditor from '@/components/Produce/CustomEditor/CustomEditor.vue'
 import EditProduce from '@/components/Produce/EditProduce/EditProduce.vue'
 
