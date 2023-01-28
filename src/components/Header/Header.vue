@@ -61,6 +61,7 @@
 import SearchBox from './components/SearchBox/SearchBox.vue'
 import SettingOptions from './components/SettingOptions.vue'
 import NotifyMessage from './components/NotifyMessage.vue'
+import Avatar from './components/Avatar.vue'
 
 import { ref, inject, watchEffect, watch } from 'vue'
 import { useRouter } from 'vue-router'

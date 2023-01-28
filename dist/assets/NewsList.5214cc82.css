@@ -1,0 +1,10 @@
+
+.tab_item[data-v-5a0d9787] {
+  /* @apply flex w-1/4 h-8 items-center justify-center border-gray-3 cursor-pointer hover:border-b-3 hover:border-blue-5 transition; */
+}
+.tab_item .tab_item_span[data-v-5a0d9787] {
+  /* @apply block w-5/10 text-center; */
+}
+.tab_item_span_active[data-v-5a0d9787] {
+  /* @apply border-blue-5 border-b-3; */
+}

@@ -67,6 +67,8 @@
 </template>
 
 <script setup lang="ts">
+import SearchResultItem from '@/components/Header/components/SearchBox/components/SearchResultItem.vue'
+
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import type { InvitationSearch } from '@/request/api/invitation/types'
