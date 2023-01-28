@@ -44,7 +44,7 @@ type Props = {
 const props = defineProps<Props>()
 const router = useRouter()
 
-const serverUrl = import.meta.env.VITE_STATIC_HOST
+const serverUrl = import.meta.env.VITE_LOCAL_SERVER
 
 // 导航前往个人生涯页
 const navToPlayerCareer = (id: number) => {
