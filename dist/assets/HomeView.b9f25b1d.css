@@ -1,0 +1,23 @@
+
+.news_bg img[data-v-07fe4f39] {
+  transition: transform 0.3s ease-in-out;
+}
+.news_bg:hover img[data-v-07fe4f39] {
+  transform: scale(1.1);
+}
+.mask[data-v-07fe4f39] {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.stars[data-v-5e97e298] {
+margin-top:5rem;margin-bottom:5rem;margin-left:auto;margin-right:auto;width:90%;display:flex;flex-direction:column;
+}
+
+.home_page[data-v-a9f0327a] {
+position:relative;margin:auto;width:100%;--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));
+}
+.home_page .home_page_bg[data-v-a9f0327a] {
+  height: 500px;
+  background: url('/assets/bg.62b577e2.jpg');
+  background-position: 50%;
+}
