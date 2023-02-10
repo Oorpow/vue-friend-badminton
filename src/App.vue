@@ -2,9 +2,9 @@
   <div min-h-90vh>
     <RouterView />
   </div>
-  <template v-if="showFooter">
+  <!-- <template v-if="showFooter">
     <Footer />
-  </template>
+  </template> -->
 </template>
 
 <script setup lang="ts">
@@ -24,12 +24,6 @@ const showFooter = computed(() => {
     }
   })
   return val
-})
-
-onMounted(() => {
-  if (document.getElementById('loading')) {
-    document.getElementById('loading')?.remove()
-  }
 })
 </script>
 
