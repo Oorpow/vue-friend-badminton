@@ -28,5 +28,6 @@ coverage
 
 stats.html
 
+.env
 .env.development
 .env.production
