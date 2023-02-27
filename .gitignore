@@ -7,6 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+.env
+.env.development
+.env.production
+
 node_modules
 .DS_Store
 dist-ssr
@@ -27,7 +31,3 @@ coverage
 *.sw?
 
 stats.html
-
-.env
-.env.development
-.env.production
