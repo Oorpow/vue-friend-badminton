@@ -1,0 +1,28 @@
+
+.article_main[data-v-12a35daf] {
+width:100%;
+}
+/* 控制v-html生成的标签需要通过deep */
+[data-v-12a35daf] .article_main img {
+width:100%;height:100%;
+}
+
+.article_title[data-v-b4afa835] {
+overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;margin:0rem;cursor:pointer;text-overflow:ellipsis;font-size:0.875rem;line-height:1.25rem;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;
+}.article_title[data-v-b4afa835]:hover{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}
+
+.boundary[data-v-c9d6442a] {
+border-bottom-width:1px;border-bottom-style:solid;--un-border-opacity:1;--un-border-bottom-opacity:var(--un-border-opacity);border-bottom-color:rgba(209,213,219,var(--un-border-bottom-opacity));
+}
+.reply_button[data-v-c9d6442a] {
+margin-left:0.75rem;cursor:pointer;font-size:0.875rem;line-height:1.25rem;--un-text-opacity:1;color:rgba(156,163,175,var(--un-text-opacity));
+}.reply_button[data-v-c9d6442a]:hover:hover{--un-text-opacity:1;color:rgba(59,130,246,var(--un-text-opacity));}
+
+[data-v-1e46699d] .el-textarea__inner {
+height:60px;
+}
+.reply_box[data-v-1e46699d] {
+  background-color: rgba(0, 0, 0, 0.08);
+  filter: blur(10px);
+  border-radius: 50%;
+}

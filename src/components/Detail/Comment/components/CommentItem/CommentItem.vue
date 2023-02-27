@@ -22,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import Avatar from '@/components/Header/components/Avatar.vue'
 import type { ISpecialComment } from '@/request/api/comment/types'
 
 type Props = {
