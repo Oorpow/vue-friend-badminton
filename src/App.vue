@@ -2,14 +2,14 @@
   <div min-h-90vh>
     <RouterView />
   </div>
-  <!-- <template v-if="showFooter">
+  <template v-if="showFooter">
     <Footer />
-  </template> -->
+  </template>
 </template>
 
 <script setup lang="ts">
 import Footer from '@/components/Footer/Footer.vue'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -30,7 +30,6 @@ const showFooter = computed(() => {
 <style>
 body {
   min-height: 80vh;
-  /* background-color: rgb(243, 243, 243); */
-  font-family: var(--el-font-family);
+  /* font-family: var(--el-font-family); */
 }
 </style>

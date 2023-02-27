@@ -50,14 +50,6 @@
 
         <!-- 帖子数据 -->
         <div flex mt-3>
-          <div flex>
-            <ElTooltip content="阅读量" placement="top">
-              <ElIcon :size="18" color="#9ca3af">
-                <Mouse />
-              </ElIcon>
-            </ElTooltip>
-            <span ml-1 text-sm text-gray-4>{{ 11 }}</span>
-          </div>
           <div flex mx-3>
             <ElTooltip
               :content="

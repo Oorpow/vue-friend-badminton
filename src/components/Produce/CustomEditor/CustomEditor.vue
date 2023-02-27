@@ -55,6 +55,7 @@
               v-model:file-list="pictureList"
               v-bind="uploadConfig"
               :on-remove="handleRemove"
+              :before-upload="handleBeforeUpload"
               :on-success="uploadSuccess"
             >
               <ElIcon>
@@ -78,6 +79,7 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, reactive, shallowRef, watch, ref } from 'vue'
+import { compress } from 'image-conversion'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { Plus } from '@element-plus/icons-vue'
 
@@ -86,6 +88,7 @@ import type {
   FormRules,
   UploadFile,
   UploadProps,
+  UploadRawFile,
   UploadUserFile,
 } from 'element-plus'
 import type { IDomEditor } from '@wangeditor/editor/dist/editor/src/index'
@@ -182,6 +185,19 @@ const handleCreated = (editor: IDomEditor) => {
 }
 
 const handleRemove = (file: UploadFile) => {}
+
+const handleBeforeUpload = (rawFile: UploadRawFile): any => {
+  return new Promise((resolve, reject) => {
+    compress(rawFile, 0.4)
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
 // upload封面图上传成功
 const uploadSuccess: UploadProps['onSuccess'] = (response) => {
   invitationForm.value.img = response.data.url

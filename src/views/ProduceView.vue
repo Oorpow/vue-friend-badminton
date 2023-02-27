@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <div bg-gray-2 p-2 relative overflow-hidden>
+  <div bg-gray-2 p-2 py-5 relative overflow-hidden>
     <ElAffix :offset="20" style="width: 50px; height: 0">
       <div bg-white flex flex-col items-center rounded shadow>
         <div
@@ -60,7 +60,7 @@ const userStore = useUserStore()
 const { postedInvitationList } = storeToRefs(invitationStore)
 const { userInfo } = storeToRefs(userStore)
 
-invitationStore.getUserPostedInvitation(userInfo.value.id)
+invitationStore.getUserPostedInvitationByPage(userInfo.value.id, 1)
 
 const switchTab = (tab: string) => {
   currentTab.value = tab
