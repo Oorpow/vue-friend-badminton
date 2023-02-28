@@ -41,7 +41,7 @@
       </div>
 
       <!-- 成就列表 -->
-      <div mt-30>
+      <div my-30>
         <PlayerInfo title="成就">
           <template #content>
             <div flex justify-between flex-wrap>
@@ -61,6 +61,8 @@
 
 <script setup lang="ts">
 import PlayerInfo from '@/components/Player/PlayerInfo/PlayerInfo.vue'
+import EquipmentItem from '@/components/Player/EquipmentItem/EquipmentItem.vue'
+import HonorItem from '@/components/Player/HonorItem/HonorItem.vue'
 
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
