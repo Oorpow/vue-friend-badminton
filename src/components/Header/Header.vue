@@ -1,12 +1,16 @@
 <template>
   <div class="header">
-    <div flex justify-around items-center w-full>
-      <div class="flex flex-1 items-center ml-10">
-        <div mr-4 cursor-pointer @click="navToTargetRoute('/')">
-          <img src="@/assets/images/logo/logo.png" alt="" />
+    <div class="flex lg:justify-around items-center w-full h-full">
+      <div class="flex w-1/3 items-center ml-10">
+        <div class="sm:block lg:hidden">
+          <ElIcon size="25"><Operation /></ElIcon>
+        </div>
+        <!-- logo -->
+        <div class="mr-4 cursor-pointer hidden lg:block" @click="navToTargetRoute('/')">
+          <img src="@/assets/images/logo/logo.png" alt="badminton logo" />
         </div>
         <!-- 路由 -->
-        <div>
+        <div class="hidden lg:block">
           <ul flex>
             <li
               class="menu_item relative"
@@ -25,8 +29,12 @@
           </ul>
         </div>
       </div>
+      <!-- logo in md -->
+      <div class="mr-4 cursor-pointer flex flex-1 justify-center lg:hidden" @click="navToTargetRoute('/')">
+          <img src="@/assets/images/logo/logo.png" alt="badminton logo" />
+        </div>
       <!-- 搜索框 -->
-      <div class="w-1/3 relative">
+      <div class="w-1/3 relative hidden lg:block">
         <SearchBox
           v-model="searchModelValue"
           :invitationList="invitationSearchList"
@@ -67,6 +75,7 @@ import { ref, inject, watchEffect, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { ElNotification } from 'element-plus'
+import { Operation } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
 import { useMessageStore } from '@/stores/message'
