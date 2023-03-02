@@ -1,5 +1,5 @@
 <template>
-  <div class="w-6/10 flex flex-col my-40 mx-auto">
+  <div class="w-8/10 lg:w-6/10 flex flex-col my-40 mx-auto">
     <div flex w-full mt-5>
       <div mr-10>
         <div flex items-center>
@@ -11,7 +11,9 @@
           该板块将会介绍职业选手所使用过的装备、获得过的荣誉等内容。
         </p>
       </div>
+      <!-- show in lg -->
       <n-carousel
+        class="hidden sm:hidden lg:flex"
         slides-per-view="auto"
         :space-between="20"
         :loop="false"
@@ -29,6 +31,16 @@
         </n-carousel-item>
       </n-carousel>
     </div>
+    <n-carousel autoplay class="flex sm:flex lg:hidden">
+        <n-carousel-item
+          style="cursor: pointer"
+          v-for="slide in playerList"
+          :key="slide.id"
+          @click="navToPlayerCareer(slide.id)"
+        >
+          <img class="carousel-img" :src="serverUrl + slide.smallImg" />
+        </n-carousel-item>
+      </n-carousel>
   </div>
 </template>
 
@@ -57,7 +69,7 @@ const navToPlayerCareer = (id: number) => {
 <style scoped>
 .carousel-img {
   width: 100%;
-  height: 400px;
+  height: 600px;
   object-fit: cover;
 }
 </style>

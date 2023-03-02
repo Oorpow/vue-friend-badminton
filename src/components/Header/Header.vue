@@ -1,12 +1,18 @@
 <template>
   <div class="header">
-    <div class="flex lg:justify-around items-center w-full h-full">
-      <div class="flex w-1/3 items-center ml-10">
-        <div class="sm:block lg:hidden">
+    <div
+      class="flex items-center h-full w-9.5/10 md:justify-between lg:w-full lg:justify-around"
+    >
+      <!-- left -->
+      <div class="flex w-1/3 items-center lg:ml-10">
+        <div class="cursor-pointer sm:block lg:hidden" @click="isShowInMd = !isShowInMd">
           <ElIcon size="25"><Operation /></ElIcon>
         </div>
         <!-- logo -->
-        <div class="mr-4 cursor-pointer hidden lg:block" @click="navToTargetRoute('/')">
+        <div
+          class="mr-4 cursor-pointer hidden lg:block"
+          @click="navToTargetRoute('/')"
+        >
           <img src="@/assets/images/logo/logo.png" alt="badminton logo" />
         </div>
         <!-- 路由 -->
@@ -29,11 +35,14 @@
           </ul>
         </div>
       </div>
-      <!-- logo in md -->
-      <div class="mr-4 cursor-pointer flex flex-1 justify-center lg:hidden" @click="navToTargetRoute('/')">
-          <img src="@/assets/images/logo/logo.png" alt="badminton logo" />
-        </div>
-      <!-- 搜索框 -->
+      <!-- logo show when md, hidden when lg -->
+      <div
+        class="mr-4 cursor-pointer flex flex-1 justify-center lg:hidden"
+        @click="navToTargetRoute('/')"
+      >
+        <img src="@/assets/images/logo/logo.png" alt="badminton logo" />
+      </div>
+      <!-- search -->
       <div class="w-1/3 relative hidden lg:block">
         <SearchBox
           v-model="searchModelValue"
@@ -41,8 +50,8 @@
           :userList="userList"
         />
       </div>
-      <!-- 设置区域 -->
-      <div class="flex flex-1 items-center justify-end mr-10">
+      <!-- settings -->
+      <div class="flex flex-1 items-center justify-end lg:mr-10">
         <!-- 已登录 -->
         <template v-if="getToken !== ''">
           <Avatar :username="userInfo.name" :avatar="userInfo.avatar" />
@@ -60,6 +69,33 @@
             >登录账户</ElButton
           >
         </template>
+      </div>
+    </div>
+  </div>
+  <!-- navList show when md -->
+  <div class="w-full absolute top-15 z-10 bg-white" v-show="isShowInMd">
+    <div class="flex flex-col items-center">
+      <div class="w-9.5/10 relative my-5">
+        <SearchBox
+          v-model="searchModelValue"
+          :invitationList="invitationSearchList"
+          :userList="userList"
+        />
+      </div>
+      <div
+        class="w-9.5/10 py-2 border-t-1 border-gray-200"
+        v-for="(nav, i) in navList"
+        :key="i"
+      >
+        <span
+          mx-3
+          cursor-pointer
+          font-bold
+          text-lg
+          hover:text-blue-300
+          @click="navToTargetRoute(nav.path)"
+          >{{ nav.name }}</span
+        >
       </div>
     </div>
   </div>
@@ -94,6 +130,8 @@ const { userInfo, getToken, userList } = storeToRefs(store)
 const { getFriendBellList } = storeToRefs(friendStore)
 const { numOfUnRead } = storeToRefs(messageStore)
 const { invitationSearchList } = storeToRefs(invitationStore)
+
+let isShowInMd = ref(false)
 
 const navList = [
   {
@@ -185,12 +223,15 @@ watchEffect(() => {
     })
   }
 })
+
+// 在平板分辨率下显示路由列表
+const showNavList = () => {}
 </script>
 
 <style scoped>
 .header {
-  box-shadow: 0px 4px 8px rgba(178, 199, 210, 0.3);
-  @apply flex justify-center items-center relative z-3 h-6 bg-white;
+  /* box-shadow: 0px 4px 8px rgba(178, 199, 210, 0.3); */
+  @apply flex justify-center items-center relative z-3 h-6;
 }
 .menu_item span::before {
   content: '';
