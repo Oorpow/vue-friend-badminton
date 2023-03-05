@@ -1,11 +1,10 @@
 <template>
   <Header />
-  <div class="message_main">
+  <div class="message_main relative">
     <!-- 消息框 -->
-    <div class="w-8/10 flex flex-col mx-auto">
-      <div h-5></div>
+    <div class="middleBox w-9.5/10 lg:w-8/10 flex flex-col mx-auto">
       <!-- 主体 -->
-      <div bg-white rounded flex h-75>
+      <div class="bg-white rounded flex h-60 lg:h-75">
         <!-- 左侧好友列表 -->
         <div class="friend_list">
           <!-- 面板切换 -->
@@ -208,10 +207,6 @@ watch(
   @apply w-25 flex;
 }
 
-.message_main .friend_list_container {
-  @apply overflow-auto flex-1;
-}
-
 .message_main .friend_list_container::-webkit-scrollbar {
   @apply w-1;
 }
@@ -225,5 +220,9 @@ watch(
 }
 :deep(.el-badge__content.is-fixed) {
   right: 15px;
+}
+
+.middleBox {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
 }
 </style>

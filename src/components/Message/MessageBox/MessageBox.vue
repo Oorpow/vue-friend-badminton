@@ -32,7 +32,7 @@
       <div w-full h-full relative>
         <div class="absolute left-1/2 top-1/2 translate--1/2">
           <h3>
-            Welcome The Chat <span>{{ userInfo.name }}</span>
+            欢迎回来 <span>{{ userInfo.name }}</span>
           </h3>
         </div>
       </div>
