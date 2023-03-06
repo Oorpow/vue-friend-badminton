@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <div flex flex-wrap items-start>
+  <div flex flex-col>
+    <div class="flex flex-wrap items-start md:justify-between">
       <template v-if="postedInvitationList.length || invitationList.length">
         <Suspense>
           <NewsItem
             :list="userInfo.id ? postedInvitationList : invitationList"
             :commentMap="commentMap"
-            :styleConfig="styleConfig"
           />
           <template #fallback>
             <SkeletonImg

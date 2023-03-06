@@ -2,7 +2,7 @@
   <Header />
   <div class="min-h-60 relative">
     <div class="sm:w-full lg:w-7/10 mx-auto my-10 flex justify-around relative">
-      <div class="w-2/3 flex flex-col overflow-hidden">
+      <div class="w-9/10 lg:w-2/3 flex flex-col overflow-hidden">
         <div>
           <ElPopover placement="bottom" trigger="click" :width="120">
             <template #reference>
@@ -41,7 +41,7 @@
         />
       </div>
       <!-- 右侧推荐栏 -->
-      <div class="sm:hidden lg:block w-1/4">
+      <div class="hidden lg:block w-1/4">
         <div sticky top-5>
           <RecommendBox :list="brandList" :isTag="false">
             <template #title>

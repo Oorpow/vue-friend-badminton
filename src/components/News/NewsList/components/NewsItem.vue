@@ -1,14 +1,9 @@
 <template>
   <div
-    my-10
-    p-3
-    border-1
-    border-gray-2
-    bg-white
-    rounded-lg
-    :style="styleConfig"
+    class="w-full lg:w-1/4 my-10 p-3 border-1 border-gray-2 bg-white rounded-lg"
     v-for="(item, index) in list"
     :key="item.invitation_id"
+    :style="styleConfig"
   >
     <div :data-index="index">
       <div flex items-center justify-between>
@@ -117,7 +112,6 @@ import {
   Star,
   StarFilled,
   ChatLineSquare,
-  Mouse,
   Timer,
 } from '@element-plus/icons-vue'
 import { useInvitationStore } from '@/stores/invitation'

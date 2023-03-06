@@ -5,7 +5,10 @@
     >
       <!-- left -->
       <div class="flex w-1/3 items-center lg:ml-10">
-        <div class="cursor-pointer sm:block lg:hidden" @click="isShowInMd = !isShowInMd">
+        <div
+          class="cursor-pointer sm:block lg:hidden"
+          @click="isShowInMd = !isShowInMd"
+        >
           <ElIcon size="25"><Operation /></ElIcon>
         </div>
         <!-- logo -->
@@ -223,14 +226,11 @@ watchEffect(() => {
     })
   }
 })
-
-// 在平板分辨率下显示路由列表
-const showNavList = () => {}
 </script>
 
 <style scoped>
 .header {
-  /* box-shadow: 0px 4px 8px rgba(178, 199, 210, 0.3); */
+  box-shadow: 0px 4px 8px rgba(178, 199, 210, 0.3);
   @apply flex justify-center items-center relative z-3 h-6;
 }
 .menu_item span::before {

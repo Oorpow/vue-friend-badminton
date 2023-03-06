@@ -2,18 +2,19 @@
   <div mx-4>
     <ElDropdown>
       <ElButton>
-        {{ userInfo.name }}<ElIcon class="el-icon--right"><ArrowDown /></ElIcon>
+        {{ userInfo.name }}
+        <ElIcon class="el-icon--right"><ArrowDown /></ElIcon>
       </ElButton>
       <template #dropdown>
         <ElDropdownMenu>
-          <ElDropdownItem :icon="EditPen" @click="navToTargetRoute('/produce')"
-            >投稿</ElDropdownItem
-          >
           <ElDropdownItem
-            :icon="User"
-            @click="navToTargetRoute(`/space/${userInfo.id}`)"
-            >个人中心</ElDropdownItem
+            v-for="item in dropdownList"
+            :key="item.id"
+            :icon="item.iconName"
+            @click="navToTargetRoute(item.path)"
           >
+            {{ item.title }}
+          </ElDropdownItem>
           <ElDropdownItem :icon="Switch" divided @click="userLogout"
             >切换账号</ElDropdownItem
           >
@@ -27,7 +28,13 @@
 import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { ArrowDown, EditPen, User, Switch } from '@element-plus/icons-vue'
+import {
+  ArrowDown,
+  EditPen,
+  User,
+  Switch,
+  ChatRound,
+} from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import type { Socket } from 'socket.io-client'
 
@@ -35,6 +42,28 @@ const socket = inject('socket') as Socket
 const router = useRouter()
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
+
+// 下拉菜单
+const dropdownList = [
+  {
+    id: 1,
+    iconName: EditPen,
+    path: '/produce',
+    title: '投稿',
+  },
+  {
+    id: 2,
+    iconName: ChatRound,
+    path: '/message',
+    title: '聊天室',
+  },
+  {
+    id: 3,
+    iconName: User,
+    path: `/space/${userInfo.value.id}`,
+    title: '个人中心',
+  },
+]
 
 const navToTargetRoute = (path: string) => {
   router.push(path)

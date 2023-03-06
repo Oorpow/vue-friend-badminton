@@ -1,6 +1,10 @@
 <template>
   <div min-h-60>
-    <NewsItem :list="list" :commentMap="commentMap" />
+    <NewsItem
+      :list="list"
+      :commentMap="commentMap"
+      :style-config="styleConfig"
+    />
   </div>
 </template>
 
@@ -18,6 +22,12 @@ const props = withDefaults(defineProps<Props>(), {
   list: () => [],
   commentMap: new Map(),
 })
+
+const styleConfig = {
+  width: '90%',
+  height: '380px',
+  marginRight: '2%',
+}
 </script>
 
 <style scoped>
