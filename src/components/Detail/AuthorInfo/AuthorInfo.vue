@@ -1,5 +1,5 @@
 <template>
-  <div bg-white rounded-lg border-1 border-gray-2>
+  <div rounded-lg border-1 border-gray-2 dark:border-zinc-7>
     <div>
       <div
         w-full
@@ -16,17 +16,17 @@
             :avatar="invitationInfo.userInfo.avatar"
           />
           <div flex flex-col ml-2>
-            <span>{{ invitationInfo.userInfo.name }}</span>
+            <span dark:text-zinc-3>{{ invitationInfo.userInfo.name }}</span>
             <span text-sm text-gray>{{
               invitationInfo.userInfo.description
             }}</span>
           </div>
         </div>
-        <div flex mt-2 p-b-4 border-b-1 border-gray-2>
+        <div flex mt-2 p-b-4 border-b-1 border-gray-2 dark:border-zinc-7>
           <ElIcon :size="20">
             <Calendar />
           </ElIcon>
-          <span text-sm ml-2
+          <span text-sm ml-2 dark:text-zinc-3
             >发布自: {{ $formatTime.format(invitationInfo.createAt) }}</span
           >
         </div>
@@ -34,14 +34,9 @@
           flex
           flex-col
           my-2
+          dark:border-zinc-7
           :class="isMe ? '' : 'p-b-2 border-b-1 border-gray-2'"
         >
-          <div flex items-center>
-            <ElIcon :size="22">
-              <View />
-            </ElIcon>
-            <span ml-2>文章被阅读 1200</span>
-          </div>
           <div flex items-center>
             <ElIcon
               :size="22"

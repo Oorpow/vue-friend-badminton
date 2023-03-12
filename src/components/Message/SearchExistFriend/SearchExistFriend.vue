@@ -1,5 +1,5 @@
 <template>
-  <div pt-2 px-2 p-b-2 border-b-1 border-gray-2>
+  <div pt-2 px-2 p-b-2 border-b-1 border-gray-2 dark:border-zinc-8>
     <ElInput
       size="small"
       clearable

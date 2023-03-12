@@ -2,7 +2,7 @@
   <div
     :class="[
       'friend_item',
-      friend.id === currentChatFriendId ? 'bg-gray-1' : '',
+      friend.id === currentChatFriendId ? 'bg-gray-1 dark:bg-zinc-8' : '',
     ]"
     v-for="friend in friendList"
     :key="friend.id"
@@ -14,7 +14,7 @@
         class="w-2 h-2 rounded-full absolute top-2 right-4 text-center bg-red-400"
         v-if="v[0] === friend.friendInfo.name && v[1].length !== 0"
       >
-        <span text-white>{{ v[1].length }}</span>
+        <span class="text-white dark:text-zinc-800">{{ v[1].length }}</span>
       </div>
     </template>
 
@@ -87,6 +87,6 @@ const chooseChatFriend = (friend: IFriend) => {
 
 <style scoped>
 .friend_item {
-  @apply flex items-center relative p-3 cursor-pointer hover:bg-gray-1 bg-white mt-3 first:mt-0;
+  @apply flex items-center relative p-3 cursor-pointer hover:bg-gray-1 hover:dark:bg-zinc-800 mt-3 first:mt-0;
 }
 </style>

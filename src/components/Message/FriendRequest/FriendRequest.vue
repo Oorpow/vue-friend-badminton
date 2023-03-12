@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div p-3 border-b-1 border-gray-2>
+    <div p-3 border-b-1 border-gray-2 dark:border-zinc-8>
       <span>新的朋友</span>
     </div>
     <div p-3>

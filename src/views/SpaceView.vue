@@ -23,7 +23,7 @@
       </template>
     </div>
 
-    <div w-full bg-white>
+    <div w-full>
       <div class="w-8/10 mx-auto">
         <!-- 头像和用户信息 -->
         <div flex items-center relative>
@@ -75,9 +75,7 @@
         <!-- 选项卡 -->
         <div my-2 p-2>
           <span
-            text-gray
-            cursor-pointer
-            mr-5
+            class="text-gray cursor-pointer mr-5"
             v-for="tab in tabList"
             :key="tab.id"
             @click="changeTab(tab)"
@@ -195,16 +193,16 @@ watch(
       computeSpaceBg.value = spaceUserInfo.value.space_bg
     })
 
-    if (userInfo.value.id) {
-      tabList.push({ id: 2, name: '关注列表', comName: markRaw(SpaceFriend) })
-      // 获取该用户关注的好友
-      friendStore.getFriendListById(Number(newVal.id)).then(() => {
-        // 判断该空间的主人跟用户是否是好友关系
-        isFriend.value = currentUserFriends.some(
-          (item) => item.friendInfo.id === spaceUserInfo.value.id
-        )
-      })
-    }
+    // if (userInfo.value.id) {
+    //   tabList.push({ id: 2, name: '关注列表', comName: markRaw(SpaceFriend) })
+    //   // 获取该用户关注的好友
+    //   friendStore.getFriendListById(Number(newVal.id)).then(() => {
+    //     // 判断该空间的主人跟用户是否是好友关系
+    //     isFriend.value = currentUserFriends.some(
+    //       (item) => item.friendInfo.id === spaceUserInfo.value.id
+    //     )
+    //   })
+    // }
   },
   {
     deep: true,
@@ -286,6 +284,6 @@ const handleAddFriend = () => {
 
 <style scoped>
 .tab_active {
-  @apply p-b-1 border-b-3 border-blue text-black;
+  @apply p-b-1 border-b-3 border-blue text-black dark:text-white;
 }
 </style>

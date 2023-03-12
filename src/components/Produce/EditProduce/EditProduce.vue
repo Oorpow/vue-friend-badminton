@@ -1,17 +1,12 @@
 <template>
-  <div class="w-2/3 mx-auto my-14 bg-white rounded p-3">
+  <div class="w-2/3 mx-auto my-14 bg-white dark:bg-zinc-900 rounded p-3">
     <div v-show="!isShowEditor">
       <template v-if="postList.length">
         <div>
           <span>已发布({{ postList.length }})</span>
           <div>
             <div
-              flex
-              justify-between
-              items-center
-              my-5
-              p-3
-              bg-gray-1
+              class="flex justify-between items-center my-5 p-3 bg-gray-1 dark:bg-zinc-800"
               v-for="item in postList"
               :key="item.invitation_id"
             >

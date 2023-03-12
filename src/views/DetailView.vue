@@ -4,7 +4,7 @@
     <!-- items-start解决子项继承父元素高度的问题 -->
     <div class="flex my-10 justify-around items-start">
       <!-- left -->
-      <div class="w-6/10 flex flex-col bg-white p-3 rounded-lg">
+      <div class="w-6/10 flex flex-col p-3 rounded-lg">
         <!-- 文章主体 -->
         <template v-if="flag">
           <ArticleItem :invitationInfo="getTargetInvitation" />
@@ -25,8 +25,8 @@
               :isMySelf="isMySelf"
             />
           </template>
-          <div bg-white rounded-lg border-1 border-gray-2 mt-5>
-            <div h-4 rounded-t-lg bg-gray-4 flex items-center>
+          <div rounded-lg border-1 border-gray-2 dark:border-zinc-7 mt-5>
+            <div h-4 rounded-t-lg bg-gray-4 dark:bg-zinc-8 flex items-center>
               <span ml-2 text-white text-sm>相关推荐</span>
             </div>
             <template v-for="item in otherInvitation" :key="item.invitation_id">

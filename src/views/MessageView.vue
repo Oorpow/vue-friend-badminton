@@ -4,11 +4,23 @@
     <!-- 消息框 -->
     <div class="middleBox w-9.5/10 lg:w-8/10 flex flex-col mx-auto">
       <!-- 主体 -->
-      <div class="bg-white rounded flex h-60 lg:h-75">
+      <div
+        class="shadow-lg border-1 border-gray-3 dark:border-zinc-8 dark:bg-zinc-9 rounded flex h-60 lg:h-75"
+      >
         <!-- 左侧好友列表 -->
         <div class="friend_list">
           <!-- 面板切换 -->
-          <div w-6 bg-gray flex flex-col items-center>
+          <div
+            w-6
+            bg-gray
+            border-r-1
+            border-gray-3
+            dark:border-zinc-8
+            dark:bg-zinc-9
+            flex
+            flex-col
+            items-center
+          >
             <div
               py-3
               cursor-pointer
@@ -194,7 +206,7 @@ watch(
 .message_main {
   width: 100%;
   height: calc(100vh - 60px);
-  background: rgb(243, 243, 243);
+  /* background: rgb(243, 243, 243); */
 }
 
 .message_main .message_main_head {
@@ -202,9 +214,7 @@ watch(
 }
 
 .message_main .friend_list {
-  box-shadow: 3px 0px 21px rgba(101, 101, 101, 0.22);
-  background: #f4f4f4;
-  @apply w-25 flex;
+  @apply w-25 flex border-r-1 border-gray-3 dark:border-zinc-8;
 }
 
 .message_main .friend_list_container::-webkit-scrollbar {

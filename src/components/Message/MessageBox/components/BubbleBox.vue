@@ -97,7 +97,7 @@ const isUserSend = (id: number, leftStyle?: string, rightStyle?: string) => {
   border-radius: 5px;
   padding: 7px;
   margin-top: 5px;
-  @apply flex items-center relative bg-minor;
+  @apply flex items-center relative bg-minor dark:bg-zinc-800 dark:border-zinc-800;
 }
 
 .bubble_left {
@@ -119,9 +119,11 @@ const isUserSend = (id: number, leftStyle?: string, rightStyle?: string) => {
 .bubble_left::before {
   border-right: 10px solid #f3f3f3;
   left: -10px;
+  @apply dark:border-r-zinc-8;
 }
 .bubble_right::before {
   border-left: 10px solid #f3f3f3;
   right: -10px;
+  @apply dark:border-l-zinc-8;
 }
 </style>

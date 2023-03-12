@@ -6,7 +6,7 @@
     @input="handleSearch"
   />
   <div
-    class="result_box w-full absolute z-9 bg-white rounded shadow-2xl rounded-t-none h-51 overflow-y-scroll"
+    class="result_box w-full absolute z-9 bg-white dark:bg-zinc-900 rounded shadow-2xl rounded-t-none h-51 overflow-y-scroll"
     v-show="showSearchResult"
   >
     <SearchResultItem>
@@ -19,6 +19,7 @@
             items-center
             cursor-pointer
             hover:bg-gray-2
+            hover:dark:bg-zinc-800
             v-for="user in userList"
             :key="user.id"
             @click="navToTargetRoute(user.id, NavType.user)"
@@ -36,17 +37,14 @@
     <!-- invitation -->
     <SearchResultItem>
       <template #title>
-        <h5 m-0 p-3 border-b-1 border-gray-3 text-gray-5>帖子</h5>
+        <h5 m-0 p-3 border-b-1 border-gray-3 dark:border-zinc-700 text-gray-5>
+          帖子
+        </h5>
       </template>
       <template #content>
         <template v-if="invitationList.length">
           <div
-            my-3
-            flex
-            items-center
-            justify-between
-            cursor-pointer
-            hover:bg-gray-2
+            class="my-3 flex items-center justify-between cursor-pointer hover:bg-gray-2 hover:dark:bg-zinc-800"
             v-for="item in invitationList"
             :key="item.id"
             @click="navToTargetRoute(item.id, NavType.invitation)"
@@ -123,6 +121,6 @@ const navToTargetRoute = (id: number, type: string) => {
   @apply w-1;
 }
 .result_box::-webkit-scrollbar-thumb {
-  @apply border-1 border-gray-2 bg-gray-2 rounded-lg;
+  @apply border-1 border-gray-2 bg-gray-2 rounded-lg dark:border-zinc-800 dark:bg-zinc-800;
 }
 </style>

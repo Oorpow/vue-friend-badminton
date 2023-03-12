@@ -2,7 +2,15 @@
   <div flex flex-col h-full>
     <template v-if="friend.friendInfo.name">
       <!-- 聊天对象 -->
-      <div text-center p-3 border-b-1 border-gray-2 flex justify-center>
+      <div
+        text-center
+        p-3
+        border-b-1
+        border-gray-2
+        dark:border-zinc-8
+        flex
+        justify-center
+      >
         <span text-sm>{{ friend.friendInfo.name }}</span>
         <div
           style="margin: 1px 0 0 5px"
@@ -82,7 +90,7 @@ watch(
   height: calc(100% - 45px);
 }
 .message_content {
-  @apply h-7/10 overflow-auto border-b-1 border-gray-2;
+  @apply h-7/10 overflow-auto border-b-1 border-gray-2 dark:border-zinc-8;
 }
 .message_content::-webkit-scrollbar {
   @apply w-1;
@@ -93,6 +101,6 @@ watch(
 }
 
 .message_content::-webkit-scrollbar-thumb {
-  @apply h-3 border-1 border-gray-2 bg-gray-2 rounded-lg;
+  @apply h-3 border-1 border-gray-2 bg-gray-2 rounded-lg dark:border-zinc-8 dark:bg-zinc-8;
 }
 </style>

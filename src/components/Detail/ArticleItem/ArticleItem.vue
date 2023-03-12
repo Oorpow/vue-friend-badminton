@@ -1,6 +1,6 @@
 <template>
   <!-- 文章内容 -->
-  <div border-b-1 border-b-gray-3>
+  <div border-b-1 border-b-gray-3 dark:border-zinc-7>
     <!-- 标题 -->
     <h2 m-0>{{ invitationInfo.title }}</h2>
     <!-- 文章主体 -->

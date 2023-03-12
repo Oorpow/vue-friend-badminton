@@ -1,8 +1,10 @@
 <template>
   <Header />
-  <div bg-gray-2 p-2 py-5 relative overflow-hidden>
+  <div bg-gray-2 dark:bg-black p-2 py-5 relative overflow-hidden>
     <ElAffix :offset="20" style="width: 50px; height: 0">
-      <div bg-white flex flex-col items-center rounded shadow>
+      <div
+        class="bg-white dark:bg-zinc-800 flex flex-col items-center rounded shadow"
+      >
         <div
           flex
           flex-col

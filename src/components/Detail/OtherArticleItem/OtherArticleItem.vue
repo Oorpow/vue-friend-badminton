@@ -6,6 +6,7 @@
     p-3
     border-b-1
     border-gray-2
+    dark:border-zinc-7
     @click="navToArticle"
   >
     <div flex items-center>
@@ -23,7 +24,9 @@
       />
     </div>
     <div>
-      <span text-sm text-gray-5>{{ invitationInfo.title }}</span>
+      <span text-sm text-gray-5 dark:text-gray-2>{{
+        invitationInfo.title
+      }}</span>
     </div>
     <div flex mt-2>
       <div flex items-center>

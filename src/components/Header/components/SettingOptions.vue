@@ -1,10 +1,7 @@
 <template>
   <div mx-4>
     <ElDropdown>
-      <ElButton>
-        {{ userInfo.name }}
-        <ElIcon class="el-icon--right"><ArrowDown /></ElIcon>
-      </ElButton>
+      <Avatar :username="username" :avatar="avatar" />
       <template #dropdown>
         <ElDropdownMenu>
           <ElDropdownItem
@@ -25,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import Avatar from './Avatar.vue'
 import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
@@ -37,6 +35,13 @@ import {
 } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import type { Socket } from 'socket.io-client'
+
+type Props = {
+  username: string
+  avatar: string
+}
+
+defineProps<Props>()
 
 const socket = inject('socket') as Socket
 const router = useRouter()

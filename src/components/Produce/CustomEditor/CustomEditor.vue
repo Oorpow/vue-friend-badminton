@@ -1,5 +1,5 @@
 <template>
-  <div class="editor_container">
+  <div class="editor_container dark:bg-black">
     <div>
       <ElForm
         ref="invitationFormRef"
@@ -239,6 +239,15 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.editor_container {
+  @apply dark:bg-zinc-9;
+}
+:deep(.w-e-toolbar) {
+  @apply dark:bg-zinc-9;
+}
+:deep(.w-e-text-container) {
+  @apply dark:bg-zinc-9 dark:text-gray-3;
+}
 :deep(.el-textarea__inner) {
   box-shadow: none;
 }

@@ -6,15 +6,7 @@
   </div>
   <div>
     <div
-      flex
-      items-center
-      justify-between
-      p-2
-      my-3
-      first:mt-0
-      bg-white
-      hover:bg-gray-2
-      cursor-pointer
+      class="flex items-center justify-between p-2 my-3 cursor-pointer first:mt-0 hover:dark:bg-zinc-7 hover:bg-gray-2"
       v-for="item in list"
       :key="item.id"
     >

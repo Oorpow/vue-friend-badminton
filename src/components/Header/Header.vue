@@ -55,17 +55,16 @@
         <ElSwitch
           class="mr-3"
           style="--el-switch-on-color: #2c2c2c"
-          v-model="isDark"
           inline-prompt
           size="large"
           :active-icon="Moon"
           :inactive-icon="Sunny"
+          v-model="isDark"
         />
         <!-- 已登录 -->
         <template v-if="getToken !== ''">
-          <Avatar :username="userInfo.name" :avatar="userInfo.avatar" />
           <!-- 设置菜单 -->
-          <SettingOptions />
+          <SettingOptions :username="userInfo.name" :avatar="userInfo.avatar" />
           <!-- 消息提醒 -->
           <NotifyMessage
             :unreadNums="numOfUnRead"
@@ -121,7 +120,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { ElNotification } from 'element-plus'
 import { Operation, Moon, Sunny } from '@element-plus/icons-vue'
-import { useDark, useToggle } from '@vueuse/core'
+import { useDark } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
 import { useMessageStore } from '@/stores/message'
@@ -132,7 +131,6 @@ import type { IFriendReq } from '@/request/api/friend/types'
 const socket: Socket = inject('socket') as Socket
 
 const isDark = useDark()
-const toggleDark = useToggle(isDark)
 const router = useRouter()
 const store = useUserStore()
 const friendStore = useFriendStore()

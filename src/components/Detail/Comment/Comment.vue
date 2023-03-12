@@ -17,7 +17,15 @@
           <div w-5>
             <Avatar :username="userInfo.name" :avatar="userInfo.avatar" />
           </div>
-          <div flex w-full h-full border-b-1 border-b-gray-3 p-b-5>
+          <div
+            flex
+            w-full
+            h-full
+            border-b-1
+            border-b-gray-3
+            dark:border-zinc-7
+            p-b-5
+          >
             <ElInput
               v-bind="inputConfig"
               v-model="commentForm.content"
@@ -48,11 +56,12 @@
       </div>
     </div>
   </div>
+  <!-- 超出高度浮现的搜索框 -->
   <Transition appear @before-enter="beforeEnter" @enter="enter">
-    <div class="w-5.5/10 fixed bottom-0" v-show="isShowReplyInput">
+    <div class="w-5.5/10 fixed bottom-0 z-10" v-show="isShowReplyInput">
       <i class="reply_box absolute w-full h-3 z--1 top--3"></i>
       <div
-        class="relative flex flex-col p-5 bg-white ml--3 border-t-0.5 border-gray-3"
+        class="relative flex flex-col p-5 ml--3 border-t-0.5 border-gray-3 bg-white dark:bg-zinc-8 dark:border-zinc-8"
       >
         <div flex justify-end cursor-pointer @click="isShowReplyInput = false">
           <ElIcon>
