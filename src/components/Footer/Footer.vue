@@ -1,5 +1,14 @@
 <template>
-  <div flex items-center w-full h-6 bg-white p-t-1 border-t-1 border-gray-1>
+  <div
+    flex
+    items-center
+    w-full
+    h-6
+    p-t-1
+    border-t-1
+    border-gray-1
+    class="dark:border-black"
+  >
     <div class="w-8/10 m-auto flex items-center justify-center">
       <div w-10>
         <img src="@/assets/images/logo/logo.png" alt="logo" />
@@ -13,6 +22,7 @@
               font-bold
               text-lg
               text-normal
+              dark:text-slate-300
               @click="navToTargetRoute(item.path)"
               >{{ item.title }}</span
             >

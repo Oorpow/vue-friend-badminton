@@ -1,7 +1,7 @@
 <template>
   <div class="w-8/10 lg:w-6/10 mx-auto">
     <div flex justify-center>
-      <h1>近期资讯</h1>
+      <h1 class="dark:text-slate-400">近期资讯</h1>
     </div>
     <div flex>
       <n-carousel show-arrow autoplay>

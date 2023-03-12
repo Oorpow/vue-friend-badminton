@@ -30,6 +30,5 @@ const showFooter = computed(() => {
 <style>
 body {
   min-height: 80vh;
-  /* font-family: var(--el-font-family); */
 }
 </style>

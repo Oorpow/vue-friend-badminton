@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <div class="w-full m-auto relative bg-white pb-20">
+  <div class="w-full m-auto relative pb-20 dark:bg-black">
     <!-- 背景 -->
     <div class="home_page_bg relative">
       <div class="absolute top-1/3 left-20">

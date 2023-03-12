@@ -7,10 +7,17 @@
     v-for="item in guideList"
     :key="item.id"
   >
-    <div :class="item.icon" class="text-5xl text-primary text-center"></div>
+    <div
+      :class="item.icon"
+      class="text-5xl text-primary text-center dark:text-slate-400"
+    ></div>
     <div>
-      <h1 text-center text-primary>{{ item.guideNum }}</h1>
-      <span text-primary text-2xl font-bold>{{ item.guideText }}</span>
+      <h1 class="text-center text-primary dark:text-slate-400">
+        {{ item.guideNum }}
+      </h1>
+      <span class="text-primary text-2xl font-bold dark:text-slate-400">{{
+        item.guideText
+      }}</span>
     </div>
   </div>
 </template>

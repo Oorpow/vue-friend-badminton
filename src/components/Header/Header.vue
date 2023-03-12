@@ -27,10 +27,7 @@
               :key="i"
             >
               <span
-                mx-3
-                cursor-pointer
-                font-bold
-                text-lg
+                class="mx-3 cursor-pointer font-bold text-lg dark:text-gray-100"
                 @click="navToTargetRoute(item.path)"
                 >{{ item.name }}</span
               >
@@ -55,6 +52,15 @@
       </div>
       <!-- settings -->
       <div class="flex flex-1 items-center justify-end lg:mr-10">
+        <ElSwitch
+          class="mr-3"
+          style="--el-switch-on-color: #2c2c2c"
+          v-model="isDark"
+          inline-prompt
+          size="large"
+          :active-icon="Moon"
+          :inactive-icon="Sunny"
+        />
         <!-- 已登录 -->
         <template v-if="getToken !== ''">
           <Avatar :username="userInfo.name" :avatar="userInfo.avatar" />
@@ -114,7 +120,8 @@ import { ref, inject, watchEffect, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { ElNotification } from 'element-plus'
-import { Operation } from '@element-plus/icons-vue'
+import { Operation, Moon, Sunny } from '@element-plus/icons-vue'
+import { useDark, useToggle } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
 import { useFriendStore } from '@/stores/friend'
 import { useMessageStore } from '@/stores/message'
@@ -124,6 +131,8 @@ import type { IFriendReq } from '@/request/api/friend/types'
 
 const socket: Socket = inject('socket') as Socket
 
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 const router = useRouter()
 const store = useUserStore()
 const friendStore = useFriendStore()

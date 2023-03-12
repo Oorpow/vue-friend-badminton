@@ -1,5 +1,7 @@
 <template>
-  <div p-3 border-1 border-gray-2 bg-white rounded-lg mt-5 first:mt-0>
+  <div
+    class="p-3 border-1 border-gray-2 dark:border-gray-800 rounded-lg mt-5 first:mt-0"
+  >
     <slot name="title"></slot>
     <div flex items-center my-3 v-for="item in list" :key="item.id">
       <ElAvatar

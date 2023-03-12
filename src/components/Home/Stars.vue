@@ -4,10 +4,12 @@
       <div mr-10>
         <div flex items-center>
           <div class="i-ic-round-info text-4xl text-green-5"></div>
-          <h1 my-0 ml-2>职业球员</h1>
+          <h1 my-0 ml-2 dark:text-slate-400>职业球员</h1>
         </div>
-        <h3 text-second tracking-wider>了解球员的职业生涯</h3>
-        <p text-lg text-normal>
+        <h3 text-second tracking-wider dark:text-slate-400>
+          了解球员的职业生涯
+        </h3>
+        <p text-lg text-normal dark:text-slate-300>
           该板块将会介绍职业选手所使用过的装备、获得过的荣誉等内容。
         </p>
       </div>
@@ -32,15 +34,15 @@
       </n-carousel>
     </div>
     <n-carousel autoplay class="flex sm:flex lg:hidden">
-        <n-carousel-item
-          style="cursor: pointer"
-          v-for="slide in playerList"
-          :key="slide.id"
-          @click="navToPlayerCareer(slide.id)"
-        >
-          <img class="carousel-img" :src="serverUrl + slide.smallImg" />
-        </n-carousel-item>
-      </n-carousel>
+      <n-carousel-item
+        style="cursor: pointer"
+        v-for="slide in playerList"
+        :key="slide.id"
+        @click="navToPlayerCareer(slide.id)"
+      >
+        <img class="carousel-img" :src="serverUrl + slide.smallImg" />
+      </n-carousel-item>
+    </n-carousel>
   </div>
 </template>
 
