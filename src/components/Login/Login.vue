@@ -63,7 +63,7 @@ const loginRules = reactive<FormRules>({
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 })
 
-// 用户登录
+// 用户登录 || 注册
 const handleSubmit = async (
   formEl: FormInstance | undefined,
   isLogin: boolean | number

@@ -121,7 +121,7 @@ socket.on('get_private_msg', async (targetId: number) => {
     props.friend.friendInfo.id
   )
 
-  // 说明正在聊天的好友，和发消息来好友是同一个好友
+  // 说明正在聊天的好友，和发消息来的好友是同一个好友
   if (props.friend.friendInfo.id === targetId) {
     // 正在聊天的情况下，需要不断地修改信息状态
     await messageStore.updateUnreadMsgToRead(
