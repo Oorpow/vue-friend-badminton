@@ -136,9 +136,9 @@
 <script setup lang="ts">
 import Header from '@/components/Header/Header.vue'
 import SpaceInvitation from '@/components/Space/SpaceInvitation/SpaceInvitation.vue'
-import SpaceFriend from '@/components/Space/SpaceFriend/SpaceFriend.vue'
 import Avatar from '@/components/Header/components/Avatar.vue'
 import UploadCpn from '@/components/Space/UploadCpn/UploadCpn.vue'
+// import SpaceFriend from '@/components/Space/SpaceFriend/SpaceFriend.vue'
 
 import { markRaw, shallowRef, watch, ref, computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
@@ -186,11 +186,18 @@ if (userInfo.value.id) {
 watch(
   () => route.params,
   (newVal) => {
+    const { id } = route.params
     // 获取空间的主人信息
     userStore.getUserInfoById(Number(newVal.id)).then(() => {
       // 判断用户是否是空间的主人
       isMyself.value = spaceUserInfo.value.id === userInfo.value.id
       computeSpaceBg.value = spaceUserInfo.value.space_bg
+      const isBeenFriend = currentUserFriends.find(
+        (item) => item.friendInfo.id === +id
+      )
+      if (isBeenFriend) {
+        isFriend.value = true
+      }
     })
 
     // if (userInfo.value.id) {

@@ -69,8 +69,8 @@ const switchTab = (tab: string) => {
 }
 
 // 刷新发布列表
-const refreshPostList = () => {
-  invitationStore.getUserPostedInvitation(userInfo.value.id)
+const refreshPostList = async () => {
+  await invitationStore.getUserPostedInvitation(userInfo.value.id)
 }
 </script>
 

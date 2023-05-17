@@ -105,12 +105,13 @@ export const useInvitationStore = defineStore('invitationStore', {
     },
     // 获取用户发布过的帖子
     async getUserPostedInvitation(id: number) {
-      const res = await getAllInvitationByUserPosted(id)
+      const res = await getAllInvitationByUserIdAndPagenum(id, 1)
       this.postedInvitationList.length = 0
-      this.postedInvitationList.push(...res.data)
+      this.postedInvitationList.push(...res.data.result)
     },
     // 分页查询用户发布过的帖子
     async getUserPostedInvitationByPage(id: number, pagenum: number) {
+      // console.log(id)
       const res = await getAllInvitationByUserIdAndPagenum(id, pagenum)
       this.postedInvitationList.length = 0
       this.postedInvitationList.push(...res.data.result)

@@ -177,7 +177,9 @@ onMounted(() => {
   })
 })
 
-friendStore.getFriendReceiveList(userInfo.value.id)
+friendStore.getFriendReceiveList(userInfo.value.id).then(() => {
+  console.log(friendReceiveList.value)
+})
 
 let searchUserByName = ref('')
 

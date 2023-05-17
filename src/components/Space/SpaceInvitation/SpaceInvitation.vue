@@ -70,11 +70,10 @@ let currentPage = ref(1)
 watch(
   () => route.params,
   (newVal) => {
+    const { id } = route.params
+
     if (userInfo.value.id) {
-      invitationStore.getUserPostedInvitationByPage(
-        userInfo.value.id,
-        currentPage.value
-      )
+      invitationStore.getUserPostedInvitationByPage(+id, currentPage.value)
     } else {
       invitationStore.getInvitationList()
     }

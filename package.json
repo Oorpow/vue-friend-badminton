@@ -47,6 +47,7 @@
     "vite": "^3.0.9",
     "vite-plugin-cdn-import": "^0.3.5",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-vue-devtools": "^0.0.15",
     "vue-tsc": "^0.40.7"
   }
 }
